@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="6"
+   name=""
+   committed-date="2007-04-06T07:14:03.718913Z"
+   url="file:///home/mardanpur/svnroot/exp/may04f2/symmetry_minuit/sym_130_minuit_T21/130_dp_theory/dpelastic_witala"
+   last-author="mardanpur"
+   kind="dir"
+   uuid="83cee285-b72b-0410-8f6f-a9dffb7b46b2"
+   revision="6"/>
+<entry
+   committed-rev="6"
+   name="131_iT11.txt"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="7489f2165056f65a95d8343bb0606b1b"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="187_T20.txt"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="ad5fd496146b4187f16b7fb5633c778b"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="187_T21.txt"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="84c46fd43a32a872879420021be70a23"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="187_T22.txt"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="781799ce7f359596a2d85cb8bce8dac7"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="172_iT11.txt"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="a583a8d90c4c0b5694656f6e8841e6f6"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="131_T20.txt"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="c25bfce57ae74d83de551c8f4e6bf29d"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="131_T21.txt"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="c745103ef7f6a88e4c3331eb8060d01a"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="131_T22.txt"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="18346ae0c89491f5b6e88d1915b9ce95"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="187_iT11.txt"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="60b3354abd6dd631451e4a15bb60a559"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="172_T20.txt"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="fc05955c90a6e48c67bbc6f21a9319ca"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="172_T21.txt"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="0ae58e8e2a7ae2d841cfe2a909ec3f12"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="172_T22.txt"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="ad7e0339e2cdb5730b5a7b2259cf9df8"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+</wc-entries>

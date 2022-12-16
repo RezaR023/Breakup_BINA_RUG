@@ -1,0 +1,22 @@
+fopen "ReviewErrors_130.dat" inchan read
+fopen "../AnalysingPowers_130column.dat" inchancolumn read
+fopen "SystematicError.dat" outchan write
+        fwriteln outchan  "!systematic errors 130 MeV"
+        fwriteln outchan  "! th_cm    value    Staterr(l)    Syserr   errbeta   erralpha   errratio"
+
+until feof(inchan)
+!a1=ang a2=valu a3=err a4=b+1 a5=err a6=b-1 a7=err a8=alp+1 a9=err a10=alp-1 a11=err 
+!a12=b+.5 a13=err a14=b-.5 a15=err a16=alp+.5 a17=err a18=alp-.5 a19=err a20=rat.2 a21=err a22=rat.4 a23=err 
+!c1=angle c2=valu c3=staterr c4=landastaerr c5=landa
+        fread inchan a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15 a16 a17 a18 a19 a20 a21 a22 a23 
+	fread inchancolumn c1 c2 c3 c4 c5 
+	errbeta =  (abs(a2-a12)+abs(a2-a14))/2.
+	erralpha = (abs(a2-a16)+abs(a2-a18))/2.
+	errratio = (abs(a2-a20)+abs(a2-a22))/2.
+
+	syserr =  sqrt((errbeta*errbeta)+(erralpha*erralpha)+(errratio*errratio))
+    fwriteln outchan c1 "   " c2 "   " c3 "   " syserr "   " errbeta "   " erralpha "   " errratio
+next
+fclose outchan
+fclose inchancolumn
+fclose inchan

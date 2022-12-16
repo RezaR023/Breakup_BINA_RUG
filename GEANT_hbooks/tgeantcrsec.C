@@ -1,0 +1,260 @@
+#define tgeantcrsec_cxx
+#include "tgeantcrsec.h"
+#include "crsecvariables1.h"
+#include <TH2.h>
+#include <TStyle.h>
+#include <TCanvas.h>
+#include "TF1.h"
+#include <stdio.h>
+#include <cstdlib>
+#include <iostream>
+#include <fstream>
+#include <TH2.h>
+#include <TStyle.h>
+#include <TCanvas.h>
+#include <TMath.h>
+#include <TROOT.h>
+#include "TCutG.h"
+
+#define ofile "/home/reza/BINAreall/rootfiles/GEANT_hbooks/EdEpn.dat"
+void tgeantcrsec::Loop()
+{
+  using namespace std;
+  double cross[Snr],Ercross[Snr];
+  TGraphErrors  *gr_Cro = new TGraphErrors();
+  gr_Cro->SetName("gr_Cro");
+  gr_Cro->SetMarkerStyle(21);
+  gr_Cro->SetMarkerColor(4);
+  TFile *f1=new TFile("vgeantcrsec.root","recreate");
+  ff =new TF1 ("ff","gaus");
+  TPostScript *ps = new TPostScript(psfile0,111);
+  cc=new TCanvas("cc","");
+  BookingHist();
+  openfiles();
+  Define_GCuts();
+//   In a ROOT session, you can do:
+//      Root > .L tgeant.C
+//      Root > tgeant t
+//      Root > t.GetEntry(12); // Fill t data members with entry number 12
+//      Root > t.Show();       // Show values of entry 12
+//      Root > t.Show(16);     // Read and show values of entry 16
+//      Root > t.Loop();       // Loop on all entries
+//
+  TH2F *he1d = new TH2F("he1d","",300,0,300,150,0,150);
+  TH2F *he = new TH2F("he","",150,0,150,150,0,150);
+  TH2F *he1 = new TH2F("he1","",150,0,150,150,0,150);
+   if (fChain == 0) return;
+
+   Long64_t nentries = fChain->GetEntriesFast();
+
+   Long64_t nbytes = 0, nb = 0;
+   for (Long64_t jentry=0; jentry<nentries;jentry++) {
+      Long64_t ientry = LoadTree(jentry);
+      if (ientry < 0) break;
+      nb = fChain->GetEntry(jentry);   nbytes += nb;
+      // if (Cut(ientry) < 0) continue;
+      if (TMath::Abs(D_theta-28)<2 && TMath::Abs(P_theta-28)<2 && TMath::Abs(TMath::Abs(D_phi-P_phi)-180)<10 && P_e_dep>0 && D_e_dep>0 ){
+	he->Fill(P_e_dep,D_e_dep);
+	/*	for (int l=0; l<contrll[4];l++){
+	  Smin1=MIN0(D_e_thr-);
+	  he1d->Fill(Scu[4][l],D_e_dep);
+	}*/
+	      for(int j=0 ; j<Snr ; j++)
+		{
+		  if (cut[4][j]->IsInside(P_e_dep,D_e_dep))
+		    {
+		      value1=projectScut(P_e_dep,D_e_dep,j,4,corec);
+		      sbin11[j]->Fill(D_phi,value1);
+		      sbin1D[j]->Fill(value1);
+		      if (j==Snr-2) he1->Fill(P_e_dep,D_e_dep);
+		    }
+		}
+      }//<<-- if thets's
+
+   }
+  for(int j=0 ; j<Snr ; j++)
+    {
+      bm=sbin1D[j]->GetMaximumBin();
+      sbin1D[j]->Fit("ff","","",-15,+20);
+      bg=ff->GetParameter(0);
+      bm=ff->GetParameter(1);
+      bn=ff->GetParameter(2);
+      cross[j] =(double) ff->Integral(bm-3*bn,bm+3*bn);
+      gr_Cro->SetPoint(j,Smin+(j*10.),cross[j]);
+    }
+   f1->cd();
+   for (int j=0;j<Snr;j++){
+     ps->NewPage();
+     cc->cd();
+     sbin11[j]->Draw();
+     cc->Update();
+     ps->NewPage();
+     cc->cd();
+     sbin1D[j]->Draw();
+     cc->Update();
+   }
+   for (int i=4;i<Nkinema-3;i++){
+     ps->NewPage();
+     cc->cd();
+     he1->Draw("cont0");
+     p1p2[i]->Draw("same");
+     cc->Update();
+     ps->NewPage();
+     cc->cd();
+     he->Draw("cont0");
+     p1p2[i]->Draw("same");
+     cc->Update();
+     ps->NewPage();
+     cc->cd();
+     gr_Cro->Draw("ap*");
+     cc->Update();
+   }
+   ps->Close();
+   for(int j=0 ; j<Snr ; j++) gr_Cro->Write();
+   for (int i=4;i<Nkinema-3;i++){
+     p1p2[i]->Write();
+     p1p2dep[i]->Write();
+     for (int j=0;j<Snr;j++)cut[i][j]->Write();
+   }
+   he->Write();
+   he1->Write();
+   f1->Close();
+}
+
+//+++++ functions +++++///
+/*Opens the input data files*/
+int openfiles()
+{
+  ifstream angle;
+  int l=0,ll=0;
+   /*list of the kinematics */
+  angle.open(Smklist);
+  if(angle) fprintf(stdout,"file  %s is open.\n",Smklist);
+  else{
+    fprintf(stdout,"1 can't open file %s \n",Smklist);
+    return 0;
+  }
+  for(int k=0 ; k<Nkinema ; k++)
+{
+    angle >> Smking[k];
+    p1p2[k] = new TGraphErrors(10000);
+    p1p2dep[k] = new TGraphErrors(10000);
+    if (k==0){p1p2[k]->SetName("p1p2_0"); p1p2dep[k]->SetName("p1p2dep_0");}
+    if (k==1){p1p2[k]->SetName("p1p2_1"); p1p2dep[k]->SetName("p1p2dep_1");}
+    if (k==2){p1p2[k]->SetName("p1p2_2"); p1p2dep[k]->SetName("p1p2dep_2");}
+    if (k==3){p1p2[k]->SetName("p1p2_3"); p1p2dep[k]->SetName("p1p2dep_3");}
+    if (k==4){p1p2[k]->SetName("p1p2_4"); p1p2dep[k]->SetName("p1p2dep_4");}
+    if (k==5){p1p2[k]->SetName("p1p2_5"); p1p2dep[k]->SetName("p1p2dep_5");}
+    if (k==6){p1p2[k]->SetName("p1p2_6"); p1p2dep[k]->SetName("p1p2dep_6");}
+    if (k==7){p1p2[k]->SetName("p1p2_7"); p1p2dep[k]->SetName("p1p2dep_7");}
+    if (k==8){p1p2[k]->SetName("p1p2_8"); p1p2dep[k]->SetName("p1p2dep_8");}
+    /*scurve file*/
+    ifstream Sinput;
+    Sinput.open(Smking[k]);
+    if(Sinput) fprintf(stdout,"file  %s is open.\n",Smking[k]);
+    else {
+      fprintf(stdout,"2 can't open file %s \n",Smking[k]);
+      return 0;
+    }
+    l=0; ll=0;
+    do { l++;
+      Sinput >> Scu[k][l] >> ES2[k][l] >> ES1[k][l] >>  ES3[k][l];/* E1 is proton and E2 is deuteron energy */
+      if (ES1[k][l]>10 && ES2[k][l]>10){
+	p1p2[k]->SetPoint(l,ES1[k][l],ES2[k][l]);  p1p2[k]->SetPointError(l,0,0);}
+    }while(!Sinput.eof());
+    Sinput.close();
+    contrll[k]=ll;
+ }/*finished loading the data of all kinemas*/
+}
+
+int BookingHist(){
+      for(int j=0 ; j<Snr ; j++)
+	{
+	  sprintf(name55[j],"sbin1_%d",j);
+	  sbin11[j]= new TH2D(name55[j],";#phi_{d} [deg];D [MeV]",45,0,360,60,-30,30);
+	  sbin1D[j]= new TH1D(name55[j],";#phi_{d} [deg];D [MeV]",60,-30,30);}
+}
+
+/*Projects the energy on the axis perpendicular to the Scurve*/
+double projectScut(float Ex,float Ey,int bin,int kin,double *corec){
+  float E11,E12,E22,E21;
+  // mid_diff[Nkinema][Snr];
+   E11=Sbon1[kin][bin];     E12=Sbon2[kin][bin];
+  E21=Sbon3[kin][bin];     E22=Sbon4[kin][bin];
+  float m=(E22-E12)/(E21-E11);       /*line slop*/
+  float b=E12-m*E11;
+  float h=(m*Ex+b-Ey)/(sqrt(1+m*m));
+
+  corec[0] = h/(sqrt(1+m*m)); /* Ex offset from kinematic line */
+  corec[1] = h/(sqrt(1+1./(m*m)));/* Ey offset from kinematic line */
+  // mid_diff[kin][bin] =  TOF_p->Eval(abs(E21-E11)/2.) -  TOF_d->Eval(abs(E22-E12)/2.);
+  // TDC_corec[kin][bin] = 1.*((TOF_p->Eval(Ex+ corec[0]) -  TOF_d->Eval(Ey + corec[1])) -  mid_diff[kin][bin]);
+  ///corec[2] = mid_diff[kin][bin];
+  /* the 2 is for changing the ns to channel */
+
+
+  //   fprintf(stdout,"kin %d bin %d  m %f b %f h %f E11 %f E12 %f  E21 %f  E22 %f \n",
+  //   kin,bin,m,b,h,E11,E12,E21,E22);
+  return -1.0*h;
+}
+/*This defines the scuts */
+int Define_GCuts(){
+  float m,m1,m2,y1,y2,y3,y4,x1,x2,x3,x4;
+  float s1,s2,ds,tmps1,tmps2,tmps10,tmps20,tmps11,tmps21,E11,E12,E21,E22,E211,E221,E110,E120,E210,E220,E111,E121;
+  E11=E12=E21=E22=E110=E120=E210=E220=E111=E121=E211=E221=0.0;
+  char cha[Snr][250];
+  ds=(Smax-Smin)/Snr;
+  /*define Gcuts*/
+   for (int k=0 ; k<Nkinema ; k++){
+    
+    /*defining the GCuts*/
+    for(int count=0;count<Snr;count++){
+      tmps1=tmps2=tmps10=tmps20=tmps11=tmps21=0;
+      s1=Smin+count*ds; s2=s1+ds;
+      for(int i=1;i<10000;i++){
+	if ( Scu[k][i]>0 && Scu[k][i]>tmps10 && Scu[k][i]<(s1-ds/10)){
+	  tmps10=Scu[k][i]; E110=ES1[k][i]; E120=ES2[k][i];
+	}
+	if ( Scu[k][i]>0 && Scu[k][i]>tmps1 && Scu[k][i]<s1){
+	  tmps1=Scu[k][i]; E11=ES1[k][i]; E12=ES2[k][i];
+	}
+	if ( Scu[k][i]>0 && Scu[k][i]>tmps11 && Scu[k][i]<(s1+ds/10)){
+	  tmps11=Scu[k][i]; E111=ES1[k][i]; E121=ES2[k][i];
+	}
+	if (Scu[k][i]>tmps20 && Scu[k][i]<(s2-ds/10)){
+	  tmps20=Scu[k][i]; E210=ES1[k][i]; E220=ES2[k][i];
+	}
+	if (Scu[k][i]>tmps2 && Scu[k][i]<s2){
+	  tmps2=Scu[k][i]; E21=ES1[k][i]; E22=ES2[k][i];
+	}
+	if (Scu[k][i]>tmps21 && Scu[k][i]<(s2+ds/10)){
+	  tmps21=Scu[k][i]; E211=ES1[k][i]; E221=ES2[k][i];
+	}
+
+      }
+
+      Sbon1[k][count]=E11;     Sbon2[k][count]=E12;
+      Sbon3[k][count]=E21;     Sbon4[k][count]=E22;
+      Emid1[k][count] = (E11+E21)/2.0;
+      Emid2[k][count] = (E12+E22)/2.0;
+      m=(E22-E12)/(E21-E11);       /*line slop*/
+      m1=(E121-E120)/(E111-E110);       /*line slop*/
+      m2=(E221-E220)/(E211-E210);       /*line slop*/
+      /* y1=0;         x1=E21+m*E22;
+      y2=0;         x2=E11+m*E12;
+      y3=E12-E11/m; x3=2*E11;
+      y4=2*E22;     x4=E21-m*E22;*/
+      y1=0;         x1=E21+m2*E22;
+      y2=0;         x2=E11+m1*E12;
+      y3=E12-E11/m1; x3=2*E11;
+      y4=2*E22;     x4=E21-m2*E22;
+      float x[5] = {x1,x2,x3,x4,x1};    
+      float y[5] = {y1,y2,y3,y4,y1};
+      sprintf(cha[0],"cut%dthe%d",k,count);
+      cut[k][count] = new TCutG(cha[0],5,x,y);
+      if (!cut[k][count]) return 0;
+    }/*finished defining the GCuts*/
+  }
+  fprintf(stdout,"Booking the Gcuts finished\n");
+  return 1;
+}

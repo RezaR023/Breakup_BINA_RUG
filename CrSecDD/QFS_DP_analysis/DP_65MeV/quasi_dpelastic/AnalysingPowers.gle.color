@@ -1,0 +1,324 @@
+size 20 21
+amove 1 20
+set hei .7         !to set height of text
+
+text   Analysing powers,130 MeV \beta_{mode2}=82^{\circ} \beta_{mode4}=82^{\circ} \alpha= -2^{\circ}
+
+set font texcmr
+        amove 0.8 8.5
+begin graph
+	size  11.5 12 
+	nobox
+	ytitle "iT_{11}" hei .5 dist .3 
+!	xtitle "\theta_{c.m.}" hei .5 dist .3 
+!         x2axis on
+!        y2axis on
+! 	y2axis min 0
+
+	xaxis min 50 max 130 nofirst nolast !grid
+	xlabels on
+	yaxis min -0.6 max .2  nofirst nolast  !grid
+!        xaxis dticks 25 dsubticks 5
+        yaxis dsubticks .01
+        xaxis dsubticks 1
+
+!   reading data
+      data AnalysingPowers_130.dat d6=c1,c12 d7=c1,c13
+
+!  reading from Theory files  theta,iT11,T20,T21,T22
+      data  130_dp_theory/130_av18_NN.dat               d11=c1,c2 
+      data  130_dp_theory/130_cdbonn_NN.dat             d12=c1,c2 
+      data  130_dp_theory/130_Nim1_NN.dat               d13=c1,c2 
+      data  130_dp_theory/130_Nim2_NN.dat               d14=c1,c2 
+
+      data  130_dp_theory/130_av18_TM99.dat             d21=c1,c2 
+      data  130_dp_theory/130_av18_urbanaIX.dat         d22=c1,c2 
+      data  130_dp_theory/130_cdbonn_delta.dat          d23=c1,c2 
+      data  130_dp_theory/130_cdbonn_TM99.dat           d24=c1,c2 
+      data  130_dp_theory/130_Nim1_TM99.dat             d25=c1,c2 
+      data  130_dp_theory/130_Nim2_TM99.dat             d26=c1,c2 
+
+      data  130_dp_theory/130_cdbonn_colomb.dat         d31=c1,c2 
+      data  130_dp_theory/130_cdbonn_colomb_delta.dat   d32=c1,c2 
+
+
+!Superimpose the Theory lines  data in one pannel
+      d6 marker square msize .2 color black err d7
+
+      d11 lstyle 1 msize .2 lwidth .06 color blue
+      d12 lstyle 2 msize .2 lwidth .06 color blue
+      d13 lstyle 3 msize .2 lwidth .06 color blue
+      d14 lstyle 4 msize .2 lwidth .06 color blue
+
+      d21 lstyle 1 msize .2 lwidth .06 color red
+      d22 lstyle 2 msize .2 lwidth .06 color red
+      d23 lstyle 3 msize .2 lwidth .06 color red
+      d24 lstyle 4 msize .2 lwidth .06 color red
+      d25 lstyle 5 msize .2 lwidth .06 color red
+      d26 lstyle 6 msize .2 lwidth .06 color red
+
+      d31 lstyle 1 msize .2 lwidth .06 color green
+      d32 lstyle 2 msize .2 lwidth .06 color green
+
+
+end graph
+begin key
+   hei .2
+   position tr
+      text "KVI06"   marker square msize .2 color black
+      text "AV18-NN"      lstyle 1 msize .2 lwidth .06 color blue
+      text "CDB-NN"       lstyle 2 msize .2 lwidth .06 color blue
+      text "Nim1-NN"      lstyle 3 msize .2 lwidth .06 color blue
+      text "Nim2-NN"      lstyle 4 msize .2 lwidth .06 color blue
+
+      text "AV18-TM99"     lstyle 1 msize .2 lwidth .06 color red
+      text "AV18-UrbanaIX" lstyle 2 msize .2 lwidth .06 color red
+      text "CDB-\Delta" lstyle 3 msize .2 lwidth .06 color red
+      text "CDB-TM99"   lstyle 4 msize .2 lwidth .06 color red
+      text "Nim1-TM99"     lstyle 5 msize .2 lwidth .06 color red
+      text "Nim2-TM99"     lstyle 6 msize .2 lwidth .06 color red
+
+      text "CDB-colomb" lstyle 1 msize .2 lwidth .06 color green
+      text "CDB-colomb-\Delta" lstyle 2 msize .2 lwidth .06 color green
+end key
+
+   
+     amove 0.8 .1
+begin graph
+	size  11.5 12 
+	nobox
+	ytitle "T_{22}" hei .5 dist .3 
+	xtitle "\theta_{c.m.}" hei .5 dist .3 
+!        x2axis on
+!        y2axis on
+! 	y2axis min 0
+
+	xaxis min 50 max 130 nofirst nolast !grid
+!	labels off
+	yaxis min -0.2 max .0  nofirst nolast  !grid
+!        xaxis dticks 25 dsubticks 5
+        yaxis dsubticks .01
+        xaxis dsubticks 1
+
+!   reading data
+      data AnalysingPowers_130.dat  d6=c1,c14 d7=c1,c15
+
+!  reading from Theory files  theta,iT11,T20,T21,T22
+      data  130_dp_theory/130_av18_NN.dat               d11=c1,c5
+      data  130_dp_theory/130_cdbonn_NN.dat             d12=c1,c5
+      data  130_dp_theory/130_Nim1_NN.dat               d13=c1,c5
+      data  130_dp_theory/130_Nim2_NN.dat               d14=c1,c5
+
+      data  130_dp_theory/130_av18_TM99.dat             d21=c1,c5
+      data  130_dp_theory/130_av18_urbanaIX.dat         d22=c1,c5
+      data  130_dp_theory/130_cdbonn_delta.dat          d23=c1,c5
+      data  130_dp_theory/130_cdbonn_TM99.dat           d24=c1,c5
+      data  130_dp_theory/130_Nim1_TM99.dat             d25=c1,c5
+      data  130_dp_theory/130_Nim2_TM99.dat             d26=c1,c5
+
+      data  130_dp_theory/130_cdbonn_colomb.dat         d31=c1,c5
+      data  130_dp_theory/130_cdbonn_colomb_delta.dat   d32=c1,c5
+
+
+!Superimpose the Theory lines  data in one pannel
+      d6 marker square msize .2 color black err d7
+
+      d11 lstyle 1 msize .2 lwidth .06 color blue
+      d12 lstyle 2 msize .2 lwidth .06 color blue
+      d13 lstyle 3 msize .2 lwidth .06 color blue
+      d14 lstyle 4 msize .2 lwidth .06 color blue
+
+      d21 lstyle 1 msize .2 lwidth .06 color red
+      d22 lstyle 2 msize .2 lwidth .06 color red
+      d23 lstyle 3 msize .2 lwidth .06 color red
+      d24 lstyle 4 msize .2 lwidth .06 color red
+      d25 lstyle 5 msize .2 lwidth .06 color red
+      d26 lstyle 6 msize .2 lwidth .06 color red
+
+      d31 lstyle 1 msize .2 lwidth .06 color green
+      d32 lstyle 2 msize .2 lwidth .06 color green
+
+
+end graph
+begin key
+   hei .2
+   position tr
+      text "KVI06"   marker square msize .2 color black
+      text "AV18-NN"      lstyle 1 msize .2 lwidth .06 color blue
+      text "CDB-NN"       lstyle 2 msize .2 lwidth .06 color blue
+      text "Nim1-NN"      lstyle 3 msize .2 lwidth .06 color blue
+      text "Nim2-NN"      lstyle 4 msize .2 lwidth .06 color blue
+
+      text "AV18-TM99"     lstyle 1 msize .2 lwidth .06 color red
+      text "AV18-UrbanaIX" lstyle 2 msize .2 lwidth .06 color red
+      text "CDB-\Delta" lstyle 3 msize .2 lwidth .06 color red
+      text "CDB-TM99"   lstyle 4 msize .2 lwidth .06 color red
+      text "Nim1-TM99"     lstyle 5 msize .2 lwidth .06 color red
+      text "Nim2-TM99"     lstyle 6 msize .2 lwidth .06 color red
+
+      text "CDB-colomb" lstyle 1 msize .2 lwidth .06 color green
+      text "CDB-colomb-\Delta" lstyle 2 msize .2 lwidth .06 color green
+end key
+
+
+        amove 8.87  8.5
+begin graph
+	size  11.5 12 
+	nobox
+	y2title "T_{20}" hei .5 dist 0 
+!	xtitle "\theta_{c.m.}" hei .5 dist .3 
+!        x2axis on
+        y2axis on
+! 	y2axis min 0
+
+	xaxis min 50 max 130 nofirst nolast !grid
+!	xlabels off
+	yaxis min -0.6 max .2  nofirst nolast  !grid
+!        xaxis dticks 25 dsubticks 5
+        yaxis dsubticks .01
+        xaxis dsubticks 1
+
+!   reading data
+      data AnalysingPowers_130.dat  d6=c1,c16 d7=c1,c17
+
+!  reading from Theory files  theta,iT11,T20,T21,T22
+      data  130_dp_theory/130_av18_NN.dat               d11=c1,c3
+      data  130_dp_theory/130_cdbonn_NN.dat             d12=c1,c3
+      data  130_dp_theory/130_Nim1_NN.dat               d13=c1,c3
+      data  130_dp_theory/130_Nim2_NN.dat               d14=c1,c3
+
+      data  130_dp_theory/130_av18_TM99.dat             d21=c1,c3
+      data  130_dp_theory/130_av18_urbanaIX.dat         d22=c1,c3
+      data  130_dp_theory/130_cdbonn_delta.dat          d23=c1,c3
+      data  130_dp_theory/130_cdbonn_TM99.dat           d24=c1,c3
+      data  130_dp_theory/130_Nim1_TM99.dat             d25=c1,c3
+      data  130_dp_theory/130_Nim2_TM99.dat             d26=c1,c3
+
+      data  130_dp_theory/130_cdbonn_colomb.dat         d31=c1,c3
+      data  130_dp_theory/130_cdbonn_colomb_delta.dat   d32=c1,c3
+
+
+!Superimpose the Theory lines  and data in one pannel
+      d6 marker square msize .2 color black err d7
+
+      d11 lstyle 1 msize .2 lwidth .06 color blue
+      d12 lstyle 2 msize .2 lwidth .06 color blue
+      d13 lstyle 3 msize .2 lwidth .06 color blue
+      d14 lstyle 4 msize .2 lwidth .06 color blue
+
+      d21 lstyle 1 msize .2 lwidth .06 color red
+      d22 lstyle 2 msize .2 lwidth .06 color red
+      d23 lstyle 3 msize .2 lwidth .06 color red
+      d24 lstyle 4 msize .2 lwidth .06 color red
+      d25 lstyle 5 msize .2 lwidth .06 color red
+      d26 lstyle 6 msize .2 lwidth .06 color red
+
+      d31 lstyle 1 msize .2 lwidth .06 color green
+      d32 lstyle 2 msize .2 lwidth .06 color green
+
+
+end graph
+begin key
+   hei .2
+   position tr
+      text "KVI06"   marker square msize .2 color black
+
+      text "AV18-NN"      lstyle 1 msize .2 lwidth .06 color blue
+      text "CDB-NN"       lstyle 2 msize .2 lwidth .06 color blue
+      text "Nim1-NN"      lstyle 3 msize .2 lwidth .06 color blue
+      text "Nim2-NN"      lstyle 4 msize .2 lwidth .06 color blue
+
+      text "AV18-TM99"     lstyle 1 msize .2 lwidth .06 color red
+      text "AV18-UrbanaIX" lstyle 2 msize .2 lwidth .06 color red
+      text "CDB-\Delta" lstyle 3 msize .2 lwidth .06 color red
+      text "CDB-TM99"   lstyle 4 msize .2 lwidth .06 color red
+      text "Nim1-TM99"     lstyle 5 msize .2 lwidth .06 color red
+      text "Nim2-TM99"     lstyle 6 msize .2 lwidth .06 color red
+
+      text "CDB-colomb" lstyle 1 msize .2 lwidth .06 color green
+      text "CDB-colomb-\Delta" lstyle 2 msize .2 lwidth .06 color green
+end key
+
+
+
+
+
+        amove 8.87  .1
+begin graph
+	size  11.5 12 
+	nobox
+	y2title "T_{21}" hei .5 dist 0 
+	xtitle "\theta_{c.m.}" hei .5 dist .3 
+!        x2axis on
+        y2axis on
+! 	y2axis min 0
+
+	xaxis min 50 max 130 nofirst nolast !grid
+!	xlabels off
+	yaxis min -0.35 max .0  nofirst nolast  !grid
+!        xaxis dticks 25 dsubticks 5
+        yaxis dsubticks .01
+        xaxis dsubticks 1
+
+!   reading data
+      data AnalysingPowers_130.dat  d6=c1,c18 d7=c1,c19
+
+!  reading from Theory files  theta,iT11,T20,T21,T22
+      data  130_dp_theory/130_av18_NN.dat               d11=c1,c4
+      data  130_dp_theory/130_cdbonn_NN.dat             d12=c1,c4
+      data  130_dp_theory/130_Nim1_NN.dat               d13=c1,c4
+      data  130_dp_theory/130_Nim2_NN.dat               d14=c1,c4
+
+      data  130_dp_theory/130_av18_TM99.dat             d21=c1,c4
+      data  130_dp_theory/130_av18_urbanaIX.dat         d22=c1,c4
+      data  130_dp_theory/130_cdbonn_delta.dat          d23=c1,c4
+      data  130_dp_theory/130_cdbonn_TM99.dat           d24=c1,c4
+      data  130_dp_theory/130_Nim1_TM99.dat             d25=c1,c4
+      data  130_dp_theory/130_Nim2_TM99.dat             d26=c1,c4
+
+      data  130_dp_theory/130_cdbonn_colomb.dat         d31=c1,c4
+      data  130_dp_theory/130_cdbonn_colomb_delta.dat   d32=c1,c4
+
+
+!Superimpose the Theory lines  and data in one pannel
+      d6 marker square msize .2 color black err d7
+
+      d11 lstyle 1 msize .2 lwidth .06 color blue
+      d12 lstyle 2 msize .2 lwidth .06 color blue
+      d13 lstyle 3 msize .2 lwidth .06 color blue
+      d14 lstyle 4 msize .2 lwidth .06 color blue
+
+      d21 lstyle 1 msize .2 lwidth .06 color red
+      d22 lstyle 2 msize .2 lwidth .06 color red
+      d23 lstyle 3 msize .2 lwidth .06 color red
+      d24 lstyle 4 msize .2 lwidth .06 color red
+      d25 lstyle 5 msize .2 lwidth .06 color red
+      d26 lstyle 6 msize .2 lwidth .06 color red
+
+      d31 lstyle 1 msize .2 lwidth .06 color green
+      d32 lstyle 2 msize .2 lwidth .06 color green
+
+
+end graph
+begin key
+   hei .2
+   position tr
+      text "KVI06"   marker square msize .2 color black
+
+      text "AV18-NN"      lstyle 1 msize .2 lwidth .06 color blue
+      text "CDB-NN"       lstyle 2 msize .2 lwidth .06 color blue
+      text "Nim1-NN"      lstyle 3 msize .2 lwidth .06 color blue
+      text "Nim2-NN"      lstyle 4 msize .2 lwidth .06 color blue
+
+      text "AV18-TM99"     lstyle 1 msize .2 lwidth .06 color red
+      text "AV18-UrbanaIX" lstyle 2 msize .2 lwidth .06 color red
+      text "CDB-\Delta" lstyle 3 msize .2 lwidth .06 color red
+      text "CDB-TM99"   lstyle 4 msize .2 lwidth .06 color red
+      text "Nim1-TM99"     lstyle 5 msize .2 lwidth .06 color red
+      text "Nim2-TM99"     lstyle 6 msize .2 lwidth .06 color red
+
+      text "CDB-colomb" lstyle 1 msize .2 lwidth .06 color green
+      text "CDB-colomb-\Delta" lstyle 2 msize .2 lwidth .06 color green
+end key
+
+

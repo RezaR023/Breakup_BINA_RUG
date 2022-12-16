@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="6"
+   name=""
+   committed-date="2007-04-06T07:14:03.718913Z"
+   url="file:///home/mardanpur/svnroot/exp/may04f2/symmetry_minuit/sym_130_minuit_T21/ReviewError"
+   last-author="mardanpur"
+   kind="dir"
+   uuid="83cee285-b72b-0410-8f6f-a9dffb7b46b2"
+   revision="6"/>
+<entry
+   committed-rev="6"
+   name=".ReviewError_T20_130.gle.swp"
+   text-time="2007-04-06T07:16:08.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="8d9ce71adc129c22d61deff39cd113ee"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="SystematicError_130"
+   text-time="2007-04-06T07:16:08.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="6d3d73f236ca755f4342c953751a7b4a"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="SystematicError_130.cxx"
+   text-time="2007-04-06T07:16:08.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="5f66229f8638e1346d991e723257de56"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="SystematicError_130.dat"
+   text-time="2007-04-06T07:28:23.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="d8155a4687bb5ba8473fdb179a6ce4fb"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   name="Old_SysErrAnalys"
+   kind="dir"/>
+<entry
+   committed-rev="6"
+   name="Makefile"
+   text-time="2007-04-06T07:16:08.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="3d75914f0d7bbebba877cfac72e89e6a"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+</wc-entries>

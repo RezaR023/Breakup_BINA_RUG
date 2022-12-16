@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="6"
+   name=""
+   committed-date="2007-04-06T07:14:03.718913Z"
+   url="file:///home/mardanpur/svnroot/exp/may04f2/symmetry_minuit/sym_130_minuit_T21"
+   last-author="mardanpur"
+   kind="dir"
+   uuid="83cee285-b72b-0410-8f6f-a9dffb7b46b2"
+   revision="6"/>
+<entry
+   committed-rev="6"
+   name="run4120.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="e5a20b701782a5c085b4df6ada6b39b8"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:07.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4121.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="54d15645beae29a3662eea0cd8d0a3bc"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:07.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4122.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="67d8abf5cc2a495e6bf6b02ca2d1e31b"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:07.000000Z"/>
+<entry
+   committed-rev="6"
+   name="T20_130_mode2.dat"
+   text-time="2007-04-06T07:28:20.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="a4547d42366047f242d39bcb965204bb"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:07.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4123.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="5c2f4e9382f8592879fa5cd58adbbe79"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:07.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4124.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="e8fde9cc25df4bacbebd608082f1e601"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:07.000000Z"/>
+<entry
+   committed-rev="6"
+   name="T22_130_mode2.dat"
+   text-time="2007-04-06T07:28:20.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="fe4c9926e364d62accbb613002e92ccf"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:07.000000Z"/>
+<entry
+   committed-rev="6"
+   name="T20_130_mode4.dat"
+   text-time="2007-04-06T07:28:20.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="dc7cdebb22ca379ca176e0aaf320321c"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:07.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4125.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="beb0d1c8dd9c1b6ecc7d1985475888ed"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:07.000000Z"/>
+<entry
+   committed-rev="6"
+   name="T22_130_mode4.dat"
+   text-time="2007-04-06T07:28:20.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="0eb000a588ef718c5a482c7c0d048127"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:07.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowers_130.ps"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="ae224f63a865d5a4810e00c835a10228"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:07.000000Z"/>
+<entry
+   committed-rev="6"
+   name="T11_130_mode2_2.dat"
+   text-time="2007-04-06T07:28:21.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="242d8d0598b29ffd511b4732ccced24e"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:07.000000Z"/>
+<entry
+   committed-rev="6"
+   name="T11_130_mode4_2.dat"
+   text-time="2007-04-06T07:28:21.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="c98f6cc53e923dd0194afb0584cdc65e"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:07.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowers.gle.witala"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="abc8c68afb80bcac3abe4ec93da55b0f"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:07.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowers_fit.h"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="37e5190b9f0980e4f096b4b86d247dfa"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:07.000000Z"/>
+<entry
+   committed-rev="6"
+   name="Makefile"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="79a69f59a6c5d3f1af6c363d78a072f5"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowersAnual2006.gle"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="c6c4264ed5208a08ffb940b29e63ab79"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowers.gle.johan.NN+NNTM+cdb"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="30e6ab26b3c2d7be44939b35d4e1ec16"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowersAnual2006.eps"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="e35601e4c271bd374a324c8bcb15afb3"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="T20_130_mode2_2.dat"
+   text-time="2007-04-06T07:28:21.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="40154621e1a97751c0a8a6661aef3d56"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="T21_130_mode2_2.dat"
+   text-time="2007-04-06T07:28:21.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="47e2713e3aa2b58684201362f629b100"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="T22_130_mode2_2.dat"
+   text-time="2007-04-06T07:28:21.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="268e9afefb28eb30fdb8290fa82de061"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="T20_130_mode4_2.dat"
+   text-time="2007-04-06T07:28:21.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="5f60baae29e01653fc4fb9be6aefcb62"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="T21_130_mode4_2.dat"
+   text-time="2007-04-06T07:28:21.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="90b2d60c1bc0ca9fe1e84859fdce324a"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="T22_130_mode4_2.dat"
+   text-time="2007-04-06T07:28:21.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="07d1a57f456a58f6a12a36bc87c9036e"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   name="ReviewError"
+   kind="dir"/>
+<entry
+   committed-rev="6"
+   name="run4101.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="6b6156cd5a9a2d3c5bf1fcd90a7323a4"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4102.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="2bb96ce3ccf01856a96259695824a35e"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4103.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="007f9747a634ae06cf7fdd2401fbbc5b"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4301.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="4ba71a66756b65eff1327923add0efb8"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4104.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="007f9747a634ae06cf7fdd2401fbbc5b"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4302.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="f2b5a584a923530616b1d8eb18db9a45"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4105.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="827253460b774353fd0fc1700756e616"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4106.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="bcb3d5ddb508e4af480f62fb529473f8"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="T21_130_mode2.dat"
+   text-time="2007-04-06T07:28:20.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="42a2e3becb07bfa85a58634e0c259271"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4107.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="514434b5d0b65239587948998658b8f8"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4108.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="c86ada2805a570c7d539398e4bf2ea10"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="T21_130_mode4.dat"
+   text-time="2007-04-06T07:28:20.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="3171c3232e126fc23c2264200b53a4a1"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowers_fit.cxx"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="507469d605a65834405d2e17ec961707"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4109.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="8e56a1f80e0c5a46c5de8b7db013814b"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowers.gle"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="8be1da8550d5188e3c339410c6ad712f"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowers.gle.allgroups"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="5963025bc85c2453989446aef61b94e1"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="fitPzz_130_mode2.dat"
+   text-time="2007-04-06T07:28:20.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="f23362601ad5f85267945d7356b59c06"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="offPzz_130.dat"
+   text-time="2007-04-06T07:28:20.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="a3a66c1487ae6c1ba3d023a353f7f6bb"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="fitPzz_130_mode4.dat"
+   text-time="2007-04-06T07:28:20.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="8781293de9a5f4634681d0590ca9c655"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowers.gle.color"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="0b16e8284898fc6b955c3d53246c50e3"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowers.gle.mydata"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="73c5147553b9ed6ecf6a8b209b1c9cfb"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="list"
+   text-time="2007-04-06T07:28:23.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="3954f3e8c1caff2cc46f038a2dfa4b72"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:08.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowers.eps"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="31b5f07a6dedaa886fd798fda30eeadf"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:09.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowers_fit.cxx.offpz"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="3d8b227743ee4fa1af0ef6a76fda05a8"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:09.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowers_130.dat"
+   text-time="2007-04-06T07:28:22.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="adaed3095e0e070ac4f6d76e02abdd1d"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:09.000000Z"/>
+<entry
+   name="130_dp_theory"
+   kind="dir"/>
+<entry
+   committed-rev="6"
+   name="chis_130.dat"
+   text-time="2007-04-06T07:28:20.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="f026aeb2c436e9f82fbcb727e068d5ed"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:09.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4110.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="6ba9855f53b93023ce742952a68e19aa"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4111.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="88eba50ec154b5510bd7af3c58b0c76e"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4112.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="63d802dca26c285e046a550424cd1f4a"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4113.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="e1e458e783966c5b0e25178824816c37"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4114.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="21bd49ea24406b06893f3dfe9cded6de"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="T11_130_mode2.dat"
+   text-time="2007-04-06T07:28:20.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="ae76d677f21bbeb14001235e52996aa2"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4115.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="9f1dc4edf52d7a48067013e40643b396"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowers.cxx"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="549c6242ed76f0221a54977d29a028e4"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:13.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4116.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="70bac6bd55981b3de6a2c6133bab4632"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:13.000000Z"/>
+<entry
+   committed-rev="6"
+   name="T11_130_mode4.dat"
+   text-time="2007-04-06T07:28:20.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="c0bed7c9a8019ab72d087c0c7f69dcc4"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:13.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4117.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="1fa20a39eb9c971ebb5fabd8af595194"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:13.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowers.eps.color"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="0694c4eed0151c98c7c0c5b2bf54df5d"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:13.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4118.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="6f81decc3ba6cc3eee3e825da0d7d08e"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:13.000000Z"/>
+<entry
+   committed-rev="6"
+   name="run4119.dat"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="493df97cb0c2406e0975cf8e955b6dbf"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:13.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowers.gle.systemtical"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="0a71cc1bed29b9710b4d1b42c3bbc212"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:13.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowers_fit.cxx.0offpz"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="ec37e6dc5a31a6e90d900b1a55727c42"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:13.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowers_130column.dat"
+   text-time="2007-04-06T07:28:22.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="a72096a239b4bd6d1ecf78c05789c983"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:13.000000Z"/>
+<entry
+   committed-rev="6"
+   name="StrechError.cxx"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="b35e27e48d7fac1ef5c437be8a8e0cd3"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:13.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowers.gle.johan.NN+NNTM"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="9fe11918c6bdcb839683f677f5b56bd2"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:13.000000Z"/>
+<entry
+   committed-rev="6"
+   name="AnalysingPowers.gle.statistical"
+   text-time="2007-04-06T07:16:13.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="8c2202ecb5e354d3053ada476068a161"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:13.000000Z"/>
+</wc-entries>

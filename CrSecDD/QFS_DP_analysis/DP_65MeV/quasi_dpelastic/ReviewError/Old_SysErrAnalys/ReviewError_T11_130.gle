@@ -1,0 +1,166 @@
+size 20 21
+amove 1 20
+set hei .7         !to set height of text
+
+text   Analysing powers,130 MeV \beta =82^{\circ}, \alpha= -2^{\circ}
+
+set font texcmr
+        amove 0.8 8.5
+begin graph
+	size  11.5 12 
+	nobox
+	ytitle "iT_{11}" hei .5 dist .3 
+!	xtitle "\theta_{c.m.}" hei .5 dist .3 
+!         x2axis on
+!        y2axis on
+! 	y2axis min 0
+
+	xaxis min 50 max 130 nofirst nolast !grid
+	xlabels on
+	yaxis min -0.6 max .2  nofirst nolast  !grid
+!        xaxis dticks 25 dsubticks 5
+        yaxis dsubticks .01
+        xaxis dsubticks 1
+
+!  reading from the file iT11,T22,T20
+
+	data ../130_dp_theory/130_cdbonn_delta.dat d1=c1,c2 
+	data  T11_error_130.dat d2=c1,c2   d3=c1,c3 
+	data  T11_error_130.dat d4=c1,c12 d5=c1,c13     d6=c1,c14   d7=c1,c15      !beta
+	data  T11_error_130.dat d8=c1,c16 d9=c1,c17     d10=c1,c18 d11=c1,c19    !alpha
+	data  T11_error_130.dat d20=c1,c20 d21=c1,c21 d22=c1,c22 d23=c1,c23    !pz/pzz
+
+      d1 lstyle 1 msize .2 lwidth .06 color black
+      d2 marker square msize .2 color black err d3
+      d4 marker triangle msize .2 color red err d5
+      d6 marker diamond msize .2 color blue err d7
+
+
+end graph
+begin key
+   hei .3
+   position tr
+   text "CDBonn+\Delta" lstyle 1 msize 1 color black
+   text "\beta"            marker square msize .2 color black
+   text "\beta +.5^{\circ}" marker triangle msize .2 color red
+   text "\beta -.5^{\circ}" marker diamond msize .2 color blue
+
+end key
+        amove 0.8 .1
+begin graph
+	size  11.5 12 
+	nobox
+	ytitle "T_{11}" hei .5 dist .3 
+	xtitle "\theta_{c.m.}" hei .5 dist .3 
+!        x2axis on
+!        y2axis on
+! 	y2axis min 0
+
+	xaxis min 50 max 130 nofirst nolast !grid
+!	labels off
+	yaxis min -0.6 max .2  nofirst nolast  !grid
+!        xaxis dticks 25 dsubticks 5
+        yaxis dsubticks .01
+        xaxis dsubticks 1
+
+!  reading from the file iT11,T22,T20
+	data ../130_dp_theory/130_cdbonn_delta.dat d1=c1,c2 
+	data  T11_error_130.dat d2=c1,c2   d3=c1,c3 
+	data  T11_error_130.dat d4=c1,c12 d5=c1,c13     d6=c1,c14   d7=c1,c15      !beta
+	data  T11_error_130.dat d8=c1,c16 d9=c1,c17     d10=c1,c18 d11=c1,c19    !alpha
+	data  T11_error_130.dat d20=c1,c20 d21=c1,c21 d22=c1,c22 d23=c1,c23    !pz/pzz
+
+      d1 lstyle 1 msize .2 lwidth .06 color black
+      d2 marker square msize .2 color black err d3
+      d8 marker triangle msize .2 color red err d9
+      d10 marker diamond msize .2 color blue err d11
+
+
+end graph
+begin key
+   hei .3
+   position tr
+   text "CDBonn+\Delta" lstyle 1 msize 1 color black
+   text "\alpha"            marker square msize .2 color black
+   text "\alpha +.5^{\circ}" marker triangle msize .2 color red
+   text "\alpha -.5^{\circ}" marker diamond msize .2 color blue
+end key
+
+        amove 8.87  8.5
+begin graph
+	size  11.5 12 
+	nobox
+	y2title "T_{11}" hei .5 dist 0 
+!	xtitle "\theta_{c.m.}" hei .5 dist .3 
+!        x2axis on
+        y2axis on
+! 	y2axis min 0
+
+	xaxis min 50 max 130 nofirst nolast !grid
+!	xlabels off
+	yaxis min -0.6 max .2  nofirst nolast  !grid
+!        xaxis dticks 25 dsubticks 5
+        yaxis dsubticks .01
+        xaxis dsubticks 1
+
+!  reading from the file iT11,T22,T20
+	data ../130_dp_theory/130_cdbonn_delta.dat d1=c1,c2 
+	data  T11_error_130.dat d2=c1,c2   d3=c1,c3 
+	data  T11_error_130.dat d4=c1,c12 d5=c1,c13     d6=c1,c14   d7=c1,c15      !beta
+	data  T11_error_130.dat d8=c1,c16 d9=c1,c17     d10=c1,c18 d11=c1,c19    !alpha
+	data  T11_error_130.dat d20=c1,c20 d21=c1,c21 d22=c1,c22 d23=c1,c23    !pz/pzz
+
+      d1 lstyle 1 msize .2 lwidth .06 color black
+      d2 marker square msize .2 color black err d3
+      d20 marker triangle msize .2 color red err d21
+      d22 marker diamond msize .2 color blue err d23
+
+
+end graph
+begin key
+   hei .3
+   position tr
+   text "CDBonn+\Delta" lstyle 1 msize 1 color black
+   text "p_{Z}/p_{ZZ}=0.3333"            marker square msize .2 color black
+   text "p_{Z}/p_{ZZ}=0.32" marker triangle msize .2 color red
+   text "p_{Z}/p_{ZZ}=0.34" marker diamond msize .2 color blue
+end key
+     amove 8.87  .1
+begin graph
+	size  11.5 12 
+	nobox
+	y2title "T_{11}" hei .5 dist 0 
+	xtitle "\theta_{c.m.}" hei .5 dist .3 
+!        x2axis on
+        y2axis on
+! 	y2axis min 0
+
+	xaxis min 50 max 130 nofirst nolast !grid
+!	xlabels off
+	yaxis min -0.6 max .2  nofirst nolast  !grid
+!        xaxis dticks 25 dsubticks 5
+        yaxis dsubticks .01
+        xaxis dsubticks 1
+
+!  reading from the file iT11,T22,T20
+	data ../130_dp_theory/130_cdbonn_delta.dat d1=c1,c2 
+	data  T11_error_130.dat d2=c1,c2   d3=c1,c3 
+	data  T11_error_130.dat d4=c1,c12 d5=c1,c13     d6=c1,c14   d7=c1,c15      !beta
+	data  T11_error_130.dat d8=c1,c16 d9=c1,c17     d10=c1,c18 d11=c1,c19    !alpha
+	data  T11_error_130.dat d20=c1,c20 d21=c1,c21 d22=c1,c22 d23=c1,c23    !pz/pzz
+        let d51 = sqrt(sqr((abs(d4-d2)+abs(d6-d2))/2)+sqr((abs(d8-d2)+abs(d10-d2))/2)+sqr((abs(d20-d2)+abs(d22-d2))/2))
+
+      d1 lstyle 1 msize .2 lwidth .06 color black
+      d2 marker square msize .2 color black err d51
+
+
+end graph
+begin key
+   hei .3
+   position tr
+   text "CDBonn+\Delta" lstyle 1 msize 1 color black
+end key
+
+
+
+

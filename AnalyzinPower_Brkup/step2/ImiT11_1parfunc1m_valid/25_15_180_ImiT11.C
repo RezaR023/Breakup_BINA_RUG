@@ -1,0 +1,68 @@
+{
+//=========Macro generated from canvas: Canvas_1/Canvas_1
+//=========  (Fri May  4 14:37:24 2018) by ROOT version5.34/28
+   TCanvas *Canvas_1 = new TCanvas("Canvas_1", "Canvas_1",587,71,834,578);
+   Canvas_1->Range(132.5,-0.2396914,267.5,0.156683);
+   Canvas_1->SetFillColor(0);
+   Canvas_1->SetBorderMode(0);
+   Canvas_1->SetBorderSize(2);
+   Canvas_1->SetFrameBorderMode(0);
+   Canvas_1->SetFrameBorderMode(0);
+   
+   TGraphErrors *gre = new TGraphErrors(10);
+   gre->SetName("gr_ImiT11_25_15_180");
+   gre->SetTitle("");
+   gre->SetFillColor(1);
+   gre->SetLineColor(1);
+   gre->SetMarkerColor(1);
+   gre->SetMarkerStyle(24);
+   gre->SetPoint(0,155,0.01539738);
+   gre->SetPointError(0,0,0.07522323);
+   gre->SetPoint(1,165,-0.07813954);
+   gre->SetPointError(1,0,0.06837409);
+   gre->SetPoint(2,175,-0.008559531);
+   gre->SetPointError(2,0,0.06978384);
+   gre->SetPoint(3,185,-0.1008818);
+   gre->SetPointError(3,0,0.07274724);
+   gre->SetPoint(4,195,0.02120063);
+   gre->SetPointError(4,0,0.04580197);
+   gre->SetPoint(5,205,-0.01834075);
+   gre->SetPointError(5,0,0.04106071);
+   gre->SetPoint(6,215,0.009189379);
+   gre->SetPointError(6,0,0.03168083);
+   gre->SetPoint(7,225,0.03829199);
+   gre->SetPointError(7,0,0.02568917);
+   gre->SetPoint(8,235,0.006818241);
+   gre->SetPointError(8,0,0.01814989);
+   gre->SetPoint(9,245,-0.002987674);
+   gre->SetPointError(9,0,0.01053084);
+   
+   TH1F *Graph_gr_ImiT11_25_15_1809 = new TH1F("Graph_gr_ImiT11_25_15_1809","",100,146,254);
+   Graph_gr_ImiT11_25_15_1809->SetMinimum(-0.200054);
+   Graph_gr_ImiT11_25_15_1809->SetMaximum(0.1170456);
+   Graph_gr_ImiT11_25_15_1809->SetDirectory(0);
+   Graph_gr_ImiT11_25_15_1809->SetStats(0);
+
+   Int_t ci;      // for color index setting
+   TColor *color; // for color definition with alpha
+   ci = TColor::GetColor("#000099");
+   Graph_gr_ImiT11_25_15_1809->SetLineColor(ci);
+   Graph_gr_ImiT11_25_15_1809->GetXaxis()->SetLabelFont(42);
+   Graph_gr_ImiT11_25_15_1809->GetXaxis()->SetLabelSize(0.035);
+   Graph_gr_ImiT11_25_15_1809->GetXaxis()->SetTitleSize(0.035);
+   Graph_gr_ImiT11_25_15_1809->GetXaxis()->SetTitleFont(42);
+   Graph_gr_ImiT11_25_15_1809->GetYaxis()->SetLabelFont(42);
+   Graph_gr_ImiT11_25_15_1809->GetYaxis()->SetLabelSize(0.035);
+   Graph_gr_ImiT11_25_15_1809->GetYaxis()->SetTitleSize(0.035);
+   Graph_gr_ImiT11_25_15_1809->GetYaxis()->SetTitleFont(42);
+   Graph_gr_ImiT11_25_15_1809->GetZaxis()->SetLabelFont(42);
+   Graph_gr_ImiT11_25_15_1809->GetZaxis()->SetLabelSize(0.035);
+   Graph_gr_ImiT11_25_15_1809->GetZaxis()->SetTitleSize(0.035);
+   Graph_gr_ImiT11_25_15_1809->GetZaxis()->SetTitleFont(42);
+   gre->SetHistogram(Graph_gr_ImiT11_25_15_1809);
+   
+   gre->Draw("alp");
+   Canvas_1->Modified();
+   Canvas_1->cd();
+   Canvas_1->SetSelected(Canvas_1);
+}

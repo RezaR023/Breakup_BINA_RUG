@@ -1,0 +1,128 @@
+#define DDcalib_cxx
+#include "DDcalib.h"
+#include <TH2.h>
+#include <TStyle.h>
+#include <TCanvas.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <cstdlib>
+#include <iostream>
+#include <fstream>
+#include <TF1.h>
+#include <TPostScript.h>
+#include <TMath.h>
+#include "TCutG.h"
+#include "TGraph.h"
+#include "TGraphErrors.h"
+double Calibrate ( double detleft, double detright ,double ADCleft ,double ADCright ,double x){
+ double BarN=detleft;
+ 
+double func=0;
+/**==if (BarN==1)      func= 10.0901242e+00  + 2.254394e-02*x - 1.764212e-04*x*x + 2.092171e-07*x*x*x; 
+ else if (BarN==2) func= 8.6729606e+00  + 2.112341e-02*x - 1.182007e-04*x*x + 5.685267e-08*x*x*x;
+ else if (BarN==3) func= 9.4538659e+00  + 3.093151e-02*x - 2.572974e-04*x*x + 5.955087e-07*x*x*x; 
+ else if (BarN==4) func= 9.5721830e+00  + 1.225239e-02*x - 3.435246e-05*x*x - 1.406221e-07*x*x*x;
+ else if (BarN==5) func= 5.0166803e+00  + 9.059085e-03*x - 1.647952e-05*x*x - 1.831679e-07*x*x*x;
+ else if (BarN==6) func= 4.3463985e+00  + 1.171057e-02*x - 4.393140e-05*x*x - 9.217203e-08*x*x*x;
+ else if (BarN==7) func= 7.9034888e+00  + 1.058610e-02*x - 7.318189e-05*x*x + 7.133477e-08*x*x*x;
+ else if (BarN==8) func= 7.3459060e+00  + 9.942690e-03*x - 3.993604e-05*x*x - 6.771125e-08*x*x*x; 
+ else if (BarN==9) func= 7.4571124e+00  + 1.400878e-02*x - 8.118584e-05*x*x + 6.786945e-08*x*x*x; 
+ else              func= 9.0182811e+00  + 1.980015e-02*x - 1.319072e-04*x*x + 1.553978e-07*x*x*x;
+ ==*/
+ if (BarN==1)      func= 9.901242e+00  + 2.254394e-02*x - 1.764212e-04*x*x + 2.092171e-07*x*x*x; 
+ else if (BarN==2) func= 8.729606e+00  + 2.112341e-02*x - 1.182007e-04*x*x + 5.685267e-08*x*x*x;
+ else if (BarN==3) func= 9.538659e+00  + 3.093151e-02*x - 2.572974e-04*x*x + 5.955087e-07*x*x*x; 
+ else if (BarN==4) func= 9.721830e+00  + 1.225239e-02*x - 3.435246e-05*x*x - 1.406221e-07*x*x*x;
+ else if (BarN==5) func= 5.166803e+00  + 9.059085e-03*x - 1.647952e-05*x*x - 1.831679e-07*x*x*x;
+ else if (BarN==6) func= 4.463985e+00  + 1.171057e-02*x - 4.393140e-05*x*x - 9.217203e-08*x*x*x;
+ else if (BarN==7) func= 8.034888e+00  + 1.058610e-02*x - 7.318189e-05*x*x + 7.133477e-08*x*x*x;
+ else if (BarN==8) func= 7.459060e+00  + 9.942690e-03*x - 3.993604e-05*x*x - 6.771125e-08*x*x*x; 
+ else if (BarN==9) func= 7.571124e+00  + 1.400878e-02*x - 8.118584e-05*x*x + 6.786945e-08*x*x*x; 
+ else              func= 9.182811e+00  + 1.980015e-02*x - 1.319072e-04*x*x + 1.553978e-07*x*x*x;
+
+ return sqrt(ADCleft*ADCright)/func;
+}
+//Other calibration function//--------------
+/* adding calibration fuction for Elastic deuteron in Forward wall  Ahmad */
+/*double Calibrate ( double detleft, double detright ,double ADCleft ,double ADCright ,double x){
+ double BarN=detleft;
+ 
+double func=0;
+ if (BarN==1)        func= 9.982500e+00 + 2.265024e-02*x - 1.813879e-04*x*x + 2.327154e-07*x*x*x; +1.5
+  else if (BarN==2)  func= 8.817487e+00 + 1.932499e-02*x - 1.003356e-04*x*x + 5.307068e-09*x*x*x; +1.5
+  else if (BarN==3)  func= 9.705596e+00 + 2.408233e-02*x - 1.730159e-04*x*x + 3.103046e-07*x*x*x; +1.5
+  else if (BarN==4)  func= 9.656448e+00 + 1.658823e-02*x - 7.581372e-05*x*x - 3.145080e-08*x*x*x; +1.5
+  else if (BarN==5)  func= 5.109658e+00 + 1.247890e-02*x - 4.299100e-05*x*x - 1.449256e-07*x*x*x; +2.5
+  else if (BarN==6)  func= 4.405396e+00 + 1.577245e-02*x - 8.675366e-05*x*x + 3.092313e-08*x*x*x; +3
+  else if (BarN==7)  func= 8.124741e+00 + 4.833102e-03*x + 3.991963e-05*x*x - 4.325254e-07*x*x*x; +2
+  else if (BarN==8)  func= 7.449579e+00 + 1.068560e-02*x - 5.429482e-05*x*x - 1.487006e-08*x*x*x; +3
+  else if (BarN==9)  func= 7.591073e+00 + 1.280159e-02*x - 6.137125e-05*x*x - 2.137307e-08*x*x*x; +2.5
+  else if (BarN==10) func= 9.189437e+00 + 2.000618e-02*x - 1.328169e-04*x*x + 1.402372e-07*x*x*x; +2
+
+  return sqrt(ADCleft*ADCright)/func;
+}*/
+
+
+TH2D *he[10];
+char namt[10][350];
+void DDcalib::Loop()
+{
+  using namespace std;
+  double EFW0;
+  TFile *f=new TFile("test.root","recreate");
+  for (int i=0;i<10;i++)
+    {
+      sprintf(namt[i],"chatheta_%d",i);
+	he[i]=new TH2D(namt[i],";#theta_{p} [deg];E_{d} [MeV]",70,10,45,1500,0,150);
+    }
+//   In a ROOT session, you can do:
+//      Root > .L DDcalib.C
+//      Root > DDcalib t
+//      Root > t.GetEntry(12); // Fill t data members with entry number 12
+//      Root > t.Show();       // Show values of entry 12
+//      Root > t.Show(16);     // Read and show values of entry 16
+//      Root > t.Loop();       // Loop on all entries
+//
+
+//     This is the loop skeleton where:
+//    jentry is the global entry number in the chain
+//    ientry is the entry number in the current Tree
+//  Note that the argument to GetEntry must be:
+//    jentry for TChain::GetEntry
+//    ientry for TTree::GetEntry and TBranch::GetEntry
+//
+//       To read only selected branches, Insert statements like:
+// METHOD1:
+//    fChain->SetBranchStatus("*",0);  // disable all branches
+//    fChain->SetBranchStatus("branchname",1);  // activate branchname
+// METHOD2: replace line
+//    fChain->GetEntry(jentry);       //read all branches
+//by  b_branchname->GetEntry(ientry); //read only this branch
+   if (fChain == 0) return;
+
+   Long64_t nentries = 5e6;//fChain->GetEntriesFast();
+
+   Long64_t nbytes = 0, nb = 0;
+   for (Long64_t jentry=0; jentry<nentries;jentry++) {
+      Long64_t ientry = LoadTree(jentry);
+      if (ientry < 0) break;
+      nb = fChain->GetEntry(jentry);   nbytes += nb;
+      // if (Cut(ientry) < 0) continue;
+      printf("\r<I> Progress: %.0f%%",100*(float) jentry/((float) nentries));
+      for (int i=0;i<10;i++)
+	{
+	  if (b2_T2>0 && abs(abs(b2_MWPCphi-b2_Bphi)-180)<10 && b2_Btheta<90 && b2_WLdet==i+1)
+	    {
+	      EFW0=Calibrate (b2_WLdet, b2_WRdet ,b2_WLE ,b2_WRE ,b2_MWPCX);
+	      he[i]->Fill(b2_MWPCtheta,EFW0);
+	    }
+	}
+   }
+   f->cd();
+   for (int i=0;i<10;i++)
+     {
+       he[i]->Write();
+     }
+   f->Close();
+}

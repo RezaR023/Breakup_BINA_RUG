@@ -1,0 +1,360 @@
+size 20 21
+amove 1 20
+set hei .7         !to set height of text
+
+text   Analysing powers,130 MeV \beta =82^{\circ}  \alpha= -2^{\circ}
+
+set font texcmr
+        amove 0.8 8.5
+begin graph
+	size  11.5 12 
+	nobox
+	ytitle "iT_{11}" hei .6
+	yaxis min -0.6 max .2 hei .5  dsubticks .025 nofirst nolast  !grid
+	yticks length 0.2
+	y2ticks off
+	xaxis min 50 max 130 dsubticks 5 nofirst nolast !grid
+        xticks length 0.2
+	xlabels off
+
+!   reading data
+      data AnalysingPowers_130.dat       d1=c1,c2  d2=c1,c3
+      data 130_dp_theory/140_RIKEN.dat   d3=c1,c2  d4=c1,c3
+
+!  reading from Theory files 130 theta,iT11,T20,T21,T22
+      data  130_dp_theory/130_av18_NN.dat               d11=c1,c2 
+      data  130_dp_theory/130_cdbonn_NN.dat             d12=c1,c2 
+      data  130_dp_theory/130_Nim1_NN.dat               d13=c1,c2 
+      data  130_dp_theory/130_Nim2_NN.dat               d14=c1,c2 
+
+      data  130_dp_theory/130_av18_TM99.dat             d21=c1,c2 
+      data  130_dp_theory/130_av18_urbanaIX.dat         d22=c1,c2 
+      data  130_dp_theory/130_cdbonn_delta.dat          d23=c1,c2 
+      data  130_dp_theory/130_cdbonn_TM99.dat           d24=c1,c2 
+      data  130_dp_theory/130_Nim1_TM99.dat             d25=c1,c2 
+      data  130_dp_theory/130_Nim2_TM99.dat             d26=c1,c2 
+
+      data  130_dp_theory/130_cdbonn_colomb.dat         d31=c1,c2 
+      data  130_dp_theory/130_cdbonn_colomb_delta.dat   d32=c1,c2 
+
+!  reading from Theory files 140 theta,iT11,T20,T21,T22
+      data  130_dp_theory/140_av18_NN.dat               d41=c1,c2 
+      data  130_dp_theory/140_cdbonn_NN.dat             d42=c1,c2 
+      data  130_dp_theory/140_Nim1_NN.dat               d43=c1,c2 
+      data  130_dp_theory/140_Nim2_NN.dat               d44=c1,c2 
+
+
+
+!Superimpose the Theory lines  data in one pannel
+      d1 marker square msize .2 color black err d2
+      d3 marker circle msize .2 color black err d4
+
+      fill d11,d12 color grey30 xmin 50  xmax 130
+      fill d11,d13 color grey30 xmin 50  xmax 130
+      fill d11,d14 color grey30 xmin 50  xmax 130
+      fill d12,d13 color grey30 xmin 50  xmax 130
+      fill d12,d14 color grey30 xmin 50  xmax 130
+      fill d13,d14 color grey30 xmin 50  xmax 130
+
+      fill d21,d24 color grey10 xmin 50  xmax 130
+      fill d21,d25 color grey10 xmin 50  xmax 130
+      fill d21,d26 color grey10 xmin 50  xmax 130
+      fill d24,d25 color grey10 xmin 50  xmax 130
+      fill d24,d26 color grey10 xmin 50  xmax 130
+      fill d25,d26 color grey10 xmin 50  xmax 130
+
+      fill d41,d42 color grey50 xmin 50  xmax 130
+      fill d41,d43 color grey50 xmin 50  xmax 130
+      fill d41,d44 color grey50 xmin 50  xmax 130
+      fill d42,d43 color grey50 xmin 50  xmax 130
+      fill d42,d44 color grey50 xmin 50  xmax 130
+      fill d43,d44 color grey50 xmin 50  xmax 130
+
+
+
+      d22 lstyle 1 msize .2 lwidth .06 color black
+      d23 lstyle 2 msize .2 lwidth .06 color black
+      d32 lstyle 3 msize .2 lwidth .06 color black
+
+
+end graph
+begin key
+   hei .2
+   position bl
+      text "KVI06"          marker square msize .2 color black
+      text "Kim03 140 MeV" marker circle msize .2 color black
+      text "NN 130"                  lstyle 1 msize .2 lwidth .1 color grey30
+      text "NN 140"                  lstyle 1 msize .2 lwidth .1 color grey50
+      text "NN+TM'"              lstyle 1 msize .2 lwidth .1 color grey10
+      text "AV18+UrbanaIX"       lstyle 1 msize .2 lwidth .06 color black
+      text "CDB+\Delta"          lstyle 2 msize .2 lwidth .06 color black
+      text "CDB+colomb+\Delta"   lstyle 3 msize .2 lwidth .06 color black
+end key
+
+   
+     amove 0.8 .1
+begin graph
+	size  11.5 12 
+	nobox
+	ytitle "T_{22}" hei .6
+	yaxis min -0.3 max .0  hei .5  dsubticks .01 nofirst nolast  !grid
+	yticks length 0.2
+	y2ticks off
+	xtitle "\theta_{c.m.}" hei .6 dist .3 
+	xaxis min 50 max 130 hei .5 dsubticks 5 nofirst nolast !grid
+	xticks length 0.2
+
+
+!   reading data
+      data AnalysingPowers_130.dat       d1=c1,c4 d2=c1,c5
+      data 130_dp_theory/140_RIKEN.dat   d3=c1,c4  d4=c1,c5
+
+!  reading from Theory files  130 theta,iT11,T20,T21,T22
+      data  130_dp_theory/130_av18_NN.dat               d11=c1,c5
+      data  130_dp_theory/130_cdbonn_NN.dat             d12=c1,c5
+      data  130_dp_theory/130_Nim1_NN.dat               d13=c1,c5
+      data  130_dp_theory/130_Nim2_NN.dat               d14=c1,c5
+
+      data  130_dp_theory/130_av18_TM99.dat             d21=c1,c5
+      data  130_dp_theory/130_av18_urbanaIX.dat         d22=c1,c5
+      data  130_dp_theory/130_cdbonn_delta.dat          d23=c1,c5
+      data  130_dp_theory/130_cdbonn_TM99.dat           d24=c1,c5
+      data  130_dp_theory/130_Nim1_TM99.dat             d25=c1,c5
+      data  130_dp_theory/130_Nim2_TM99.dat             d26=c1,c5
+
+      data  130_dp_theory/130_cdbonn_colomb.dat         d31=c1,c5
+      data  130_dp_theory/130_cdbonn_colomb_delta.dat   d32=c1,c5
+
+!  reading from Theory files  140 theta,iT11,T20,T21,T22
+      data  130_dp_theory/140_av18_NN.dat               d41=c1,c5
+      data  130_dp_theory/140_cdbonn_NN.dat             d42=c1,c5
+      data  130_dp_theory/140_Nim1_NN.dat               d43=c1,c5
+      data  130_dp_theory/140_Nim2_NN.dat               d44=c1,c5
+
+!Superimpose the Theory lines  data in one pannel
+      d1 marker square msize .2 color black err d2
+      d3 marker circle msize .2 color black err d4
+
+      fill d11,d12 color grey30 xmin 50  xmax 130
+      fill d11,d13 color grey30 xmin 50  xmax 130
+      fill d11,d14 color grey30 xmin 50  xmax 130
+      fill d12,d13 color grey30 xmin 50  xmax 130
+      fill d12,d14 color grey30 xmin 50  xmax 130
+      fill d13,d14 color grey30 xmin 50  xmax 130
+
+      fill d21,d24 color grey10 xmin 50  xmax 130
+      fill d21,d25 color grey10 xmin 50  xmax 130
+      fill d21,d26 color grey10 xmin 50  xmax 130
+      fill d24,d25 color grey10 xmin 50  xmax 130
+      fill d24,d26 color grey10 xmin 50  xmax 130
+      fill d25,d26 color grey10 xmin 50  xmax 130
+
+      fill d41,d42 color grey50 xmin 50  xmax 130
+      fill d41,d43 color grey50 xmin 50  xmax 130
+      fill d41,d44 color grey50 xmin 50  xmax 130
+      fill d42,d43 color grey50 xmin 50  xmax 130
+      fill d42,d44 color grey50 xmin 50  xmax 130
+      fill d43,d44 color grey50 xmin 50  xmax 130
+
+
+     d22 lstyle 1 msize .2 lwidth .06 color black
+      d23 lstyle 2 msize .2 lwidth .06 color black
+      d32 lstyle 3 msize .2 lwidth .06 color black
+
+
+end graph
+begin key
+   hei .2
+   position bl
+      text "KVI06"          marker square msize .2 color black
+      text "Kim03 140 MeV"        marker circle msize .2 color black
+      text "NN 130"                  lstyle 1 msize .2 lwidth .1 color grey30
+      text "NN 140"                  lstyle 1 msize .2 lwidth .1 color grey50
+      text "NN+TM'"              lstyle 1 msize .2 lwidth .1 color grey10
+      text "AV18+UrbanaIX"       lstyle 1 msize .2 lwidth .06 color black
+      text "CDB+\Delta"          lstyle 2 msize .2 lwidth .06 color black
+      text "CDB+colomb+\Delta"   lstyle 3 msize .2 lwidth .06 color black
+end key
+
+
+        amove 8.87  8.5
+begin graph
+	size  11.5 12 
+	nobox
+	ylabels off
+	yticks off
+	yaxis min -0.6 max .2  hei .5 dsubticks .025 nofirst nolast  !grid
+
+	y2ticks on 
+        y2labels on
+	y2title "T_{20}" hei .6
+	y2axis min -0.6 max .2  hei .5 dsubticks .025 nofirst nolast  !grid
+	y2ticks length 0.2
+
+	xaxis min   50 max 130 dsubticks 5    nofirst nolast  !grid
+	xlabels off
+	xticks length 0.2
+
+!   reading data
+      data AnalysingPowers_130.dat       d1=c1,c6 d2=c1,c7
+      data 130_dp_theory/140_RIKEN.dat   d3=c1,c6  d4=c1,c7
+
+!  reading from Theory files 130 theta,iT11,T20,T21,T22
+      data  130_dp_theory/130_av18_NN.dat               d11=c1,c3
+      data  130_dp_theory/130_cdbonn_NN.dat             d12=c1,c3
+      data  130_dp_theory/130_Nim1_NN.dat               d13=c1,c3
+      data  130_dp_theory/130_Nim2_NN.dat               d14=c1,c3
+
+      data  130_dp_theory/130_av18_TM99.dat             d21=c1,c3
+      data  130_dp_theory/130_av18_urbanaIX.dat         d22=c1,c3
+      data  130_dp_theory/130_cdbonn_delta.dat          d23=c1,c3
+      data  130_dp_theory/130_cdbonn_TM99.dat           d24=c1,c3
+      data  130_dp_theory/130_Nim1_TM99.dat             d25=c1,c3
+      data  130_dp_theory/130_Nim2_TM99.dat             d26=c1,c3
+
+      data  130_dp_theory/130_cdbonn_colomb.dat         d31=c1,c3
+      data  130_dp_theory/130_cdbonn_colomb_delta.dat   d32=c1,c3
+
+!  reading from Theory files 140 theta,iT11,T20,T21,T22
+      data  130_dp_theory/140_av18_NN.dat               d41=c1,c3
+      data  130_dp_theory/140_cdbonn_NN.dat             d42=c1,c3
+      data  130_dp_theory/140_Nim1_NN.dat               d43=c1,c3
+      data  130_dp_theory/140_Nim2_NN.dat               d44=c1,c3
+
+!Superimpose the Theory lines  data in one pannel
+      d1 marker square msize .2 color black err d2
+      d3 marker circle msize .2 color black err d4
+
+      fill d11,d12 color grey30 xmin 50  xmax 130
+      fill d11,d13 color grey30 xmin 50  xmax 130
+      fill d11,d14 color grey30 xmin 50  xmax 130
+      fill d12,d13 color grey30 xmin 50  xmax 130
+      fill d12,d14 color grey30 xmin 50  xmax 130
+      fill d13,d14 color grey30 xmin 50  xmax 130
+
+      fill d21,d24 color grey10 xmin 50  xmax 130
+      fill d21,d25 color grey10 xmin 50  xmax 130
+      fill d21,d26 color grey10 xmin 50  xmax 130
+      fill d24,d25 color grey10 xmin 50  xmax 130
+      fill d24,d26 color grey10 xmin 50  xmax 130
+      fill d25,d26 color grey10 xmin 50  xmax 130
+
+      fill d41,d42 color grey50 xmin 50  xmax 150
+      fill d41,d43 color grey50 xmin 50  xmax 130
+      fill d41,d44 color grey50 xmin 50  xmax 130
+      fill d42,d43 color grey50 xmin 50  xmax 130
+      fill d42,d44 color grey50 xmin 50  xmax 130
+      fill d43,d44 color grey50 xmin 50  xmax 130
+
+
+      d22 lstyle 1 msize .2 lwidth .06 color black
+      d23 lstyle 2 msize .2 lwidth .06 color black
+      d32 lstyle 3 msize .2 lwidth .06 color black
+
+
+end graph
+begin key
+   hei .2
+   position bl
+      text "KVI06"          marker square msize .2 color black
+      text "Kim03 140 MeV"        marker circle msize .2 color black
+      text "NN 130"                  lstyle 1 msize .2 lwidth .1 color grey30
+      text "NN 140"                  lstyle 1 msize .2 lwidth .1 color grey50
+      text "NN+TM'"              lstyle 1 msize .2 lwidth .1 color grey10
+      text "AV18+UrbanaIX"       lstyle 1 msize .2 lwidth .06 color black
+      text "CDB+\Delta"          lstyle 2 msize .2 lwidth .06 color black
+      text "CDB+colomb+\Delta"   lstyle 3 msize .2 lwidth .06 color black
+end key
+
+
+
+
+        amove 8.87  .1
+begin graph
+	size  11.5 12 
+	nobox
+	ylabels off
+	yticks off
+	yaxis min -0.35 max .1  hei .5 dsubticks .025 nofirst nolast  !grid
+
+	y2ticks on 
+        y2labels on
+	y2title "T_{21}" hei .6 
+	y2axis min -0.35 max .1  hei .5 dsubticks .025 nofirst nolast  !grid
+	y2ticks length 0.2
+
+	xtitle "\theta_{c.m.}" hei .6 dist .3 
+	xaxis min   50 max 130 hei .5 dsubticks 5    nofirst nolast  !grid
+	xticks length 0.2
+
+
+!   reading data
+      data AnalysingPowers_130.dat       d1=c1,c8 d2=c1,c9
+      data 130_dp_theory/140_RIKEN.dat   d3=c1,c8  d4=c1,c9
+
+!  reading from Theory files  130 theta,iT11,T20,T21,T22
+      data  130_dp_theory/130_av18_NN.dat               d11=c1,c4
+      data  130_dp_theory/130_cdbonn_NN.dat             d12=c1,c4
+      data  130_dp_theory/130_Nim1_NN.dat               d13=c1,c4
+      data  130_dp_theory/130_Nim2_NN.dat               d14=c1,c4
+
+      data  130_dp_theory/130_av18_TM99.dat             d21=c1,c4
+      data  130_dp_theory/130_av18_urbanaIX.dat         d22=c1,c4
+      data  130_dp_theory/130_cdbonn_delta.dat          d23=c1,c4
+      data  130_dp_theory/130_cdbonn_TM99.dat           d24=c1,c4
+      data  130_dp_theory/130_Nim1_TM99.dat             d25=c1,c4
+      data  130_dp_theory/130_Nim2_TM99.dat             d26=c1,c4
+
+      data  130_dp_theory/130_cdbonn_colomb.dat         d31=c1,c4
+      data  130_dp_theory/130_cdbonn_colomb_delta.dat   d32=c1,c4
+
+!  reading from Theory files  140 theta,iT11,T20,T21,T22
+      data  130_dp_theory/140_av18_NN.dat               d41=c1,c4
+      data  130_dp_theory/140_cdbonn_NN.dat             d42=c1,c4
+      data  130_dp_theory/140_Nim1_NN.dat               d43=c1,c4
+      data  130_dp_theory/140_Nim2_NN.dat               d44=c1,c4
+
+!Superimpose the Theory lines  data in one pannel
+      d1 marker square msize .2 color black err d2
+      d3 marker circle msize .2 color black err d4
+
+      fill d11,d12 color grey30 xmin 50  xmax 130
+      fill d11,d13 color grey30 xmin 50  xmax 130
+      fill d11,d14 color grey30 xmin 50  xmax 130
+      fill d12,d13 color grey30 xmin 50  xmax 130
+      fill d12,d14 color grey30 xmin 50  xmax 130
+      fill d13,d14 color grey30 xmin 50  xmax 130
+
+      fill d21,d24 color grey10 xmin 50  xmax 130
+      fill d21,d25 color grey10 xmin 50  xmax 130
+      fill d21,d26 color grey10 xmin 50  xmax 130
+      fill d24,d25 color grey10 xmin 50  xmax 130
+      fill d24,d26 color grey10 xmin 50  xmax 130
+      fill d25,d26 color grey10 xmin 50  xmax 130
+
+      fill d41,d42 color grey50 xmin 50  xmax 130
+      fill d41,d43 color grey50 xmin 50  xmax 130
+      fill d41,d44 color grey50 xmin 50  xmax 130
+      fill d42,d43 color grey50 xmin 50  xmax 130
+      fill d42,d44 color grey50 xmin 50  xmax 130
+      fill d43,d44 color grey50 xmin 50  xmax 130
+
+      d22 lstyle 1 msize .2 lwidth .06 color black
+      d23 lstyle 2 msize .2 lwidth .06 color black
+      d32 lstyle 3 msize .2 lwidth .06 color black
+
+
+end graph
+begin key
+   hei .2
+   position bl
+      text "KVI06"          marker square msize .2 color black
+      text "Kim03 140 MeV"        marker circle msize .2 color black
+      text "NN 130"                  lstyle 1 msize .2 lwidth .1 color grey30
+      text "NN 140"                  lstyle 1 msize .2 lwidth .1 color grey50
+      text "NN+TM'"              lstyle 1 msize .2 lwidth .1 color grey10
+      text "AV18+UrbanaIX"       lstyle 1 msize .2 lwidth .06 color black
+      text "CDB+\Delta"          lstyle 2 msize .2 lwidth .06 color black
+      text "CDB+colomb+\Delta"   lstyle 3 msize .2 lwidth .06 color black
+end key
+

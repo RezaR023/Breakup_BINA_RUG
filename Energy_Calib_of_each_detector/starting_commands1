@@ -1,0 +1,34 @@
+TChain ch("pdbreakup")
+ch.Add("FINALTESTT1.root")
+ch.Add("break421_434.root")
+TH2F *E0=new TH2F ("E0","",150,0,150,150,0,150)
+TH2F *E1=new TH2F ("E1","",150,0,150,150,0,150)
+TH2F *E2=new TH2F ("E2","",150,0,150,150,0,150)
+TH2F *E3=new TH2F ("E3","",150,0,150,150,0,150)
+TH2F *E4=new TH2F ("E4","",150,0,150,150,0,150)
+TH2F *ET=new TH2F ("ET","",2048,-1024,1024,1500,0,1500)
+TH2F *EE0=new TH2F ("EE0","",1500,0,1500,150,0,150)
+TH2F *EE1=new TH2F ("EE1","",1500,0,1500,150,0,150)
+TH2F *EE2=new TH2F ("EE2","",1500,0,1500,150,0,150)
+TH2F *EE3=new TH2F ("EE3","",1500,0,1500,150,0,150)
+TH2F *EE4=new TH2F ("EE4","",1500,0,1500,150,0,150)
+TH2F *h=new TH2F("h","",1500,0,1500,1500,0,1500)
+
+ch.Draw("TMath::Sqrt(WLE1*WRE1):(WLtdc1-WRtdc2)>>ET","TMath::Abs(MWPCtheta1-28)<2 && TMath::Abs(MWPCtheta2-28)<2 && TMath::Abs(TMath::Abs(MWPCphi1-MWPCphi2)-180)<10 && WLdet1!=WLdet2 && T1>0 && WLdet1==9 && WLdet2==2")
+
+
+
+ch.Draw("TMath::Sqrt(WLE1*WRE1):TMath::Sqrt(WLE2*WRE2)>>h","TMath::Abs(MWPCtheta1-28)<2 && TMath::Abs(MWPCtheta2-28)<2 && TMath::Abs(TMath::Abs(MWPCphi1-MWPCphi2)-180)<10 && WLdet1!=WLdet2 && T1>0 && WLdet1==9 && WLdet2==2")
+
+
+ch.Draw("(.1818*TMath::Sqrt(WLE1*WRE1)-(7.9E-5)*TMath::Power((TMath::Sqrt(WLE1*WRE1)),2)):(.0781*TMath::Sqrt(WLE2*WRE2)+(1.689E-5)*TMath::Power((TMath::Sqrt(WLE2*WRE2)),2))>>E00","TMath::Abs(MWPCtheta1-22)<1 && TMath::Abs(MWPCtheta2-22)<1 && TMath::Abs(TMath::Abs(MWPCphi1-MWPCphi2)-180)<10 && WLdet1!=WLdet2 && T1>0 && WLdet1==9 && WLdet2==2 && mycut5")
+
+
+
+
+
+
+TFile b("tbreak.root")
+TH2F *es=new TH2F("es","",150,0,150,150,0,150)
+h10->Draw("D_e_dep:P_e_dep>>es","TMath::Abs(TMath::Abs(D_phi-P_phi)-180)<10 && TMath::Abs(D_theta-22)<2 && TMath::Abs(P_theta-22)<2")
+

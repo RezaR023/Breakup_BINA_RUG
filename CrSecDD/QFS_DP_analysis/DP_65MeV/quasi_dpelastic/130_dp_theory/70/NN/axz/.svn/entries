@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="6"
+   name=""
+   committed-date="2007-04-06T07:14:03.718913Z"
+   url="file:///home/mardanpur/svnroot/exp/may04f2/symmetry_minuit/sym_130_minuit_T21/130_dp_theory/70/NN/axz"
+   last-author="mardanpur"
+   kind="dir"
+   uuid="83cee285-b72b-0410-8f6f-a9dffb7b46b2"
+   revision="6"/>
+<entry
+   committed-rev="6"
+   name="av18"
+   text-time="2007-04-06T07:16:10.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="e59a54d9cde869bd0207ec9af27dc64f"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:10.000000Z"/>
+<entry
+   committed-rev="6"
+   name="nijm2"
+   text-time="2007-04-06T07:16:10.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="bef5f1d8f988f17fe06b814f22f50a04"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:10.000000Z"/>
+<entry
+   committed-rev="6"
+   name="cdbonn"
+   text-time="2007-04-06T07:16:10.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="a8137d73340c98c8b5ca3fd034947045"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:10.000000Z"/>
+<entry
+   committed-rev="6"
+   name="nijm93"
+   text-time="2007-04-06T07:16:10.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="ffe2fd4ab1d2485d1987791e1500398b"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:10.000000Z"/>
+<entry
+   committed-rev="6"
+   name="fort.20"
+   text-time="2007-04-06T07:16:10.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="7d26d040e6e9a7d40c01e1fd074044f6"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:10.000000Z"/>
+<entry
+   committed-rev="6"
+   name="fort.21"
+   text-time="2007-04-06T07:16:10.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="616b56693cc86ed3e29763cfd558ed14"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:10.000000Z"/>
+<entry
+   committed-rev="6"
+   name="nijm1"
+   text-time="2007-04-06T07:16:10.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="95630376f39d01249133f19a0c4f553d"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:10.000000Z"/>
+</wc-entries>

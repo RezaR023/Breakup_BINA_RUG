@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="6"
+   name=""
+   committed-date="2007-04-06T07:14:03.718913Z"
+   url="file:///home/mardanpur/svnroot/exp/may04f2/symmetry_minuit/sym_130_minuit_T21/130_dp_theory/70/TM99/ayy"
+   last-author="mardanpur"
+   kind="dir"
+   uuid="83cee285-b72b-0410-8f6f-a9dffb7b46b2"
+   revision="6"/>
+<entry
+   committed-rev="6"
+   name="av18"
+   text-time="2007-04-06T07:16:10.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="a1f26fc76ff8dc4884e2a0a9dc8dc161"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:09.000000Z"/>
+<entry
+   committed-rev="6"
+   name="nijm2"
+   text-time="2007-04-06T07:16:10.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="1f847cf8dd70ed29f0d2ff82f79f2672"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:10.000000Z"/>
+<entry
+   committed-rev="6"
+   name="cdbonn"
+   text-time="2007-04-06T07:16:10.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="67acd0a0ff4a737e78fb94d70c459459"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:10.000000Z"/>
+<entry
+   committed-rev="6"
+   name="nijm1"
+   text-time="2007-04-06T07:16:10.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="6432b3610df8704369da1a57fa5f20f9"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:10.000000Z"/>
+</wc-entries>

@@ -1,0 +1,87 @@
+
+# DO NOT DELETE
+
+./tgeant_C.so: tgeant.h /home/reza/root/include/TROOT.h
+./tgeant_C.so: /home/reza/root/include/TDirectory.h
+./tgeant_C.so: /home/reza/root/include/TNamed.h
+./tgeant_C.so: /home/reza/root/include/TObject.h
+./tgeant_C.so: /home/reza/root/include/Rtypes.h
+./tgeant_C.so: /home/reza/root/include/RConfig.h
+./tgeant_C.so: /home/reza/root/include/RVersion.h
+./tgeant_C.so: /home/reza/root/include/DllImport.h
+./tgeant_C.so: /home/reza/root/include/Rtypeinfo.h
+./tgeant_C.so: /home/reza/root/include/snprintf.h
+./tgeant_C.so: /home/reza/root/include/strlcpy.h
+./tgeant_C.so: /home/reza/root/include/TGenericClassInfo.h
+./tgeant_C.so: /home/reza/root/include/TSchemaHelper.h
+./tgeant_C.so: /home/reza/root/include/TStorage.h
+./tgeant_C.so: /home/reza/root/include/TVersionCheck.h
+./tgeant_C.so: /home/reza/root/include/Riosfwd.h
+./tgeant_C.so: /home/reza/root/include/TBuffer.h
+./tgeant_C.so: /home/reza/root/include/TString.h
+./tgeant_C.so: /home/reza/root/include/TMathBase.h
+./tgeant_C.so: /home/reza/root/include/TList.h
+./tgeant_C.so: /home/reza/root/include/TSeqCollection.h
+./tgeant_C.so: /home/reza/root/include/TCollection.h
+./tgeant_C.so: /home/reza/root/include/TIterator.h
+./tgeant_C.so: /home/reza/root/include/TDatime.h
+./tgeant_C.so: /home/reza/root/include/TUUID.h
+./tgeant_C.so: /home/reza/root/include/TChain.h
+./tgeant_C.so: /home/reza/root/include/TTree.h
+./tgeant_C.so: /home/reza/root/include/TBranch.h
+./tgeant_C.so: /home/reza/root/include/TObjArray.h
+./tgeant_C.so: /home/reza/root/include/TAttFill.h
+./tgeant_C.so: /home/reza/root/include/TDataType.h
+./tgeant_C.so: /home/reza/root/include/TDictionary.h
+./tgeant_C.so: /home/reza/root/include/Property.h
+./tgeant_C.so: /home/reza/root/include/ESTLType.h
+./tgeant_C.so: /home/reza/root/include/TAttLine.h
+./tgeant_C.so: /home/reza/root/include/TAttMarker.h
+./tgeant_C.so: /home/reza/root/include/TArrayD.h
+./tgeant_C.so: /home/reza/root/include/TArray.h
+./tgeant_C.so: /home/reza/root/include/TArrayI.h
+./tgeant_C.so: /home/reza/root/include/TClass.h
+./tgeant_C.so: /home/reza/root/include/TObjString.h
+./tgeant_C.so: /home/reza/root/include/ThreadLocalStorage.h
+./tgeant_C.so: /home/reza/root/include/RConfigure.h
+./tgeant_C.so: /home/reza/root/include/TVirtualTreePlayer.h
+./tgeant_C.so: /home/reza/root/include/TFile.h
+./tgeant_C.so: /home/reza/root/include/TDirectoryFile.h
+./tgeant_C.so: /home/reza/root/include/TMap.h
+./tgeant_C.so: /home/reza/root/include/THashTable.h
+./tgeant_C.so: /home/reza/root/include/TUrl.h /home/reza/root/include/TH2.h
+./tgeant_C.so: /home/reza/root/include/TH1.h /home/reza/root/include/TAxis.h
+./tgeant_C.so: /home/reza/root/include/TAttAxis.h
+./tgeant_C.so: /home/reza/root/include/TArrayC.h
+./tgeant_C.so: /home/reza/root/include/TArrayS.h
+./tgeant_C.so: /home/reza/root/include/TArrayF.h
+./tgeant_C.so: /home/reza/root/include/Foption.h
+./tgeant_C.so: /home/reza/root/include/TVectorFfwd.h
+./tgeant_C.so: /home/reza/root/include/TVectorDfwd.h
+./tgeant_C.so: /home/reza/root/include/TFitResultPtr.h
+./tgeant_C.so: /home/reza/root/include/TMatrixFBasefwd.h
+./tgeant_C.so: /home/reza/root/include/TMatrixDBasefwd.h
+./tgeant_C.so: /home/reza/root/include/TStyle.h
+./tgeant_C.so: /home/reza/root/include/TAttText.h
+./tgeant_C.so: /home/reza/root/include/TCanvas.h
+./tgeant_C.so: /home/reza/root/include/TPad.h
+./tgeant_C.so: /home/reza/root/include/TVirtualPad.h
+./tgeant_C.so: /home/reza/root/include/TAttPad.h
+./tgeant_C.so: /home/reza/root/include/TVirtualX.h
+./tgeant_C.so: /home/reza/root/include/GuiTypes.h
+./tgeant_C.so: /home/reza/root/include/Buttons.h
+./tgeant_C.so: /home/reza/root/include/TQObject.h
+./tgeant_C.so: /home/reza/root/include/TAttBBox2D.h
+./tgeant_C.so: /home/reza/root/include/TPoint.h
+./tgeant_C.so: /home/reza/root/include/TAttCanvas.h
+./tgeant_C.so: /home/reza/root/include/TCanvasImp.h
+./tgeant_C.so: /home/reza/root/include/TF1.h
+./tgeant_C.so: /home/reza/root/include/TFormula.h
+./tgeant_C.so: /home/reza/root/include/TBits.h
+./tgeant_C.so: /home/reza/root/include/Math/ParamFunctor.h
+./tgeant_C.so: /home/reza/root/include/TMath.h
+./tgeant_C.so: /home/reza/root/include/TError.h
+./tgeant_C.so: /home/reza/root/include/TCutG.h
+./tgeant_C.so: /home/reza/root/include/TGraph.h
+./tgeant_C.so: /home/reza/root/include/cintdictversion.h /home/reza/root/include/RVersion.h
+tgeant_C__ROOTBUILDVERSION= 5.34/28

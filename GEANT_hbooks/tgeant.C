@@ -1,0 +1,148 @@
+#define tgeant_cxx
+#include "tgeant.h"
+#include <TH2.h>
+#include <TStyle.h>
+#include <TCanvas.h>
+#include "TF1.h"
+#include <stdio.h>
+#include <cstdlib>
+#include <iostream>
+#include <fstream>
+#include <TH2.h>
+#include <TStyle.h>
+#include <TCanvas.h>
+#include <TMath.h>
+#include <TROOT.h>
+#include "TCutG.h"
+
+#define ofile "/home/reza/BINAreall/rootfiles/GEANT_hbooks/EdEpn.dat"
+void tgeant::Loop()
+{
+  using namespace std;
+  const Double_t r2d=(180.0/TMath::Pi());
+  const double Ebind=2.224; /*MeV*/
+  const double Ebeam=130; /*MeV*/
+  const Double_t mp=938.2720813;
+  const Double_t mn=939.5654133;
+  const Double_t mtri=2809.432;
+  const Double_t md=1875.6;
+  double EnD,EnP,EnN,Pd,Pp,Pn,aa,bb,cc,dl,EEd,EEp1=0,kkk,EEp2,EEp,EEp3=0;
+  double Dd,Dp,Td,Tp;
+  double tet1=21,tet2=21,tet12,phi12=180;
+
+  ofstream out1;
+  out1.open(ofile);
+  if (out1)
+    fprintf(stdout,"the file %s is open \n",ofile);
+  else 
+    fprintf(stdout,"can not open the file %s.\n",ofile);
+
+
+  TH2F *EdEptheo=new TH2F ("EdEptheo","",150,0,150,150,0,150);
+  /////////////////----Caculating the analytically kinematics of 3 body
+  aa=mp+mn;
+  // TMath::Cos(tet12/r2d)
+    kkk=TMath::Cos(tet1/r2d)*TMath::Cos(tet2/r2d)+TMath::Sin(tet1/r2d)*TMath::Sin(tet2/r2d)*TMath::Cos(phi12/r2d);
+ 
+    for (EEd=0;EEd<=(Ebeam-Ebind);EEd=EEd+.5){
+    bb=2*TMath::Sqrt(md*mp*EEd)*kkk/*TMath::Cos(tet12/r2d)*/-2*TMath::Sqrt(md*mp*Ebeam)*TMath::Cos(tet2/r2d);
+    cc=(md+mn)*EEd-2*TMath::Sqrt(md*md*Ebeam*EEd*TMath::Cos(tet1/r2d))+mn*Ebind-(mn-md)*Ebeam;
+    dl=bb*bb-(4*aa*cc);
+    //if (dl<0) break;
+    if (dl>=0){
+      EEp3=(-bb+TMath::Sqrt(dl))/(2*aa);
+      //EEp=(-bb-TMath::Sqrt(dl))/(2*aa);
+      // if (EEp>=0) EEp3=EEp;
+      //if (EEp3<0) EEp3=EEp;
+    }
+    // if (dl==0){EEp1=-bb/(2*aa);      if (EEp1>=0) EEp1=EEp3;}
+    //else break;//fprintf(stdout,"there is not any answer!");
+    EEp2=EEp3*EEp3;
+    EdEptheo->Fill(EEp2,EEd);
+    //out1 << EEd << '\t' <<  EEp3 << '\t' <<  aa << '\t' << bb << '\t' << cc << '\n';
+  }
+  
+  //TFile *f =new TFile("vbreakref801p2828D.root","recreate");
+  TFile *f1=new TFile("vgeant.root","recreate");
+//   In a ROOT session, you can do:
+//      Root > .L tgeant.C
+//      Root > tgeant t
+//      Root > t.GetEntry(12); // Fill t data members with entry number 12
+//      Root > t.Show();       // Show values of entry 12
+//      Root > t.Show(16);     // Read and show values of entry 16
+//      Root > t.Loop();       // Loop on all entries
+//
+  TH2F *EdDepEdThr=new TH2F("EdDepEdThr","",150,0,150,150,0,150);
+  TH2F *dtetdtett=new TH2F("dtetdtett","",150,0,150,150,0,150);
+  TH2F *dphidphit=new TH2F("dphidphit","",150,0,150,150,0,150);
+//     This is the loop skeleton where:
+//    jentry is the global entry number in the chain
+//    ientry is the entry number in the current Tree
+//  Note that the argument to GetEntry must be:
+//    jentry for TChain::GetEntry
+//    ientry for TTree::GetEntry and TBranch::GetEntry
+//
+//       To read only selected branches, Insert statements like:
+// METHOD1:
+//    fChain->SetBranchStatus("*",0);  // disable all branches
+//    fChain->SetBranchStatus("branchname",1);  // activate branchname
+// METHOD2: replace line
+//    fChain->GetEntry(jentry);       //read all branches
+//by  b_branchname->GetEntry(ientry); //read only this branch
+   if (fChain == 0) return;
+
+   Long64_t nentries = fChain->GetEntriesFast();
+
+   Long64_t nbytes = 0, nb = 0;
+   for (Long64_t jentry=0; jentry<nentries;jentry++) {
+      Long64_t ientry = LoadTree(jentry);
+      if (ientry < 0) break;
+      nb = fChain->GetEntry(jentry);   nbytes += nb;
+      // if (Cut(ientry) < 0) continue;
+
+      //dtetdtett->Fill(D_theta,D_thetat);
+      //dphidphit->Fill(D_phi,D_phit);
+
+   TCutG *cutg = new TCutG("cutcalib",16);
+   cutg->SetVarX("P_e_dep");
+   cutg->SetVarY("D_e_dep");
+   cutg->SetTitle("Graph");
+   cutg->SetFillColor(1);
+   cutg->SetPoint(0,89.8168,1.42405);
+   cutg->SetPoint(1,88.2004,14.8734);
+   cutg->SetPoint(2,72.306,38.212);
+   cutg->SetPoint(3,52.6401,54.8259);
+   cutg->SetPoint(4,37.2845,66.693);
+   cutg->SetPoint(5,18.4267,76.9778);
+   cutg->SetPoint(6,-0.431036,79.3513);
+   cutg->SetPoint(7,-0.431036,87.6582);
+   cutg->SetPoint(8,18.6961,84.8892);
+   cutg->SetPoint(9,41.056,73.4177);
+   cutg->SetPoint(10,70.4203,48.4968);
+   cutg->SetPoint(11,90.8944,23.1804);
+   cutg->SetPoint(12,96.0129,11.3133);
+   cutg->SetPoint(13,99.5151,-0.158229);
+   cutg->SetPoint(14,89.8168,-0.158229);
+   cutg->SetPoint(15,89.8168,1.42405);
+ if (P_e_dep>0 && D_e_dep>0 ){
+   //   if (TMath::Abs(D_theta-28)<2 && TMath::Abs(P_theta-28)<2 && TMath::Abs(TMath::Abs(D_phi-P_phi)-180)<10 && P_e_dep>0 && D_e_dep>0 ){
+     if (cutg->IsInside(P_e_dep,D_e_dep)){
+       Dd=D_e_dep;
+       Dp=P_e_dep;
+       Td=D_e_thr;
+       Tp=P_e_thr;
+       EdDepEdThr->Fill(Dp,Dd);
+       out1 << Dd << '\t' << '\t' << Dp << '\n';
+     }
+   }
+   }
+   //   out1.Close();
+   f1->cd();
+   EdDepEdThr->Write();
+   EdDepEdThr->Draw();
+   //dtetdtett->Draw();
+   EdEptheo->Draw();
+   EdEptheo->Write();
+   //   dphidphit->Draw();
+   f1->Close();
+}

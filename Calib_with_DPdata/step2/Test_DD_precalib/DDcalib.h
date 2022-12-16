@@ -1,0 +1,204 @@
+//////////////////////////////////////////////////////////
+// This class has been automatically generated on
+// Tue Feb 19 13:44:47 2019 by ROOT version 5.34/28
+// from TTree pdelastic/BINA p-d Elastic
+// found on file: elasT872_T888.root
+//////////////////////////////////////////////////////////
+
+#ifndef DDcalib_h
+#define DDcalib_h
+
+#include <TROOT.h>
+#include <TChain.h>
+#include <TFile.h>
+
+// Header file for the classes stored in the TTree if any.
+
+// Fixed size dimensions of array or collections stored in the TTree if any.
+
+class DDcalib {
+public :
+   TTree          *fChain;   //!pointer to the analyzed TTree or TChain
+   Int_t           fCurrent; //!current Tree number in a TChain
+
+   // Declaration of leaf types
+   Double_t        b2_ID;
+   Double_t        b2_WLE;
+   Double_t        b2_WLtdc;
+   Double_t        b2_WLdet;
+   Double_t        b2_WRE;
+   Double_t        b2_WRtdc;
+   Double_t        b2_WRdet;
+   Double_t        b2_WDdE;
+   Double_t        b2_WDtdc;
+   Double_t        b2_WDdet;
+   Double_t        b2_WUdE;
+   Double_t        b2_WUtdc;
+   Double_t        b2_WUdet;
+   Double_t        b2_MWPCX;
+   Double_t        b2_MWPCY;
+   Double_t        b2_MWPCU;
+   Double_t        b2_MWPCtheta;
+   Double_t        b2_MWPCphi;
+   Double_t        b2_Bnr;
+   Double_t        b2_BLE;
+   Double_t        b2_BSE;
+   Double_t        b2_BcalE;
+   Double_t        b2_Btheta;
+   Double_t        b2_Bphi;
+   Double_t        b2_ballhits;
+   Double_t        b2_T1P;
+   Double_t        b2_T2P;
+   Double_t        b2_T3P;
+   Double_t        b2_T4P;
+   Double_t        b2_LiveTime;
+   Double_t        b2_FC;
+   Double_t        b2_Pol;
+   Double_t        b2_T1;
+   Double_t        b2_T2;
+   Double_t        b2_T3;
+   Double_t        b2_T4;
+   Double_t        b2_Time;
+   Double_t        b2_10kHz;
+   Double_t        b2_10kHzDT;
+   Double_t        b2_AFera;
+   Double_t        b2_TFera;
+   Double_t        b2_BeamCurrent;
+   Double_t        b2_T2DT;
+   Double_t        b2_T2DTDsc;
+   Double_t        b2_EFW;
+   Double_t        b2_EventType;
+   Double_t        b2_wallhits;
+   Double_t        b2_MWPChits;
+   Double_t        b2_EFW1;
+   Double_t        b2_EFW1_pC;
+   Double_t        b2_ttime;
+   Double_t        b2_poll;
+   Double_t        b2_T4DT;
+   Double_t        b2_T4DTDsc;
+   Double_t        b2_RFpsc;
+   Double_t        b2_RF;
+   Double_t        b2_T1DT;
+   Double_t        b2_T1DTDsc;
+   Double_t        b2_WLE2;
+   Double_t        b2_WLtdc2;
+   Double_t        b2_WLdet2;
+   Double_t        b2_WRE2;
+   Double_t        b2_WRtdc2;
+   Double_t        b2_WRdet2;
+   Double_t        b2_WDdE2;
+   Double_t        b2_WDtdc2;
+   Double_t        b2_WDdet2;
+   Double_t        b2_WUdE2;
+   Double_t        b2_WUtdc2;
+   Double_t        b2_WUdet2;
+   Double_t        b2_MWPCX2;
+   Double_t        b2_MWPCY2;
+   Double_t        b2_MWPCU2;
+   Double_t        b2_MWPCtheta2;
+   Double_t        b2_MWPCphi2;
+   Double_t        b2_EFW2;
+
+   // List of branches
+   TBranch        *b_b2;   //!
+
+   DDcalib(TTree *tree=0);
+   virtual ~DDcalib();
+   virtual Int_t    Cut(Long64_t entry);
+   virtual Int_t    GetEntry(Long64_t entry);
+   virtual Long64_t LoadTree(Long64_t entry);
+   virtual void     Init(TTree *tree);
+   virtual void     Loop();
+   virtual Bool_t   Notify();
+   virtual void     Show(Long64_t entry = -1);
+};
+
+#endif
+
+#ifdef DDcalib_cxx
+DDcalib::DDcalib(TTree *tree) : fChain(0) 
+{
+// if parameter tree is not specified (or zero), connect the file
+// used to generate this class and read the Tree.
+   if (tree == 0) {
+      TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("/media/sf_ZZshare/lmd/elasT872_T888.root");
+      if (!f || !f->IsOpen()) {
+         f = new TFile("/media/sf_ZZshare/lmd/elasT872_T888.root");
+      }
+      f->GetObject("pdelastic",tree);
+
+   }
+   Init(tree);
+}
+
+DDcalib::~DDcalib()
+{
+   if (!fChain) return;
+   delete fChain->GetCurrentFile();
+}
+
+Int_t DDcalib::GetEntry(Long64_t entry)
+{
+// Read contents of entry.
+   if (!fChain) return 0;
+   return fChain->GetEntry(entry);
+}
+Long64_t DDcalib::LoadTree(Long64_t entry)
+{
+// Set the environment to read one entry
+   if (!fChain) return -5;
+   Long64_t centry = fChain->LoadTree(entry);
+   if (centry < 0) return centry;
+   if (fChain->GetTreeNumber() != fCurrent) {
+      fCurrent = fChain->GetTreeNumber();
+      Notify();
+   }
+   return centry;
+}
+
+void DDcalib::Init(TTree *tree)
+{
+   // The Init() function is called when the selector needs to initialize
+   // a new tree or chain. Typically here the branch addresses and branch
+   // pointers of the tree will be set.
+   // It is normally not necessary to make changes to the generated
+   // code, but the routine can be extended by the user if needed.
+   // Init() will be called many times when running on PROOF
+   // (once per file to be processed).
+
+   // Set branch addresses and branch pointers
+   if (!tree) return;
+   fChain = tree;
+   fCurrent = -1;
+   fChain->SetMakeClass(1);
+
+   fChain->SetBranchAddress("b2", &b2_ID, &b_b2);
+   Notify();
+}
+
+Bool_t DDcalib::Notify()
+{
+   // The Notify() function is called when a new file is opened. This
+   // can be either for a new TTree in a TChain or when when a new TTree
+   // is started when using PROOF. It is normally not necessary to make changes
+   // to the generated code, but the routine can be extended by the
+   // user if needed. The return value is currently not used.
+
+   return kTRUE;
+}
+
+void DDcalib::Show(Long64_t entry)
+{
+// Print contents of entry.
+// If entry is not specified, print current entry
+   if (!fChain) return;
+   fChain->Show(entry);
+}
+Int_t DDcalib::Cut(Long64_t entry)
+{
+// This function may be called from Loop.
+// returns  1 if entry is accepted.
+// returns -1 otherwise.
+   return 1;
+}
+#endif // #ifdef DDcalib_cxx

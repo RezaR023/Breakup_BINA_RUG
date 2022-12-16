@@ -1,0 +1,29 @@
+{
+//========= Macro generated from object: CUTG/Graph
+//========= by ROOT version5.34/28
+   // ///// selecting DP (first particle is deuteron)
+   cutg = new TCutG("cut3",18);
+   cutg->SetVarX("WLtdc1-WRtdc2");
+   cutg->SetVarY("TMath::Sqrt(WLE1*WRE1)");
+   cutg->SetTitle("Graph");
+   cutg->SetFillColor(1);
+   cutg->SetPoint(0,38.3621,1106.01);
+   cutg->SetPoint(1,15.3736,1038.77);
+   cutg->SetPoint(2,7.9023,848.892);
+   cutg->SetPoint(3,4.74138,730.222);
+   cutg->SetPoint(4,3.3046,635.285);
+   cutg->SetPoint(5,0.287356,548.259);
+   cutg->SetPoint(6,-3.44828,358.386);
+   cutg->SetPoint(7,-7.32759,231.804);
+   cutg->SetPoint(8,-16.092,81.4873);
+   cutg->SetPoint(9,-26.8678,22.1519);
+   cutg->SetPoint(10,-26.8678,6.3291);
+   cutg->SetPoint(11,-12.069,6.3291);
+   cutg->SetPoint(12,-2.22045e-16,212.025);
+   cutg->SetPoint(13,6.17816,520.57);
+   cutg->SetPoint(14,12.6437,761.867);
+   cutg->SetPoint(15,18.6782,900.316);
+   cutg->SetPoint(16,39.3678,1082.28);
+   cutg->SetPoint(17,38.3621,1106.01);
+   //cutg->Draw("");
+}

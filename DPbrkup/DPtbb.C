@@ -1,0 +1,416 @@
+#include "TGenPhaseSpace.h"
+#include "TLorentzVector.h"
+#include "TCanvas.h"
+#include "TH1.h"
+#include "TLine.h"
+#include "Riostream.h"
+#include "fstream.h"
+#define ofi "/home/reza/BINAreall/rootfiles/DPbrkup/EdEpTGen.dat"
+
+void DPtbb() {
+
+  ////+=+=+=+=+=== for running of such these programs in the root terminal write this command: .x tbbn.C   ===+=+=+=+=+=+=+/////
+
+  ofstream out1;
+  out1.open(ofi);
+  if (out1) fprintf(stdout,"the file %s is open\n",ofi);
+  if (!out1) fprintf(stdout,"can not open the file %s.\n",ofi);
+
+  if (!gROOT->GetClass("TGenPhaseSpace")) gSystem->Load("libPhysics");
+  Double_t p11,p12,p13,p21,p22,p23,p31,p32,p33,M1,M2,M3,detcof,momd,momn,momp,ENKD,ENKN,ENKP;
+  Double_t theta, phi, pPPipz, pPPimz, pNNpz, pNNmz,Mtar,Mbm,Mc,V0,Vc,Ekin,Ettal,R1,R2,R3,phi11,phi22,phi33,po11,po22,po33;
+  Double_t pz,Ettal1, po1,po2,po3,po4,Ep1,Ep2,EN1,EN2,phi1,phi2,phi3,phi12;
+  Int_t CNT1,CNT2,CNT3;
+  const Double_t r2d=(180.0/TMath::Pi());
+  const Double_t mp=0.9382720813;
+  const Double_t mn=0.9395654133;
+  const Double_t mpp=0.9382720813*1000;
+  const Double_t mnn=0.9395654133*1000;
+  const Double_t md=1875.6;
+  const Double_t EK=130;
+  const Double_t R0=0.752;/*distance from target to center of cylendrical cintilators*/
+  const Double_t C0=.3; /*speed of light (m/ns)*/
+  double VarMom (double t0,double f0,double t1,double f1,double t2,double f2,double PZ);
+    double determ ( double q11, double q12 ,double q13, double q21, double q22, double q23, double q31, double q32, double q33);
+    double determ ( double q11, double q12 ,double q13, double q21, double q22, double q23, double q31, double q32, double q33){
+      Double_t dettt;
+      dettt=q11*q22*q33-q11*q23*q32+q12*q23*q31-q12*q21*q33+q13*q21*q32-q13*q22*q31;
+      return dettt;
+    }
+   Ekin=0.130;
+   Mtar=mp;//1.8756;
+   Mbm=1.8756;
+   pz=sqrt(Ekin*(Ekin+2*Mbm));
+   Ettal=Mbm+Ekin;
+   Mc=(Mtar*Mbm)/(Mtar+Mbm);
+   V0=pz/Mbm;
+   Vc=V0*Mc/Mtar;
+   TLorentzVector target(0.0, 0.0, 0.0, Mtar);
+   TLorentzVector beam(0.0, 0.0, pz, Ettal);
+   TLorentzVector W = beam + target;
+
+   //(Momentum, Energy units are Mev/C, MeV)
+   Double_t masses[3] = {mp,mp,mn} ;
+
+   TGenPhaseSpace event;
+   event.SetDecay(W, 3, masses);
+
+   // TH2F *h2 = new TH2F("h2","h2", 100,0,.2, 100,0,.2);
+   TH1F *h11 = new TH1F("h11","deuteron;Ekin(Mev);COUNT", 1000,0.0,1000);
+   TH1F *h12 = new TH1F("h12","proton;Ekin(Mev);COUNT", 1000,0.0,1000);
+   TH1F *h13 = new TH1F("h13","neutron;Ekin(Mev);COUNT", 1000,0.0,1000);
+    TH1F *h14 = new TH1F("h14","neutron2;Ekin(Mev);COUNT", 1000,0.0,1000);
+
+   TH1F *ht1 = new TH1F("ht1","proton1;polarangle(degree);COUNT",180,0.0,180);
+   TH1F *ht2 = new TH1F("ht2","proton2;polarangle(degree);COUNT",180,0.0,180);
+   TH1F *ht3 = new TH1F("ht3","neutron1;polarangle(degree);COUNT",180,0.0,180);
+  TH2F *h2pp = new TH2F("hpp","Dp corr,S-curve;Ep[mev];Ed[Mev]", 180,0.0,180,180,0.0,180);
+   TH2F *h2pn = new TH2F("hpn","Dp corr&S-curve&EN<.2;polarangle(degree);polarangle(degree)", 180,0.0,180,130,0.0,130);
+ TH2F *h2nn = new TH2F("hnn","Dp corr&EN<.2;polarangle(degree);polarangle(degree)", 150,0,150,150,0,150);
+   TH2F *h1e = new TH2F("h1e","energy", 150,0.0,150,150,0.0,150);
+   TH2F *h2e = new TH2F("h2e","energy", 150,0.0,150,150,0.0,150);
+   TH2F *h3e = new TH2F("h3e","energy", 150,0.0,150,150,0.0,150);
+   TH2F *h4e = new TH2F("h4e","energy", 150,0.0,150,150,0.0,150);
+
+   TH1F *tofDb = new TH1F("tofDb","tofDb;TOFDb[ns];COUNT", 1300,0.0,1300);
+   TH1F *tofPb = new TH1F("tofPb","tofPb", 1300,0.0,1300);
+   TH1F *tofNb = new TH1F("tofNb","tofNb", 1300,0.0,1300);
+   TH1F *tofplsDPb = new TH1F("tofplsDPb","tofplsDPb", 2600,0.0,2600);
+   TH1F *tofplsPNb = new TH1F("tofplsPNb","tofplsPNb", 2600,0.0,2600);
+   TH2F *tofdotb=new TH2F("tofdotb","tofdotb",60,10,40,300,0,300);
+   TH2F *tofprob=new TH2F("tofprob","tofprob",60,10,40,300,0,300);
+   TH2F *tofnotb=new TH2F("tofnotb","tofnotb",60,10,40,300,0,300);
+   TH2F *hteta1=new TH2F("hteta1","tet",180,0,180,180,0,180);
+   TH2F *hteta2=new TH2F("hteta2","tet",180,0,180,180,0,180);
+   TH2F *hteta3=new TH2F("hteta3","tet",180,0,180,180,0,180);
+
+  TH1F *hpropD = new TH1F("hpropD","",4000,-2000,2000);
+  TH1F *hpropN = new TH1F("hpropN","",4000,-2000,2000);
+  TH1F *hee1e = new TH1F("hee1e","",200,0,200);
+  TH2F *heee1 = new TH2F("heee1","",150,0,150,150,0,150);
+  TH2F *heee1n = new TH2F("heee1n","",150,0,150,150,0,150);
+  TH2F *heee1p = new TH2F("heee1p","",150,0,150,150,0,150);
+  TH1F *hee1ei = new TH1F("hee1ei","",200,0,200);
+  TH2F *heee1i = new TH2F("heee1i","",150,0,150,150,0,150);
+
+   TH2F *tofdifb=new TH2F("tofdifb","tofdifb",60,10,40,300,-150,150);
+TH2F *azim=new TH2F("azim","azim",150,0,150,360,0,360);
+   TH2F *htetaDPb=new TH2F("hteta","tetDPb",60,10,40,180,0,180);
+  TH1F *hcopla = new TH1F("hcopla","",720,-360,360);
+  TH1F *hcoplai = new TH1F("hcoplai","",720,-360,360);
+
+  TH1F *hvar = new TH1F("hvar","",6000,-2000,4000);
+   for (Int_t n=0;n<1E7;n++) {
+      Double_t weight = event.Generate();
+
+      TLorentzVector *pProton1 = event.GetDecay(0);
+      TLorentzVector *pProton2 = event.GetDecay(1);
+      TLorentzVector *pNotron1 = event.GetDecay(2);
+      //  TLorentzVector *pNotron2 = event.GetDecay(3);
+      TLorentzVector pPPip = *pProton1;
+      TLorentzVector pPPim = *pProton2;
+      //cout << W.M() << endl;
+      //  TVector3 p1 = pPPip.Vect();
+      // TVector3 p2 = pPPim.Vect();
+      //  TVector3 b1(0.0,0.0,Vc);
+      //     cout << "Vc " << Vc << endl;
+      // pPPip.Boost(b1);
+      //    pPPim.Boost(b1);
+      TLorentzVector pNNp = *pNotron1;
+      //  TLorentzVector pNNm = *pNotron2;
+      //  TVector3 N1 = pNNp.Vect();
+      //  TVector3 N2 = pNNm.Vect();
+      //    pNNp.Boost(b1);
+      //    pNNm.Boost(b1);
+      //       po1 = pPPip.Theta();
+       //       po2 = pPPim.Theta();
+       //       po3 = pNNp.Theta();
+       // po4 = pNNm.Theta();
+      //      Double_t EN0=1000*(pNNp[3]-masses[2]);
+      Double_t gma3=1.01843*(pNNp[3]-(Vc*pNNp[2]));
+      //      Double_t gma3=.189*(pGAMA[3]+(Vc*pGAMA[2]));
+      Double_t Ep3gma=1000*(gma3-masses[2]);
+      //h11->Fill(Ep3gma,weight);
+
+      // Double_t po1i = r2d*pPPip.Theta();
+      //Double_t po2i = r2d*pPPim.Theta();
+      // Double_t po3i = r2d*pNNp.Theta();
+      // Double_t phi1i = r2d*pPPip.Phi();
+      // Double_t phi2i = r2d*pPPim.Phi();
+      // Double_t phi3i = r2d*pNNp.Phi();
+      // Double_t phi12i= TMath::Abs(phi1-phi3);
+      // Double_t grf=360*gRandom->Uniform(0,1)-180;
+      // Double_t phiii = r2d*pPPim.Phi()-grf;//*0;
+
+      /*  if (TMath::Abs(po1i-28)<1 && TMath::Abs(po3i-28)<1 && TMath::Abs(phi12i-180)<10)
+	 {
+	   Double_t Ep1ti=1000*(pPPip[3]-masses[0]);
+	   Double_t Ep2ti=1000*(pPPim[3]-masses[1]);
+	   Double_t EN1i=1000*(pNNp[3]-masses[2]);
+	   //_hee1ei->Fill(EN1i+Ep2ti+Ep1ti);
+	    hcoplai->Fill(po2i-po1i);
+	 }*/
+
+      // Double_t gr1=(gRandom->Uniform(0,1)-.5);//*0;
+      // Double_t gr4=(gRandom->Uniform(0,1)-.5);//*0;
+      // Double_t gr2=(5*gRandom->Uniform(0,1)-2.5);//*0;
+      // Double_t gr5=(5*gRandom->Uniform(0,1)-2.5);//*0;
+      // Double_t gr3=(6*gRandom->Uniform(0,1)-3);//*0;
+      //Double_t gr6=(6*gRandom->Uniform(0,1)-3);//*0;
+      //Double_t gr2=5*gRandom->Uniform(0,1)-2.5;
+      //Double_t gr3=6*gRandom->Uniform(0,1)-3;
+      po1 = r2d*pPPip.Theta();//-gr1;//*0;
+      po2 = r2d*pPPim.Theta();//-gr2;//*0;
+      po3 = r2d*pNNp.Theta();//-gr3;//*0;
+      phi1 = r2d*pPPip.Phi();//-gr4;//*0;
+      phi2 = r2d*pPPim.Phi();//-gr5;//*0;
+      phi3 = r2d*pNNp.Phi();//-gr6;//*0;
+      phi12= TMath::Abs(phi1-phi2);
+      Double_t phi13= TMath::Abs(phi1-phi3);
+
+       if (TMath::Abs(po1-25)<1 && TMath::Abs(po2-25)<1 &&  TMath::Abs(phi12-180)<10)
+      //      if (TMath::Abs(po1-21)<11 && TMath::Abs(po3-21)<11 && TMath::Abs(po2-102.5)<62.5)//  TMath::Abs(phi13-180)<5)
+	 {
+	   Double_t Ep1t=1000*(pPPip[3]-masses[0]);
+	   Double_t Ep2t=1000*(pPPim[3]-masses[1]);
+	   EN1=1000*(pNNp[3]-masses[2]);
+	   //cout << Ep1t+Ep2t+EN1 << endl;
+	   //heee1i->Fill(Ep1ti,Ep1t);
+	   /*_-_-_-_-_-_-_-_-_-*/
+	   
+	   /*++++++++++++++++	   p11=TMath::Sin(po1/r2d)*TMath::Cos(phi1/r2d);
+	   p12=TMath::Sin(po2/r2d)*TMath::Cos(phi2/r2d);
+	   p13=TMath::Sin(po3/r2d)*TMath::Cos(phi3/r2d);
+	   p21=TMath::Sin(po1/r2d)*TMath::Sin(phi1/r2d);
+	   p22=TMath::Sin(po2/r2d)*TMath::Sin(phi2/r2d);
+	   p23=TMath::Sin(po3/r2d)*TMath::Sin(phi3/r2d);
+	   p31=TMath::Cos(po1/r2d);
+	   p32=TMath::Cos(po2/r2d);
+	   p33=TMath::Cos(po3/r2d);
+	   M1=0;
+	   M2=0;
+	   M3=sqrt(EK*(EK+2*md));//TMath::Sqrt(2*md*EK);
+	   detcof=determ(p11,p12,p13,p21,p22,p23,p31,p32,p33);
+	   momd=determ(M1,p12,p13,M2,p22,p23,M3,p32,p33)/detcof;
+	   momp=determ(p11,M1,p13,p21,M2,p23,p31,M3,p33)/detcof;
+	   momn=determ(p11,p12,M1,p21,p22,M2,p31,p32,M3)/detcof;
+	   ENKD=TMath::Sqrt(momd*momd+md*md)-md;//(momd*momd)/(2*md);
+	   ENKP=TMath::Sqrt(momp*momp+mpp*mpp)-mpp;//(momp*momp)/(2*mpp);
+	   ENKN=TMath::Sqrt(momn*momn+mnn*mnn)-mnn;//(momn*momn)/(2*mnn);
+	    hpropD->Fill(ENKD-Ep1t);
+	   //hpropN->Fill(ENKP-Ep2t);
+	   heee1->Fill(Ep1t,ENKD);
+	   heee1n->Fill(EN1,ENKN);
+	   heee1p->Fill(Ep1t,ENKN);
+	    hee1e->Fill(ENKD+ENKP+ENKN);
+	    hcopla->Fill(po2-po1);
+	    hee1ei->Fill(ENKD-Ep1ti);++++++++++++++*/
+	    /*****
+	    //if(momd>0 && momp>0 && momn>0)
+	      {
+		//_double variand=VarMom( po1/r2d, phi1/r2d, po3/r2d, phi3/r2d, po2/r2d, phi2/r2d, M3);
+		//_double variann=VarMom( po3/r2d, phi3/r2d, po1/r2d, phi1/r2d, po2/r2d, phi2/r2d, M3);
+		//_double varianp=VarMom( po2/r2d, phi2/r2d, po3/r2d, phi3/r2d, po1/r2d, phi1/r2d, M3);
+
+		//_double varianEk=TMath::Sqrt(((pPPip[0]*pPPip[0]+pPPip[1]*pPPip[1]+pPPip[2]*pPPip[2])/(pPPip[3]*pPPip[3]))*variand*variand+((pPPim[0]*pPPim[0]+pPPim[1]*pPPim[1]+pPPim[2]*pPPim[2])/(pPPim[3]*pPPim[3]))*varianp*varianp+((pNNp[0]*pNNp[0]+pNNp[1]*pNNp[1]+pNNp[2]*pNNp[2])/(pNNp[3]*pNNp[3]))*variann*variann);
+		//_hvar->Fill(varianEk);
+		//_if(varianEk>3)
+		{
+		  //_h11->Fill(1000*TMath::Sqrt(pPPip[0]*pPPip[0]+pPPip[1]*pPPip[1]+pPPip[2]*pPPip[2]) ,weight);
+		  //_h12->Fill(1000*TMath::Sqrt(pPPim[0]*pPPim[0]+pPPim[1]*pPPim[1]+pPPim[2]*pPPim[2]) ,weight);
+		  //_h13->Fill(1000*TMath::Sqrt(pNNp[0]*pNNp[0]+pNNp[1]*pNNp[1]+pNNp[2]*pNNp[2]) ,weight);
+		  //_h14->Fill(1000*(pPPip[3]-masses[0])+1000*(pPPim[3]-masses[1])+1000*(pNNp[3]-masses[2]) ,weight);
+            ht1->Fill(po1 ,weight);
+            ht2->Fill(po2 ,weight);
+            ht3->Fill(po3 ,weight);
+	    //cout << po1 << "  " << po2 << "  " << po3  << "  " << phi1 << "  " << phi2 << "  " << phi3  << endl;
+		}
+	    }*****/
+	    /*_-_-_-_-_-_-_-_-_-_-_-_-_-_-*/
+      //     if (Ep3gma<10.8 && Ep3gma>10.6 && TMath::Abs(TMath::Abs(phi2-phi1)-180)<10){
+	   /***
+      po11 = pPPip.Theta();
+      po22 = pPPim.Theta();
+      po33 = pNNp.Theta();
+      phi11 =pPPip.Phi();
+      phi22 =pPPim.Phi();
+      phi33 = pNNp.Phi();
+      R1=R0/sqrt(1-TMath::Power((TMath::Sin(po11)*TMath::Cos(phi11)),2));
+      R2=R0/sqrt(1-TMath::Power((TMath::Sin(po22)*TMath::Cos(phi22)),2));
+      R3=R0/sqrt(1-TMath::Power((TMath::Sin(po33)*TMath::Cos(phi33)),2));
+      Double_t  TOF1=R1/(C0*sqrt(1-TMath::Power((Mtar/pPPip[3]),2)));
+      Double_t  TOF2=R2/(C0*sqrt(1-TMath::Power((mp/pPPim[3]),2)));
+      Double_t  TOF3=R3/(C0*sqrt(1-TMath::Power((mn/pNNp[3]),2)));
+	   ***/
+      //Double_t Ep1t=1000*(pPPip[3]-masses[0]);
+      //Double_t Ep2t=1000*(pPPim[3]-masses[1]);
+      //EN1=1000*(pNNp[3]-masses[2]);
+	   if (Ep1t>20 && Ep2t>20)
+	     {
+	       Ep1=(5858*TMath::Power(Ep1t,3)-1.164E5*TMath::Power(Ep1t,2)+8.936E4*Ep1t+5012)/(TMath::Power(Ep1t,3)+5494*TMath::Power(Ep1t,2)-7.607E4*Ep1t-1.378E5);
+	       Double_t Ep1tt= (-3E-9)*TMath::Power(Ep1t,6)+(1E-6)*TMath::Power(Ep1t,5)-.0003*TMath::Power(Ep1t,4)+.0235*TMath::Power(Ep1t,3)-1.1661*TMath::Power(Ep1t,2)+31.256*Ep1t-333.38;
+	       Ep2=(3033*TMath::Power(Ep2t,3)-7.803E4*TMath::Power(Ep2t,2)+1.59E4*Ep2t+775.7)/(TMath::Power(Ep2t,3)+2781*TMath::Power(Ep2t,2)-5.152E4*Ep2t-3.272E5);
+	       Double_t Ep2tt= -2E-9*TMath::Power(Ep2t,6)+9E-7*TMath::Power(Ep2t,5)-.0002*TMath::Power(Ep2t,4)+.013*TMath::Power(Ep2t,3)-0.5965*TMath::Power(Ep2t,2)+15.157*Ep2t-143.21;
+	     }
+	h1e->Fill(Ep2,Ep1,weight);
+	h2e->Fill(Ep1,Ep2 ,weight);
+	//	h3e->Fill(Ep2tt,Ep1tt,weight);
+	//h4e->Fill(Ep1tt,Ep2tt,weight);
+	h3e->Fill(Ep2t,Ep1t,weight);
+	h4e->Fill(Ep1t,Ep2t,weight);
+	out1 << Ep1t << '\t' << Ep2t << endl;
+
+      //      ht1->Fill(po1 ,weight);
+      //      ht2->Fill(po2 ,weight);
+      //      ht3->Fill(po3 ,weight);
+      //    if(Ep1>24 && Ep2>20){
+       //	h2pp->Fill(po2,po1 ,weight);
+	//	    }
+
+      //   po4 = r2d*pNNm.Theta();
+      // const Double_t teta1=10.0, teta2=32.0;
+      // const Double_t teta11=40.0, teta22=165.0;
+      // const Double_t teta31=27.0, teta32=29.0;
+      // const Double_t teta33=19.0, teta34=21.0;
+      // const Double_t teta41=178.0, teta42=181.0;
+
+       //   if(po1>teta31 && po1<teta32) 
+       //     if(po2>teta31 && po2<teta32)
+       //     if(phi12>teta41 && phi12<teta42)
+	
+	 //     else CNT3=CNT3+1;
+
+       //       if(TMath::Abs(po1+po2-90)<4 && TMath::Abs(phi12-180)<4) // && po3>teta1 && po3<teta2) // &&  po4>teta1 && po4<teta2) 
+       // if(po1>teta31 && po1<teta32 && po2>teta33 && po2<teta34 && TMath::Abs(phi12-180)<5)
+   
+       // 	{
+	  //	  weight=1.0;
+	  //	  EN2=1000*(pNNm[3]-masses[3]);
+	  //     pPPipz = pPPip[3];
+	  //      pPPimz = pPPim[3]0.9382720813;
+	  //      pNNpz = pNNp[3];
+	  //      pNNmz = pNNm[3];
+	  //	  h11->Fill(Ep1 ,weight);
+       // h12->Fill(Ep2 ,weight);
+       //h13->Fill(EN1 ,weight);
+	  //  h2pp->Fill(Ep2,Ep1,weight);
+	  //    if(EN1<.2){
+	  //  h2pp->Fill(po2,Ep2,weight);
+	  //  Examp->Fill(X,Y,weight); nahve por shodan 
+
+	     //   }
+      //    h14->Fill(EN2 ,weight);
+	     /*--
+	     htetaDPb->Fill(po1,po1+po2 ,weight);
+	     tofDb->Fill(TOF1,weight);
+	     tofPb->Fill(TOF2,weight);
+	     tofNb->Fill(TOF3,weight);
+	     //  tofplsDPb->Fill(TOF1+TOF2,weight);
+	     tofdotb->Fill(po1,TOF1,weight);
+	     tofprob->Fill(po2,TOF2,weight);
+	     tofnotb->Fill(po3,TOF3,weight);
+	     tofdifb->Fill(po1,TOF1-TOF2,weight);
+--*/
+	     //hteta1->Fill(po1,Ep1 ,weight);
+	     // hteta2->Fill(po2,Ep2 ,weight);
+	     // hteta3->Fill(po3,EN1 ,weight);
+
+	     	}
+      //if(Ep1>24 && Ep2>20){
+      //  azim->Fill(Ep1,phi1 ,weight);}
+
+       }
+   /*-*
+   TCanvas *Cp = new TCanvas("Cp","P1&p2");
+   Cp->Divide(2,2);
+   Cp->cd(1);
+   hteta1->Draw();
+   Cp->cd(2);
+   hteta2->Draw();
+   Cp->cd(3);
+   hteta3->Draw();
+   *-*/
+   /* TCanvas *Cpp = new TCanvas("Cpp","polar angle");
+   Cpp->Divide(2,2);
+   Cpp->cd(1);
+   ht1->Draw();
+   Cpp->cd(2);
+   ht2->Draw();
+   Cpp->cd(3);
+   ht3->Draw();*/
+   /*-*
+TCanvas *Cppp = new TCanvas("Cppp","polar angle");
+Cppp->Divide(1,3);
+ Cppp->cd(1);
+ h2pp->Draw();
+ Cppp->cd(2);
+ // h2pn->Draw();
+ htetaDPb->Draw();
+ Cppp->cd(3);
+ // h2nn->Draw();
+ // tofplsDPb->Draw();
+ tofdifb->Draw();
+*-*/
+/*  cout << CNT1 << endl;
+  cout << CNT2 << endl;
+  cout << CNT3 << endl;*/
+   /*-*
+TCanvas *Ctofbreak = new TCanvas("Ctofbreak","tof");
+Ctofbreak->Divide(1,3);
+ Ctofbreak->cd(1);
+ tofdotb->Draw();
+ Ctofbreak->cd(2);
+ tofprob->Draw();
+ Ctofbreak->cd(3);
+ tofnotb->Draw();
+ *-*/
+
+}
+
+double VarMom(double t0,double f0,double t1,double f1,double t2,double f2,double PZ)
+{
+  Double_t DPdTd,DPdFd,DPdTn,DPdFn,DPdTp,DPdFp,DPdTd1,DPdFd1,DPdTn1,DPdFn1,DPdTp1,DPdFp1,DeltTd,DeltFd,DeltTn,DeltFn,DeltTp,DeltFp,VARI,t0, f0,t1,f1,t2,f2;
+  const Double_t r2d=(180.0/TMath::Pi());
+  //PZ: M3
+  DeltTd=0.05/r2d;
+  DeltFd=0.05/r2d;
+  DeltTn=.05/r2d;
+  DeltFn=.05/r2d;
+  DeltTp=.05/r2d;
+  DeltFp=.05/r2d;
+  //td: b3_MWPCtheta1
+  //b3_Bphi1=f2,b3_Btheta1=t2,phi2=f1,tet2=t1,b3_MWPCtheta1=t0,b3_MWPCphi1=f0,M3=PZ;
+
+  DPdTd=((-PZ*TMath::Cos(f2)*TMath::Sin(f1)*TMath::Sin(t1)*TMath::Sin(t2)+PZ*TMath::Cos(f1)*TMath::Sin(f2)*TMath::Sin(t1)*TMath::Sin(t2))*(-TMath::Cos(f1)*TMath::Cos(t0)*TMath::Cos(t2)*TMath::Sin(f0)*TMath::Sin(t1)+TMath::Cos(f0)*TMath::Cos(t0)*TMath::Cos(t2)*TMath::Sin(f1)*TMath::Sin(t1)+TMath::Cos(f2)*TMath::Cos(t0)*TMath::Cos(t1)*TMath::Sin(f0)*TMath::Sin(t2)-TMath::Cos(f0)*TMath::Cos(t0)*TMath::Cos(t1)*TMath::Sin(f2)*TMath::Sin(t2)+TMath::Cos(f2)*TMath::Sin(f1)*TMath::Sin(t0)*TMath::Sin(t1)*TMath::Sin(t2)-TMath::Cos(f1)*TMath::Sin(f2)*TMath::Sin(t0)*TMath::Sin(t1)*TMath::Sin(t2)))/TMath::Power((-TMath::Cos(f1)*TMath::Cos(t2)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f0)*TMath::Cos(t2)*TMath::Sin(f1)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f2)*TMath::Cos(t1)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(f0)*TMath::Cos(t1)*TMath::Sin(f2)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(f2)*TMath::Cos(t0)*TMath::Sin(f1)*TMath::Sin(t1)*TMath::Sin(t2)+TMath::Cos(f1)*TMath::Cos(t0)*TMath::Sin(f2)*TMath::Sin(t1)*TMath::Sin(t2)),2);
+  DPdTd1=DPdTd*DPdTd*DeltTd*DeltTd;
+
+
+  //fd: f0
+
+  DPdFd=((-TMath::Cos(f0)*TMath::Cos(f1)*TMath::Cos(t2)*TMath::Sin(t0)*TMath::Sin(t1)-TMath::Cos(t2)*TMath::Sin(f0)*TMath::Sin(f1)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f0)*TMath::Cos(f2)*TMath::Cos(t1)*TMath::Sin(t0)*TMath::Sin(t2)+TMath::Cos(t1)*TMath::Sin(f0)*TMath::Sin(f2)*TMath::Sin(t0)*TMath::Sin(t2))*(-PZ*TMath::Cos(f2)*TMath::Sin(f1)*TMath::Sin(t1)*TMath::Sin(t2)+PZ*TMath::Cos(f1)*TMath::Sin(f2)*TMath::Sin(t1)*TMath::Sin(t2)))/TMath::Power((-TMath::Cos(f1)*TMath::Cos(t2)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f0)*TMath::Cos(t2)*TMath::Sin(f1)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f2)*TMath::Cos(t1)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(f0)*TMath::Cos(t1)*TMath::Sin(f2)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(f2)*TMath::Cos(t0)*TMath::Sin(f1)*TMath::Sin(t1)*TMath::Sin(t2)+TMath::Cos(f1)*TMath::Cos(t0)*TMath::Sin(f2)*TMath::Sin(t1)*TMath::Sin(t2)),2);
+  DPdFd1=DPdFd*DPdFd*DeltFd*DeltFd;
+
+  //tn: t1
+
+  DPdTn=((-PZ*TMath::Cos(f2)*TMath::Cos(t1)*TMath::Sin(f1)*TMath::Sin(t2)+PZ*TMath::Cos(f1)*TMath::Cos(t1)*TMath::Sin(f2)*TMath::Sin(t2))/(-TMath::Cos(f1)*TMath::Cos(t2)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f0)*TMath::Cos(t2)*TMath::Sin(f1)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f2)*TMath::Cos(t1)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(f0)*TMath::Cos(t1)*TMath::Sin(f2)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(f2)*TMath::Cos(t0)*TMath::Sin(f1)*TMath::Sin(t1)*TMath::Sin(t2)+TMath::Cos(f1)*TMath::Cos(t0)*TMath::Sin(f2)*TMath::Sin(t1)*TMath::Sin(t2))-((-PZ*TMath::Cos(f2)*TMath::Sin(f1)*TMath::Sin(t1)*TMath::Sin(t2)+PZ*TMath::Cos(f1)*TMath::Sin(f2)*TMath::Sin(t1)*TMath::Sin(t2))*(-TMath::Cos(f1)*TMath::Cos(t1)*TMath::Cos(t2)*TMath::Sin(f0)*TMath::Sin(t0)+TMath::Cos(f0)*TMath::Cos(t1)*TMath::Cos(t2)*TMath::Sin(f1)*TMath::Sin(t0)-TMath::Cos(f2)*TMath::Cos(t0)*TMath::Cos(t1)*TMath::Sin(f1)*TMath::Sin(t2)+TMath::Cos(f1)*TMath::Cos(t0)*TMath::Cos(t1)*TMath::Sin(f2)*TMath::Sin(t2)-TMath::Cos(f2)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t1)*TMath::Sin(t2)+TMath::Cos(f0)*TMath::Sin(f2)*TMath::Sin(t0)*TMath::Sin(t1)*TMath::Sin(t2)))/TMath::Power((-TMath::Cos(f1)*TMath::Cos(t2)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f0)*TMath::Cos(t2)*TMath::Sin(f1)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f2)*TMath::Cos(t1)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(f0)*TMath::Cos(t1)*TMath::Sin(f2)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(f2)*TMath::Cos(t0)*TMath::Sin(f1)*TMath::Sin(t1)*TMath::Sin(t2)+TMath::Cos(f1)*TMath::Cos(t0)*TMath::Sin(f2)*TMath::Sin(t1)*TMath::Sin(t2)),2));
+  DPdTn1=DPdTn*DPdTn*DeltTn*DeltTn;
+
+  //fn: f1
+
+  DPdFn=((-PZ*TMath::Cos(f1)*TMath::Cos(f2)*TMath::Sin(t1)*TMath::Sin(t2)-PZ*TMath::Sin(f1)*TMath::Sin(f2)*TMath::Sin(t1)*TMath::Sin(t2))/(-TMath::Cos(f1)*TMath::Cos(t2)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f0)*TMath::Cos(t2)*TMath::Sin(f1)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f2)*TMath::Cos(t1)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(f0)*TMath::Cos(t1)*TMath::Sin(f2)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(f2)*TMath::Cos(t0)*TMath::Sin(f1)*TMath::Sin(t1)*TMath::Sin(t2)+TMath::Cos(f1)*TMath::Cos(t0)*TMath::Sin(f2)*TMath::Sin(t1)*TMath:: Sin(t2))-((-PZ*TMath::Cos(f2)*TMath::Sin(f1)*TMath::Sin(t1)*TMath::Sin(t2)+PZ*TMath::Cos(f1)*TMath::Sin(f2)*TMath::Sin(t1)*TMath::Sin(t2))*(TMath::Cos(f0)*TMath::Cos(f1)*TMath::Cos(t2)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(t2)*TMath::Sin(f0)*TMath::Sin(f1)*TMath::Sin(t0)*TMath::Sin(t1)-TMath::Cos(f1)*TMath::Cos(f2)*TMath::Cos(t0)*TMath::Sin(t1)*TMath::Sin(t2)-TMath::Cos(t0)*TMath::Sin(f1)*TMath::Sin(f2)*TMath::Sin(t1)*TMath::Sin(t2)))/TMath::Power((-TMath::Cos(f1)*TMath::Cos(t2)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f0)*TMath::Cos(t2)*TMath::Sin(f1)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f2)*TMath::Cos(t1)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(f0)*TMath::Cos(t1)*TMath::Sin(f2)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(f2)*TMath::Cos(t0)*TMath::Sin(f1)*TMath::Sin(t1)*TMath::Sin(t2)+TMath::Cos(f1)*TMath::Cos(t0)*TMath::Sin(f2)*TMath::Sin(t1)*TMath::Sin(t2)),2));
+  DPdFn1=DPdFn*DPdFn*DeltFn*DeltFn;
+
+  //tp: t2
+
+  DPdTp=((-PZ*TMath::Cos(f2)*TMath::Cos(t2)*TMath::Sin(f1)*TMath::Sin(t1)+PZ*TMath::Cos(f1)*TMath::Cos(t2)*TMath::Sin(f2)*TMath::Sin(t1))/(-TMath::Cos(f1)*TMath::Cos(t2)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f0)*TMath::Cos(t2)*TMath::Sin(f1)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f2)*TMath::Cos(t1)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(f0)*TMath::Cos(t1)*TMath::Sin(f2)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(f2)*TMath::Cos(t0)*TMath::Sin(f1)*TMath::Sin(t1)*TMath::Sin(t2)+TMath::Cos(f1)*TMath::Cos(t0)*TMath::Sin(f2)*TMath::Sin(t1)*TMath::Sin(t2))-((-PZ*TMath::Cos(f2)*TMath::Sin(f1)*TMath::Sin(t1)*TMath::Sin(t2)+PZ*TMath::Cos(f1)*TMath::Sin(f2)*TMath::Sin(t1)*TMath::Sin(t2))*(TMath::Cos(f2)*TMath::Cos(t1)*TMath::Cos(t2)*TMath::Sin(f0)*TMath::Sin(t0)-TMath::Cos(f0)*TMath::Cos(t1)*TMath::Cos(t2)*TMath::Sin(f2)*TMath::Sin(t0)-TMath::Cos(f2)*TMath::Cos(t0)*TMath::Cos(t2)*TMath::Sin(f1)*TMath::Sin(t1)+TMath::Cos(f1)*TMath::Cos(t0)*TMath::Cos(t2)*TMath::Sin(f2)*TMath::Sin(t1)+TMath::Cos(f1)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t1)*TMath::Sin(t2)-TMath::Cos(f0)*TMath::Sin(f1)*TMath::Sin(t0)*TMath::Sin(t1)*TMath::Sin(t2)))/TMath::Power((-TMath::Cos(f1)*TMath::Cos(t2)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f0)*TMath::Cos(t2)*TMath::Sin(f1)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f2)*TMath::Cos(t1)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(f0)*TMath::Cos(t1)*TMath::Sin(f2)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(f2)*TMath::Cos(t0)*TMath::Sin(f1)*TMath::Sin(t1)*TMath::Sin(t2)+TMath::Cos(f1)*TMath::Cos(t0)*TMath::Sin(f2)*TMath::Sin(t1)*TMath::Sin(t2)),2));
+  DPdTp1=DPdTp*DPdTp*DeltTp*DeltTp;
+
+
+  //fp: f2
+
+  DPdFp=((PZ*TMath::Cos(f1)*TMath::Cos(f2)*TMath::Sin(t1)*TMath::Sin(t2)+PZ*TMath::Sin(f1)*TMath::Sin(f2)*TMath::Sin(t1)*TMath::Sin(t2))/(-TMath::Cos(f1)*TMath::Cos(t2)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f0)*TMath::Cos(t2)*TMath::Sin(f1)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f2)*TMath::Cos(t1)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(f0)*TMath::Cos(t1)*TMath::Sin(f2)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(f2)*TMath::Cos(t0)*TMath::Sin(f1)*TMath::Sin(t1)*TMath::Sin(t2)+TMath::Cos(f1)*TMath::Cos(t0)*TMath::Sin(f2)*TMath::Sin(t1)*TMath::Sin(t2))-((-PZ*TMath::Cos(f2)*TMath::Sin(f1)*TMath::Sin(t1)*TMath::Sin(t2)+PZ*TMath::Cos(f1)*TMath::Sin(f2)*TMath::Sin(t1)*TMath::Sin(t2))*(-TMath::Cos(f0)*TMath::Cos(f2)*TMath::Cos(t1)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(t1)*TMath::Sin(f0)*TMath::Sin(f2)*TMath::Sin(t0)*TMath::Sin(t2)+TMath::Cos(f1)*TMath::Cos(f2)*TMath::Cos(t0)*TMath::Sin(t1)*TMath::Sin(t2)+TMath::Cos(t0)*TMath::Sin(f1)*TMath::Sin(f2)*TMath::Sin(t1)*TMath::Sin(t2)))/TMath::Power((-TMath::Cos(f1)*TMath::Cos(t2)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f0)*TMath::Cos(t2)*TMath::Sin(f1)*TMath::Sin(t0)*TMath::Sin(t1)+TMath::Cos(f2)*TMath::Cos(t1)*TMath::Sin(f0)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(f0)*TMath::Cos(t1)*TMath::Sin(f2)*TMath::Sin(t0)*TMath::Sin(t2)-TMath::Cos(f2)*TMath::Cos(t0)*TMath::Sin(f1)*TMath::Sin(t1)*TMath::Sin(t2)+TMath::Cos(f1)*TMath::Cos(t0)*TMath::Sin(f2)*TMath::Sin(t1)*TMath::Sin(t2)),2));
+  DPdFp1=DPdFp*DPdFp*DeltFp*DeltFp;
+
+  VARI=TMath::Sqrt(DPdTd1+DPdFd1+DPdTn1+DPdFn1+DPdTp1+DPdFp1);
+  return VARI;
+  }

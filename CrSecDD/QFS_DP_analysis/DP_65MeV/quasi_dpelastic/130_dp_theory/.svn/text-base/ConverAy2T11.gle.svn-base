@@ -1,0 +1,127 @@
+fopen "kimiko_140.dat" inchan read
+fopen "140_RIKEN.dat" outchan write
+        fwriteln outchan  "!final results of 140 MeV with statistical  errors from RIKEN"
+        fwriteln outchan  "! th_cm      iT11       err            T22            err     T20  err     T21      err"
+
+until feof(inchan)
+!a1=angle a2=ay a3=err a4=Ayy a5=err a6=Axx a7=err a8=Axz a9=err
+
+        fread inchan a1 a2 a3 a4 a5 a6 a7 a8 a9 
+	iT11 = (sqrt(3)/2.)* a2 
+	eiT11 = abs((sqrt(3)/2.)* a3)
+	T20   = -1*(a4+a6)/sqrt(2)
+	eT20  = sqrt(a5*a5+a7*a7)/sqrt(2)		
+	T21   = -1*a8/sqrt(3)
+	eT21  = abs(-1*a9/sqrt(3))
+	T22   = (a6-a4)/(2*sqrt(3))
+	eT22  = sqrt(sqr(a7)+sqr(a5))/(2*sqrt(3))
+
+    fwriteln outchan a1 "    " iT11 "   " eiT11 "   " T22 "  " eT22 "  " T20 "  " eT20 "  " T21 "  " eT21
+next
+fclose outchan
+fclose inchan
+
+! prepare theory lines of 140 and 200 MeV deuteron beam on proton target
+!av18 NN
+fopen "70/NN/axx/av18"  axxchan read
+fopen "70/NN/ay/av18"    aychan read
+fopen "70/NN/axz/av18"  axzchan read
+fopen "70/NN/ayy/av18"  ayychan read
+fopen "140_av18_NN.dat" outchan write
+        fwriteln outchan  "!Theory esults of 140 MeV NN av18"
+        fwriteln outchan  "! th_cm       iT11         T20         T21         T22"
+until feof(inchan)
+!a1=angle a2=ay a3=err a4=Ayy a5=err a6=Axx a7=err a8=Axz a9=err
+	fread aychan a1 a2
+	fread ayychan a1 a4
+	fread axxchan a1 a6
+	fread axzchan a1 a8
+	iT11 = (sqrt(3)/2.)* a2 
+	T20   = -1*(a4+a6)/sqrt(2)
+	T21   = -1*a8/sqrt(3)
+	T22   = (a6-a4)/(2*sqrt(3))
+    fwriteln outchan a1 "    " iT11 "   " T20 "  " T21 "  " T22 
+next
+fclose outchan
+fclose aychan
+fclose axxchan
+fclose axzchan
+fclose ayychan
+!nijm1 NN
+fopen "70/NN/axx/nijm1"  axxchan read
+fopen "70/NN/ay/nijm1"    aychan read
+fopen "70/NN/axz/nijm1"  axzchan read
+fopen "70/NN/ayy/nijm1"  ayychan read
+fopen "140_Nim1_NN.dat" outchan write
+        fwriteln outchan  "!Theory esults of 140 MeV NN nijm1"
+        fwriteln outchan  "! th_cm       iT11         T20         T21         T22"
+until feof(inchan)
+!a1=angle a2=ay a3=err a4=Ayy a5=err a6=Axx a7=err a8=Axz a9=err
+	fread aychan a1 a2
+	fread ayychan a1 a4
+	fread axxchan a1 a6
+	fread axzchan a1 a8
+	iT11 = (sqrt(3)/2.)* a2 
+	T20   = -1*(a4+a6)/sqrt(2)
+	T21   = -1*a8/sqrt(3)
+	T22   = (a6-a4)/(2*sqrt(3))
+   fwriteln outchan a1 "    " iT11 "   " T20 "  " T21 "  " T22 
+next
+fclose outchan
+fclose aychan
+fclose axxchan
+fclose axzchan
+fclose ayychan
+
+!nijm2 NN
+fopen "70/NN/axx/nijm2"  axxchan read
+fopen "70/NN/ay/nijm2"    aychan read
+fopen "70/NN/axz/nijm2"  axzchan read
+fopen "70/NN/ayy/nijm2"  ayychan read
+fopen "140_Nim2_NN.dat" outchan write
+        fwriteln outchan  "!Theory esults of 140 MeV NN nijm2"
+        fwriteln outchan  "! th_cm       iT11         T20         T21         T22"
+until feof(inchan)
+!a1=angle a2=ay a3=err a4=Ayy a5=err a6=Axx a7=err a8=Axz a9=err
+	fread aychan a1 a2
+	fread ayychan a1 a4
+	fread axxchan a1 a6
+	fread axzchan a1 a8
+	iT11 = (sqrt(3)/2.)* a2 
+	T20   = -1*(a4+a6)/sqrt(2)
+	T21   = -1*a8/sqrt(3)
+	T22   = (a6-a4)/(2*sqrt(3))
+   fwriteln outchan a1 "    " iT11 "   " T20 "  " T21 "  " T22 
+next
+fclose outchan
+fclose aychan
+fclose axxchan
+fclose axzchan
+fclose ayychan
+
+!cdbonn NN
+fopen "70/NN/axx/cdbonn"  axxchan read
+fopen "70/NN/ay/cdbonn"    aychan read
+fopen "70/NN/axz/cdbonn"  axzchan read
+fopen "70/NN/ayy/cdbonn"  ayychan read
+fopen "140_cdbonn_NN.dat" outchan write
+        fwriteln outchan  "!Theory esults of 140 MeV NN cdbonn"
+        fwriteln outchan  "! th_cm       iT11         T20         T21         T22"
+until feof(inchan)
+!a1=angle a2=ay a3=err a4=Ayy a5=err a6=Axx a7=err a8=Axz a9=err
+	fread aychan a1 a2
+	fread ayychan a1 a4
+	fread axxchan a1 a6
+	fread axzchan a1 a8
+	iT11 = (sqrt(3)/2.)* a2 
+	T20   = -1*(a4+a6)/sqrt(2)
+	T21   = -1*a8/sqrt(3)
+	T22   = (a6-a4)/(2*sqrt(3))
+   fwriteln outchan a1 "    " iT11 "   " T20 "  " T21 "  " T22 
+next
+fclose outchan
+fclose aychan
+fclose axxchan
+fclose axzchan
+fclose ayychan
+

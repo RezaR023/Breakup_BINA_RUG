@@ -1,0 +1,416 @@
+size 21 21
+amove 4 19
+set hei .7         !to set height of text
+!text   Analysing powers,130 MeV \beta =82^{\circ}  \alpha= -2^{\circ}
+
+set font texcmr
+        amove 0.8 8.5
+!*********************iT11**********************************
+begin graph
+	size  11.5 12 
+	nobox
+	ytitle "iT_{11}" hei .6
+	yaxis min -0.5 max .3 hei .5  dsubticks .025 nofirst nolast  !grid
+	yticks length 0.2
+	y2ticks off
+	xaxis min 50 max 180 dsubticks 5 nofirst nolast !grid
+        xticks length 0.2
+	xlabels off
+
+!   reading data
+      data AnalysingPowers_130.dat       d1=c1,c2  d2=c1,c3
+      data 130_dp_theory/140_RIKEN.dat   d3=c1,c2  d4=c1,c3
+
+!  reading from Theory files 130 theta,iT11,T20,T21,T22
+      data  130_dp_theory/130_av18_NN.dat               d11=c1,c2 
+      data  130_dp_theory/130_cdbonn_NN.dat             d12=c1,c2 
+      data  130_dp_theory/130_Nim1_NN.dat               d13=c1,c2 
+      data  130_dp_theory/130_Nim2_NN.dat               d14=c1,c2 
+
+      data  130_dp_theory/130_av18_TM99.dat             d21=c1,c2 
+      data  130_dp_theory/130_av18_urbanaIX.dat         d22=c1,c2 
+      data  130_dp_theory/130_cdbonn_delta.dat          d23=c1,c2 
+      data  130_dp_theory/130_cdbonn_TM99.dat           d24=c1,c2 
+      data  130_dp_theory/130_Nim1_TM99.dat             d25=c1,c2 
+      data  130_dp_theory/130_Nim2_TM99.dat             d26=c1,c2 
+
+      data  130_dp_theory/130_cdbonn_colomb.dat         d31=c1,c2 
+      data  130_dp_theory/130_cdbonn_colomb_delta.dat   d32=c1,c2 
+
+!  reading from Theory files 140 theta,iT11,T20,T21,T22
+      data  130_dp_theory/140_av18_NN.dat               d41=c1,c2 
+      data  130_dp_theory/140_cdbonn_NN.dat             d42=c1,c2 
+      data  130_dp_theory/140_Nim1_NN.dat               d43=c1,c2 
+      data  130_dp_theory/140_Nim2_NN.dat               d44=c1,c2 
+
+!   reading witala's data at 131 MeV
+	data  130_dp_theory/dpelastic_witala/131_iT11.txt d51=c1,c2 d52=c1,c3 d53=c1,c4
+	let d54 = abs(d53-d52)/2.
+	d51 marker triangle msize .3 color black err d54
+
+! systematical error
+        data ReviewError/SystematicError_130.dat d62=c1,c4
+	let d61 = 0*d1+.1
+	let d63 = d61+d62
+	let d64 = d61-d62
+!	fill d63,d64 color grey50 xmin 60 xmax 140
+!        d61 marker circle msize .2 color black err d62
+
+!   reading Ahmad's data at 130 MeV
+
+!	data  qusi_dp.dat d70=c14,c6 d71=c14,c7
+	data finbin_quasidata.dat d70=c14,c6 d71=c14,c7
+        d70 marker fcircle     msize .4 color black  err d71
+
+!   reading Ela's data at 130 MeV
+        data Ela-130dp-analyzingpowers.dat d72=c1,c2 d73=c1,c3
+        d72 marker circle     msize .4 color black  err d73
+
+!  Superimpose the Theory lines and data in one pannel
+      d1 marker square msize .4 color black err d2
+!      d3 marker circle msize .2 color black err130 d4
+
+
+      fill d11,d12 color grey30 xmin 50  xmax 140
+      fill d11,d13 color grey30 xmin 50  xmax 140
+      fill d11,d14 color grey30 xmin 50  xmax 140
+      fill d12,d13 color grey30 xmin 50  xmax 140
+      fill d12,d14 color grey30 xmin 50  xmax 140
+      fill d13,d14 color grey30 xmin 50  xmax 140
+
+      fill d21,d24 color grey10 xmin 50  xmax 140
+      fill d21,d25 color grey10 xmin 50  xmax 140
+      fill d21,d26 color grey10 xmin 50  xmax 140
+      fill d24,d25 color grey10 xmin 50  xmax 140
+      fill d24,d26 color grey10 xmin 50  xmax 140
+      fill d25,d26 color grey10 xmin 50  xmax 140
+
+!      fill d41,d42 color grey50 xmin 50  xmax 140
+!      fill d41,d43 color grey50 xmin 50  xmax 140
+!      fill d41,d44 color grey50 xmin 50  xmax 140
+!      fill d42,d43 color grey50 xmin 50  xmax 140
+!      fill d42,d44 color grey50 xmin 50  xmax 140
+!      fill d43,d44 color grey50 xmin 50  xmax 140
+
+
+
+      d22 lstyle 1 msize .2 lwidth .06 color black
+      d23 lstyle 2 msize .2 lwidth .06 color black
+      d32 lstyle 3 msize .2 lwidth .06 color black
+
+
+end graph
+!**************************T22**********************************   
+     amove 0.8 .1
+begin graph
+	size  11.5 12 
+	nobox
+	ytitle "T_{22}" hei .6
+	yaxis min -0.35 max .005  hei .5  dsubticks .01 nofirst nolast  !grid
+	yticks length 0.2
+	y2ticks off
+	xtitle "\theta_{c.m.}[deg]" hei .6 dist .3 
+	xaxis min 50 max 180 hei .5 dsubticks 5 nofirst nolast !grid
+	xticks length 0.2
+
+
+!   reading data
+      data AnalysingPowers_130.dat       d1=c1,c4 d2=c1,c5
+      data 130_dp_theory/140_RIKEN.dat   d3=c1,c4  d4=c1,c5
+
+!  reading from Theory files  130 theta,iT11,T20,T21,T22
+      data  130_dp_theory/130_av18_NN.dat               d11=c1,c5
+      data  130_dp_theory/130_cdbonn_NN.dat             d12=c1,c5
+      data  130_dp_theory/130_Nim1_NN.dat               d13=c1,c5
+      data  130_dp_theory/130_Nim2_NN.dat               d14=c1,c5
+
+      data  130_dp_theory/130_av18_TM99.dat             d21=c1,c5
+      data  130_dp_theory/130_av18_urbanaIX.dat         d22=c1,c5
+      data  130_dp_theory/130_cdbonn_delta.dat          d23=c1,c5
+      data  130_dp_theory/130_cdbonn_TM99.dat           d24=c1,c5
+      data  130_dp_theory/130_Nim1_TM99.dat             d25=c1,c5
+      data  130_dp_theory/130_Nim2_TM99.dat             d26=c1,c5
+
+      data  130_dp_theory/130_cdbonn_colomb.dat         d31=c1,c5
+      data  130_dp_theory/130_cdbonn_colomb_delta.dat   d32=c1,c5
+
+!  reading from Theory files  140 theta,iT11,T20,T21,T22
+      data  130_dp_theory/140_av18_NN.dat               d41=c1,c5
+      data  130_dp_theory/140_cdbonn_NN.dat             d42=c1,c5
+      data  130_dp_theory/140_Nim1_NN.dat               d43=c1,c5
+      data  130_dp_theory/140_Nim2_NN.dat               d44=c1,c5
+
+!   reading witala's data at 131 MeV
+	data  130_dp_theory/dpelastic_witala/131_T22.txt d51=c1,c2 d52=c1,c5 d53=c1,c6
+	let d54 = abs(d53-d52)/2.
+
+!   reading Ahmad's data at 130 MeV
+!	data  qusi_dp.dat d70=c14,c10 d71=c14,c11
+	data finbin_quasidata.dat d70=c14,c10 d71=c14,c11
+
+        d70 marker fcircle     msize .4 color black  err d71
+
+!   reading Els's data at 130 MeV
+	data Ela-130dp-analyzingpowers.dat d72=c1,c10 d73=c1,c11
+        d72 marker circle     msize .4 color black  err d73
+
+! systematical error
+	let d61 = 0*d1
+        data ReviewError/SystematicError_130.dat d62=c1,c7
+	let d63 = d61+d62
+	let d64 = d61-d62
+!	fill d63,d64 color grey50 xmin 60 xmax 140
+!        d61 marker circle msize .2 color black err d62
+
+
+!Superimpose the Theory lines  data in one pannel
+      d1 marker square msize .4 color black err d2
+!      d3 marker circle msize .2 color black err d4
+      d51 marker triangle msize .3 color black err d54
+
+      fill d11,d12 color grey30 xmin 50  xmax 140
+      fill d11,d13 color grey30 xmin 50  xmax 140
+      fill d11,d14 color grey30 xmin 50  xmax 140
+      fill d12,d13 color grey30 xmin 50  xmax 140
+      fill d12,d14 color grey30 xmin 50  xmax 140
+      fill d13,d14 color grey30 xmin 50  xmax 140
+
+      fill d21,d24 color grey10 xmin 50  xmax 140
+      fill d21,d25 color grey10 xmin 50  xmax 140
+      fill d21,d26 color grey10 xmin 50  xmax 140
+      fill d24,d25 color grey10 xmin 50  xmax 140
+      fill d24,d26 color grey10 xmin 50  xmax 140
+      fill d25,d26 color grey10 xmin 50  xmax 140
+
+!       fill d41,d42 color grey50 xmin 50  xmax 140
+!       fill d41,d43 color grey50 xmin 50  xmax 140
+!       fill d41,d44 color grey50 xmin 50  xmax 140
+!       fill d42,d43 color grey50 xmin 50  xmax 140
+!       fill d42,d44 color grey50 xmin 50  xmax 140
+!       fill d43,d44 color grey50 xmin 50  xmax 140
+
+
+     d22 lstyle 1 msize .2 lwidth .06 color black
+      d23 lstyle 2 msize .2 lwidth .06 color black
+      d32 lstyle 3 msize .2 lwidth .06 color black
+
+
+end graph
+
+begin key
+   hei .3
+   position bl
+
+      text "NN"                  lstyle 1 msize .2 lwidth .1 color grey30
+!      text "NN 140"             lstyle 1 msize .2 lwidth .1 color grey50
+      text "NN+TM'"              lstyle 1 msize .2 lwidth .1 color grey10
+      text "AV18+UIX"            lstyle 1 msize .2 lwidth .04 color black
+      text "CDB+\Delta"          lstyle 2 msize .2 lwidth .06 color black
+      text "CDB+\Delta+C"        lstyle 3 msize .2 lwidth .06 color black
+      text "RIKEN"               marker square  msize .3 color black
+      text "KVI"                 marker circle  msize .3 color black
+      text "Witala93 131 MeV"    marker triangle msize .3 color black
+      text "This work"           marker fcircle  msize .3 color black
+end key
+
+
+!**************************T20**********************************   
+ !       amove 8.87  8.5
+        amove 8.87  .1
+begin graph
+	size  11.5 12 
+	nobox
+	ylabels off
+	yticks off
+	yaxis min -0.6 max .4  hei .5 dsubticks .025 nofirst nolast  !grid
+
+	y2ticks on 
+        y2labels on
+	y2title "T_{20}" hei .6
+	y2axis min -0.6 max .2  hei .5 dsubticks .025 nofirst nolast  !grid
+	y2ticks length 0.2
+	xtitle "\theta_{c.m.}[deg]" hei .6 dist .3 
+	xaxis min   50 max 180 hei .5 dsubticks 5    nofirst nolast  !grid
+	xticks length 0.2
+
+!	xlabels off
+	xticks length 0.2
+
+!   reading data
+      data AnalysingPowers_130.dat       d1=c1,c6 d2=c1,c7
+      data 130_dp_theory/140_RIKEN.dat   d3=c1,c6  d4=c1,c7
+
+!  reading from Theory files 130 theta,iT11,T20,T21,T22
+      data  130_dp_theory/130_av18_NN.dat               d11=c1,c3
+      data  130_dp_theory/130_cdbonn_NN.dat             d12=c1,c3
+      data  130_dp_theory/130_Nim1_NN.dat               d13=c1,c3
+      data  130_dp_theory/130_Nim2_NN.dat               d14=c1,c3
+
+      data  130_dp_theory/130_av18_TM99.dat             d21=c1,c3
+      data  130_dp_theory/130_av18_urbanaIX.dat         d22=c1,c3
+      data  130_dp_theory/130_cdbonn_delta.dat          d23=c1,c3
+      data  130_dp_theory/130_cdbonn_TM99.dat           d24=c1,c3
+      data  130_dp_theory/130_Nim1_TM99.dat             d25=c1,c3
+      data  130_dp_theory/130_Nim2_TM99.dat             d26=c1,c3
+
+      data  130_dp_theory/130_cdbonn_colomb.dat         d31=c1,c3
+      data  130_dp_theory/130_cdbonn_colomb_delta.dat   d32=c1,c3
+
+!  reading from Theory files 140 theta,iT11,T20,T21,T22
+      data  130_dp_theory/140_av18_NN.dat               d41=c1,c3
+      data  130_dp_theory/140_cdbonn_NN.dat             d42=c1,c3
+      data  130_dp_theory/140_Nim1_NN.dat               d43=c1,c3
+      data  130_dp_theory/140_Nim2_NN.dat               d44=c1,c3
+
+!   reading witala's data at 131 MeV
+	data  130_dp_theory/dpelastic_witala/131_T20.txt d51=c1,c2 d52=c1,c3 d53=c1,c4
+	let d54 = abs(d53-d52)/2.
+	d51 marker triangle msize .3 color black err d54
+
+!   reading Ahmad's data at 130 MeV
+
+!	data  qusi_dp.dat d70=c14,c8 d71=c14,c9
+	data finbin_quasidata.dat d70=c14,c8 d71=c14,c9
+
+        d70 marker fcircle     msize .4 color black  err d71
+!   reading Ela's data at 130 MeV
+
+        data Ela-130dp-analyzingpowers.dat d72=c1,c6 d73=c1,c7
+        d72 marker circle     msize .4 color black  err d73
+
+! systematical error
+	let d61 = 0*d1+.1
+        data ReviewError/SystematicError_130.dat d62=c1,c10
+	let d63 = d61+d62
+	let d64 = d61-d62
+!	fill d63,d64 color grey50 xmin 60 xmax 140
+!        d61 marker circle msize .2 color black err d62
+
+
+!Superimpose the Theory lines  data in one pannel
+      d1 marker square msize .4 color black err d2
+!      d3 marker circle msize .2 color black err d4
+
+      fill d11,d12 color grey30 xmin 50  xmax 140
+      fill d11,d13 color grey30 xmin 50  xmax 140
+      fill d11,d14 color grey30 xmin 50  xmax 140
+      fill d12,d13 color grey30 xmin 50  xmax 140
+      fill d12,d14 color grey30 xmin 50  xmax 140
+      fill d13,d14 color grey30 xmin 50  xmax 140
+
+      fill d21,d24 color grey10 xmin 50  xmax 140
+      fill d21,d25 color grey10 xmin 50  xmax 140
+      fill d21,d26 color grey10 xmin 50  xmax 140
+      fill d24,d25 color grey10 xmin 50  xmax 140
+      fill d24,d26 color grey10 xmin 50  xmax 140
+      fill d25,d26 color grey10 xmin 50  xmax 140
+
+!       fill d41,d42 color grey50 xmin 50  xmax 150
+!       fill d41,d43 color grey50 xmin 50  xmax 140
+!       fill d41,d44 color grey50 xmin 50  xmax 140
+!       fill d42,d43 color grey50 xmin 50  xmax 140
+!       fill d42,d44 color grey50 xmin 50  xmax 140
+!       fill d43,d44 color grey50 xmin 50  xmax 140
+
+
+      d22 lstyle 1 msize .2 lwidth .06 color black
+      d23 lstyle 2 msize .2 lwidth .06 color black
+      d32 lstyle 3 msize .2 lwidth .06 color black
+
+
+end graph
+
+
+!********************************T21********************************************
+!        amove 8.87  .1
+ 	 amove 8.87  8.5
+begin graph
+	size  11.5 12 
+	nobox
+	ylabels off
+	yticks off
+	yaxis min -0.35 max .05  hei .5 dsubticks .025 nofirst nolast  !grid
+
+	y2ticks on 
+        y2labels on
+!	y2title "T_{21}" hei .6 
+	y2axis min -0.35 max .05  hei .5 dsubticks .025 nofirst nolast  !grid
+	y2ticks length 0.2
+
+!	xtitle "\theta_{c.m.}[deg]" hei .6 dist .3 
+	xaxis min   50 max 180 hei .5 dsubticks 5    nofirst nolast  !grid
+	xticks length 0.2
+        xaxis off
+        yaxis off
+
+!   reading data
+      data AnalysingPowers_130.dat       d1=c1,c8 d2=c1,c9
+      data 130_dp_theory/140_RIKEN.dat   d3=c1,c8  d4=c1,c9
+
+!  reading from Theory files  130 theta,iT11,T20,T21,T22
+      data  130_dp_theory/130_av18_NN.dat               d11=c1,c4
+      data  130_dp_theory/130_cdbonn_NN.dat             d12=c1,c4
+      data  130_dp_theory/130_Nim1_NN.dat               d13=c1,c4
+      data  130_dp_theory/130_Nim2_NN.dat               d14=c1,c4
+
+      data  130_dp_theory/130_av18_TM99.dat             d21=c1,c4
+      data  130_dp_theory/130_av18_urbanaIX.dat         d22=c1,c4
+      data  130_dp_theory/130_cdbonn_delta.dat          d23=c1,c4
+      data  130_dp_theory/130_cdbonn_TM99.dat           d24=c1,c4
+      data  130_dp_theory/130_Nim1_TM99.dat             d25=c1,c4
+      data  130_dp_theory/130_Nim2_TM99.dat             d26=c1,c4
+
+      data  130_dp_theory/130_cdbonn_colomb.dat         d31=c1,c4
+      data  130_dp_theory/130_cdbonn_colomb_delta.dat   d32=c1,c4
+
+!  reading from Theory files  140 theta,iT11,T20,T21,T22
+      data  130_dp_theory/140_av18_NN.dat               d41=c1,c4
+      data  130_dp_theory/140_cdbonn_NN.dat             d42=c1,c4
+      data  130_dp_theory/140_Nim1_NN.dat               d43=c1,c4
+      data  130_dp_theory/140_Nim2_NN.dat               d44=c1,c4
+
+!   reading witala's data at 131 MeV
+	data  130_dp_theory/dpelastic_witala/131_T21.txt d51=c1,c2 d52=c1,c3 d53=c1,c4
+	let d54 = abs(d53-d52)/2.
+!	d51 marker triangle msize .3 color black err d54
+
+! systematical error
+	let d61 = 0*d1
+        data ReviewError/SystematicError_130.dat d62=c1,c13
+	let d63 = d61+d62
+	let d64 = d61-d62
+!	fill d63,d64 color grey50 xmin 60 xmax 140
+!        d61 marker circle msize .2 color black err d62
+
+
+!Superimpose the Theory lines  data in one pannel
+!      d1 marker fcircle msize .4 color black err d2
+!      d3 marker circle msize .2 color black err d4
+
+!      fill d11,d12 color grey30 xmin 50  xmax 140
+!      fill d11,d13 color grey30 xmin 50  xmax 140
+!      fill d11,d14 color grey30 xmin 50  xmax 140
+!      fill d12,d13 color grey30 xmin 50  xmax 140
+!      fill d12,d14 color grey30 xmin 50  xmax 140
+!      fill d13,d14 color grey30 xmin 50  xmax 140
+
+!      fill d21,d24 color grey10 xmin 50  xmax 140
+!      fill d21,d25 color grey10 xmin 50  xmax 140
+!      fill d21,d26 color grey10 xmin 50  xmax 140
+!      fill d24,d25 color grey10 xmin 50  xmax 140
+!      fill d24,d26 color grey10 xmin 50  xmax 140
+!      fill d25,d26 color grey10 xmin 50  xmax 140
+
+!       fill d41,d42 color grey50 xmin 50  xmax 140
+!       fill d41,d43 color grey50 xmin 50  xmax 140
+!       fill d41,d44 color grey50 xmin 50  xmax 140
+!       fill d42,d43 color grey50 xmin 50  xmax 140
+!       fill d42,d44 color grey50 xmin 50  xmax 140
+!       fill d43,d44 color grey50 xmin 50  xmax 140
+
+!      d22 lstyle 1 msize .2 lwidth .06 color black
+!      d23 lstyle 2 msize .2 lwidth .06 color black
+!      d32 lstyle 3 msize .2 lwidth .06 color black
+
+
+end graph

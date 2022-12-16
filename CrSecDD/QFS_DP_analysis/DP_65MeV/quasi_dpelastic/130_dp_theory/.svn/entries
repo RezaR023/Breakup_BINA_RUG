@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="6"
+   name=""
+   committed-date="2007-04-06T07:14:03.718913Z"
+   url="file:///home/mardanpur/svnroot/exp/may04f2/symmetry_minuit/sym_130_minuit_T21/130_dp_theory"
+   last-author="mardanpur"
+   kind="dir"
+   uuid="83cee285-b72b-0410-8f6f-a9dffb7b46b2"
+   revision="6"/>
+<entry
+   committed-rev="6"
+   name="130_cdbonn_TM99.dat"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="f7880743f753d519dbf3b9ac0cf8e12d"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:09.000000Z"/>
+<entry
+   committed-rev="6"
+   name="130_Nim1_TM99.dat"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="9af45fa508480899d0ea7aa32ad4fd5e"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:09.000000Z"/>
+<entry
+   committed-rev="6"
+   name="130_Nim2_TM99.dat"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="14e1f06f31c6d150fde47aa221d5580a"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:09.000000Z"/>
+<entry
+   committed-rev="6"
+   name="ConverAy2T11.eps"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="50a2d83f730aeded1ee6d15d92421a88"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:09.000000Z"/>
+<entry
+   name="70"
+   kind="dir"/>
+<entry
+   committed-rev="6"
+   name="130_cdbonn_NN.dat"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="950795eafaa92423787f3a898458e5b8"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="130_cdbonn_colomb.dat"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="7950ab31f8edaa887f0fa8d5f8fb2e21"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="140_cdbonn_NN.dat"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="6c4f060b2c08b853224cc0b7c2cf6dc5"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="130_Nim1_NN.dat"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="cccb232139f7fd1c3f1119417cb6e5d0"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="130_Nim2_NN.dat"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="7d795593e7ffe0f664f352ac0a204426"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="140_Nim1_NN.dat"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="1a2b3cea56c177e5fe76ec595b00ae12"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="130_av18_TM99.dat"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="e9307fe04711bd7afd6a15d112c4e109"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="140_Nim2_NN.dat"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="bf1532b833b49bf95acce75ebff684c7"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="130_cdbonn_colomb_delta.dat"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="f4eb88a010762a5de7a90c29c92a28c8"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="130_av18_urbanaIX.dat"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="5e7c1bd8d2e3db9f375b4da0673c2866"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="140_RIKEN.dat"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="6173cf3d23cf3ca7d29492b9cbd5f374"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="130_av18_NN.dat"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="b08db10a37ed8105211b0f04d7c167ff"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="ConverAy2T11.gle"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="a78aabda0583d16ea18284dc7b811722"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="140_av18_NN.dat"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="5b8c0e2b421e55e93abf8fc42f95e579"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="130_cdbonn_delta.dat"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="95c20ac7705fa3aff6dcb4d5a42ef3fd"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   name="dpelastic_witala"
+   kind="dir"/>
+<entry
+   committed-rev="6"
+   name="Makefile"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="6c5771e660419fafda97ac59eb7573c3"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+<entry
+   committed-rev="6"
+   name="kimiko_140.dat"
+   text-time="2007-04-06T07:16:12.000000Z"
+   committed-date="2007-04-06T07:14:03.718913Z"
+   checksum="8233187e9e83398371e156d43f762220"
+   last-author="mardanpur"
+   kind="file"
+   prop-time="2007-04-06T07:16:12.000000Z"/>
+</wc-entries>

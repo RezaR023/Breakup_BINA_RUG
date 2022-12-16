@@ -1,0 +1,125 @@
+{
+//=========Macro generated from canvas: Canvas_1/Canvas_1
+//=========  (Sun Mar 31 23:30:41 2019) by ROOT version5.34/28
+   TCanvas *Canvas_1 = new TCanvas("Canvas_1", "Canvas_1",749,71,847,578);
+   Canvas_1->Range(-45,0.5303428,405,1.570535);
+   Canvas_1->SetFillColor(0);
+   Canvas_1->SetBorderMode(0);
+   Canvas_1->SetBorderSize(2);
+   Canvas_1->SetFrameBorderMode(0);
+   Canvas_1->SetFrameBorderMode(0);
+   
+   TH1D *ratiosum270_796_0 = new TH1D("ratiosum270_796_0","cntStgP+cntStgM/2",20,0,360);
+   ratiosum270_796_0->SetBinContent(1,0.7383991);
+   ratiosum270_796_0->SetBinContent(2,0.710001);
+   ratiosum270_796_0->SetBinContent(3,0.7167523);
+   ratiosum270_796_0->SetBinContent(4,0.8629244);
+   ratiosum270_796_0->SetBinContent(5,0.9600891);
+   ratiosum270_796_0->SetBinContent(6,1.121307);
+   ratiosum270_796_0->SetBinContent(7,1.100425);
+   ratiosum270_796_0->SetBinContent(8,1.207491);
+   ratiosum270_796_0->SetBinContent(9,1.342804);
+   ratiosum270_796_0->SetBinContent(10,1.286171);
+   ratiosum270_796_0->SetBinContent(11,1.375854);
+   ratiosum270_796_0->SetBinContent(12,1.336013);
+   ratiosum270_796_0->SetBinContent(13,1.26091);
+   ratiosum270_796_0->SetBinContent(14,1.163039);
+   ratiosum270_796_0->SetBinContent(15,1.040337);
+   ratiosum270_796_0->SetBinContent(16,0.9790469);
+   ratiosum270_796_0->SetBinContent(17,0.8325396);
+   ratiosum270_796_0->SetBinContent(18,0.7823196);
+   ratiosum270_796_0->SetBinContent(19,0.6952888);
+   ratiosum270_796_0->SetBinContent(20,0.7001665);
+   ratiosum270_796_0->SetBinError(1,0.03316626);
+   ratiosum270_796_0->SetBinError(2,0.02286346);
+   ratiosum270_796_0->SetBinError(3,0.02188491);
+   ratiosum270_796_0->SetBinError(4,0.02413756);
+   ratiosum270_796_0->SetBinError(5,0.03589319);
+   ratiosum270_796_0->SetBinError(6,0.04040243);
+   ratiosum270_796_0->SetBinError(7,0.02947137);
+   ratiosum270_796_0->SetBinError(8,0.0352289);
+   ratiosum270_796_0->SetBinError(9,0.03673688);
+   ratiosum270_796_0->SetBinError(10,0.0431096);
+   ratiosum270_796_0->SetBinError(11,0.05103559);
+   ratiosum270_796_0->SetBinError(12,0.0330151);
+   ratiosum270_796_0->SetBinError(13,0.0331785);
+   ratiosum270_796_0->SetBinError(14,0.02873005);
+   ratiosum270_796_0->SetBinError(15,0.03612158);
+   ratiosum270_796_0->SetBinError(16,0.04419671);
+   ratiosum270_796_0->SetBinError(17,0.02446335);
+   ratiosum270_796_0->SetBinError(18,0.02590438);
+   ratiosum270_796_0->SetBinError(19,0.02318727);
+   ratiosum270_796_0->SetBinError(20,0.01732897);
+   ratiosum270_796_0->SetEntries(18646.16);
+   
+   TF1 *function1p = new TF1("function1p","[0]*(1+[1]*sqrt(3)*cos((x+180)*0.01745))",0,360);
+   function1p->SetFillColor(19);
+   function1p->SetFillStyle(0);
+   function1p->SetLineColor(2);
+   function1p->SetLineWidth(2);
+   function1p->SetChisquare(25.63097);
+   function1p->SetNDF(19);
+   function1p->GetXaxis()->SetLabelFont(42);
+   function1p->GetXaxis()->SetLabelSize(0.035);
+   function1p->GetXaxis()->SetTitleSize(0.035);
+   function1p->GetXaxis()->SetTitleFont(42);
+   function1p->GetYaxis()->SetLabelFont(42);
+   function1p->GetYaxis()->SetLabelSize(0.035);
+   function1p->GetYaxis()->SetTitleSize(0.035);
+   function1p->GetYaxis()->SetTitleFont(42);
+   function1p->SetParameter(0,1);
+   function1p->SetParError(0,0);
+   function1p->SetParLimits(0,1,1);
+   function1p->SetParameter(1,0.1895987);
+   function1p->SetParError(1,0.005017675);
+   function1p->SetParLimits(1,0,0);
+   ratiosum270_796_0->GetListOfFunctions()->Add(function1p);
+   
+   TPaveStats *ptstats = new TPaveStats(0.78,0.775,0.98,0.935,"brNDC");
+   ptstats->SetName("stats");
+   ptstats->SetBorderSize(1);
+   ptstats->SetFillColor(0);
+   ptstats->SetTextAlign(12);
+   ptstats->SetTextFont(42);
+   TText *text = ptstats->AddText("ratiosum270_796_0");
+   text->SetTextSize(0.0368);
+   text = ptstats->AddText("Entries = 18646  ");
+   text = ptstats->AddText("Mean  =  179.9");
+   text = ptstats->AddText("RMS   =     93");
+   ptstats->SetOptStat(1111);
+   ptstats->SetOptFit(0);
+   ptstats->Draw();
+   ratiosum270_796_0->GetListOfFunctions()->Add(ptstats);
+   ptstats->SetParent(ratiosum270_796_0);
+
+   Int_t ci;      // for color index setting
+   TColor *color; // for color definition with alpha
+   ci = TColor::GetColor("#000099");
+   ratiosum270_796_0->SetLineColor(ci);
+   ratiosum270_796_0->GetXaxis()->SetTitle("MWPCphi ");
+   ratiosum270_796_0->GetXaxis()->SetLabelFont(42);
+   ratiosum270_796_0->GetXaxis()->SetLabelSize(0.035);
+   ratiosum270_796_0->GetXaxis()->SetTitleSize(0.035);
+   ratiosum270_796_0->GetXaxis()->SetTitleFont(42);
+   ratiosum270_796_0->GetYaxis()->SetLabelFont(42);
+   ratiosum270_796_0->GetYaxis()->SetLabelSize(0.035);
+   ratiosum270_796_0->GetYaxis()->SetTitleSize(0.035);
+   ratiosum270_796_0->GetYaxis()->SetTitleFont(42);
+   ratiosum270_796_0->GetZaxis()->SetLabelFont(42);
+   ratiosum270_796_0->GetZaxis()->SetLabelSize(0.035);
+   ratiosum270_796_0->GetZaxis()->SetTitleSize(0.035);
+   ratiosum270_796_0->GetZaxis()->SetTitleFont(42);
+   ratiosum270_796_0->Draw("");
+   
+   TPaveText *pt = new TPaveText(0.3334164,0.9343728,0.6665836,0.995,"blNDC");
+   pt->SetName("title");
+   pt->SetBorderSize(0);
+   pt->SetFillColor(0);
+   pt->SetFillStyle(0);
+   pt->SetTextFont(42);
+   text = pt->AddText("cntStgP+cntStgM/2");
+   pt->Draw();
+   Canvas_1->Modified();
+   Canvas_1->cd();
+   Canvas_1->SetSelected(Canvas_1);
+}

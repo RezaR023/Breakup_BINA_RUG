@@ -1,0 +1,132 @@
+{
+//========= Macro generated from object: CUTG/Graph
+//========= by ROOT version5.34/28
+   
+// For selecting PD Config
+   TCutG *cutg=new TCutG("mycut",11);
+   cutg->SetVarX("WLtdc1-WRtdc2");
+   cutg->SetVarY(".1079*TMath::Sqrt(WLE2*WRE2)");
+   cutg->SetTitle("Graph");
+   cutg->SetFillColor(1);
+   cutg->SetPoint(0,-41,100);
+   cutg->SetPoint(1,-15,100);
+   cutg->SetPoint(2,-9.5,71);
+   cutg->SetPoint(3,-5.5,59);
+   cutg->SetPoint(4,-1,42);
+   cutg->SetPoint(5,2,29);
+   cutg->SetPoint(6,7,22);
+   cutg->SetPoint(7,12.7,13);
+   cutg->SetPoint(8,24,1.5);
+   cutg->SetPoint(9,-8.8,1.5);
+   cutg->SetPoint(10,-41,100);
+ //  cutg->Draw("");
+}
+//For selecting DP Config
+   TCutG *cutg=new TCutG("mycut0",8);
+   cutg->SetVarX("WLtdc1-WRtdc2");
+   cutg->SetVarY(".1079*TMath::Sqrt(WLE2*WRE2)");
+   cutg->SetTitle("Graph0");
+   cutg->SetFillColor(1);
+   cutg->SetPoint(0,-9,80);
+   cutg->SetPoint(1,37,0);
+   cutg->SetPoint(2,23,0);
+   cutg->SetPoint(3,13,15);
+   cutg->SetPoint(4,6.5,29.8);
+   cutg->SetPoint(5,.3,49);
+   cutg->SetPoint(6,-8.5,71);
+   cutg->SetPoint(7,-9,80);
+  
+
+
+
+//for PD-ProfileX
+ TCutG *cutg=new TCutG("mycut1",9);
+   cutg->SetVarX("TMath::Sqrt(WLE2*WRE2)");
+   cutg->SetVarY("TMath::Sqrt(WLE1*WRE1)");
+   cutg->SetTitle("Graph1");
+   cutg->SetFillColor(1);
+   cutg->SetPoint(0,900,0);
+   cutg->SetPoint(1,831,220);
+   cutg->SetPoint(2,227,781.5);
+   cutg->SetPoint(3,0,856);
+   cutg->SetPoint(4,0,790);
+   cutg->SetPoint(5,211,695);
+   cutg->SetPoint(6,675,255.5);
+   cutg->SetPoint(7,836,0);
+   cutg->SetPoint(8,900,0);
+
+
+//for DP-ProfileX
+ TCutG *cutg=new TCutG("mycut3",8);
+   cutg->SetVarX("TMath::Sqrt(WLE2*WRE2)");
+   cutg->SetVarY("TMath::Sqrt(WLE1*WRE1)");
+   cutg->SetTitle("Graph1");
+   cutg->SetFillColor(1);
+   cutg->SetPoint(0,800,0);
+   cutg->SetPoint(1,461,607);
+   cutg->SetPoint(2,0,1157);
+   cutg->SetPoint(3,0,979);
+   cutg->SetPoint(4,284,726);
+   cutg->SetPoint(5,510,366);
+   cutg->SetPoint(6,650,0);
+   cutg->SetPoint(7,800,0);
+
+
+//Config. (28_28_180) for selecting DP config
+
+   TCutG *cutg=new TCutG("mycut4",6);
+   cutg->SetVarX("WLtdc1-WRtdc2");
+   cutg->SetVarY("TMath::Sqrt(WLE1*WRE1)");
+   cutg->SetTitle("Graph4");
+   cutg->SetFillColor(1);
+   cutg->SetPoint(0,40,900);
+   cutg->SetPoint(1,10,0);
+   cutg->SetPoint(2,-18,0);
+   cutg->SetPoint(3,9.5,651);
+   cutg->SetPoint(4,18,900);
+   cutg->SetPoint(5,40,900);
+
+
+//Config. (28_28_180) for selecting PD config
+   TCutG *cutg=new TCutG("mycut5",6);
+   cutg->SetVarX("WLtdc1-WRtdc2");
+   cutg->SetVarY("TMath::Sqrt(WLE1*WRE1)");
+   cutg->SetTitle("Graph4");
+   cutg->SetFillColor(1);
+   cutg->SetPoint(0,-40,0);
+   cutg->SetPoint(1,16,900);
+   cutg->SetPoint(2,10,690);
+   cutg->SetPoint(3,2,425);
+   cutg->SetPoint(4,-8,0);
+   cutg->SetPoint(5,-40,0);
+
+
+
+//Config. (28_28_180) for PD profileX
+   TCutG *cutg=new TCutG("mycut6",7);
+   cutg->SetVarX("TMath::Sqrt(WLE2*WRE2)");
+   cutg->SetVarY("TMath::Sqrt(WLE1*WRE1)");
+   cutg->SetTitle("Graph6");
+   cutg->SetFillColor(1);
+   cutg->SetPoint(0,972,0);
+   cutg->SetPoint(1,841,192);
+   cutg->SetPoint(2,510,437.5);
+   cutg->SetPoint(3,0,666);
+   cutg->SetPoint(4,0,800);
+   cutg->SetPoint(5,1330,0);
+   cutg->SetPoint(6,972,0);
+
+
+//Config. (28_28_180) for DP profileX
+   TCutG *cutg=new TCutG("mycut7",7);
+   cutg->SetVarX("TMath::Sqrt(WLE2*WRE2)");
+   cutg->SetVarY("TMath::Sqrt(WLE1*WRE1)");
+   cutg->SetTitle("Graph7");
+   cutg->SetFillColor(1);
+   cutg->SetPoint(0,900,0);
+   cutg->SetPoint(1,400,718);
+   cutg->SetPoint(2,0,950);
+   cutg->SetPoint(3,0,840);
+   cutg->SetPoint(4,418,520);
+   cutg->SetPoint(5,780,0);
+   cutg->SetPoint(6,900,0);

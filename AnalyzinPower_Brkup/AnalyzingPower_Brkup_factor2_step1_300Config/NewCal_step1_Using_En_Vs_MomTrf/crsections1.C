@@ -1,0 +1,2996 @@
+#define crsections1_cxx
+#include "crsecvariables1.h"
+#include "crsections1.h"
+#include "TLorentzVector.h"
+#include "TFitter.h"
+#include "TGenPhaseSpace.h"
+#include "TMinuit.h"
+#include <TH2.h>
+#include <TStyle.h>
+#include <TCanvas.h>
+#include <TRandom.h>
+double Smin1[Nkinema]={0.},Smin2[Nkinema]={0.},Smax1[Nkinema]={0.},Smax2[Nkinema]={0.},dss[Nkinema]={0.},EDMAX[Nkinema]={0.},EPMAX[Nkinema]={0.};
+double tempcharg=0;
+double kHzPol=0.0;
+double TotBeamC=0.0;
+double TotTime=0.0;
+double RelativTime=0.0;
+double oldTime=0.0;
+int ScalerCount=0;
+double  Len_1 = 0.0;
+double  Len_2 = 0.0;
+TH1D *hEn0;
+TH2D *hUthetaN;
+TH1D *hThetaD;
+TH1D *hThetaP;
+double tta1=0.0,tta2=0.0,pphi12=0.0, dtta=1.,dphi=5.;
+int q,qq,cnrl[Nkinema];
+double DistS,DisMin,Sint;
+double Ddetec0,Pdetec0,Ptarg0,Dtarg0;
+double TOF1dd,TOF2pp,TOF2dd,TOF1pp;
+double output[Nkinema][Snr]={0.};
+double ORET31,ORdET31,OREAORdET31,ORBALLT31,ORET27,ORdET27,OREAORdET27,ORBALLT27,ORET13,ORdET13,OREAORdET13,ORBALLT13;
+TH1D *MTo;
+TH2D *MissingMassN00;
+TH1D *MissingMassN2;
+TH2D *hDiffEn;
+Double_t tdc1t,tdc2t,tdc1m,tdc2m,deltTDC,R11,R12,R21,R22,TotMand,Momtrf_p,Momtrf_d,Momtrf_dp,Momtrf_dn,MMN,MMN2,E_Neut,E_Neut1,P_Neut,Theta_N,Phi_N,po1cm,po2cm,RelPNtta,RelPNE;
+double pzz13 = -1.5175; /*-- pages 74 and 88 of Ahmad's book  --*/
+double pz27=-0.601;
+TH1D *hThetaN;
+TH1D *hThetaN01;
+TH1D *hThetaN02;
+TH1D *hThetaN03;
+TH1D *hThetaN04;
+int trueCont=0;
+/*double pz28=0.502;     double pzz28=-0.143;
+  double pz27=-0.568;    double pzz27=-0.051;
+  double pz14=-0.105;    double pzz14=0.466;
+  double pz13=-0.010;    double  pzz13=-1.511;*/
+int Nbin=20;//18; // the number of bins for phi histograms
+TF1 *finalfuncpx;
+ double EPmin=5.,EPmax=105.,EDmin=3.,EDmax=100.;
+Double_t MIN0(Double_t a,Double_t b);
+/////precalibration for proton with position dependent///////////////////
+double FITFUX(double detN, double X,double adcL, double adcR)
+{
+  if (detN==1) finalfuncpx->SetParameters(11.4945,-0.00770806,-0.000114415,5.17868e-07,4.74886e-09);
+  if (detN==2) finalfuncpx->SetParameters(10.4267,-0.00124446,-0.000109443,3.34713e-07,6.83943e-09);
+  if (detN==3) finalfuncpx->SetParameters(11.5008,-0.00219675,-9.98263e-05,4.17427e-07,5.38547e-09);
+  if (detN==4) finalfuncpx->SetParameters(11.1741,-0.000289716,-5.67013e-05,9.33379e-08,-1.03381e-09);
+  if (detN==5) finalfuncpx->SetParameters(6.2016,-0.000736735,-0.00013859,1.43878e-08,6.5832e-09);
+  if (detN==6) finalfuncpx->SetParameters(5.49184,0.000220729,-0.000113417,-1.67957e-09,4.43836e-09);
+  if (detN==7) finalfuncpx->SetParameters(9.0593,-0.00152951,-4.90659e-05,5.87302e-09,2.27433e-09);
+  if (detN==8) finalfuncpx->SetParameters(8.48874,-0.000117846,-4.31323e-05,-8.8026e-08,-5.53255e-10);
+  if (detN==9) finalfuncpx->SetParameters(8.94,-0.00047518,-9.83665e-05,2.19587e-07,4.31338e-09);
+  if (detN==10) finalfuncpx->SetParameters(10.9429,-0.00158524,-0.000118636,7.22401e-08,4.39448e-09);
+  return sqrt(adcL*adcR)/finalfuncpx->Eval(X);
+}
+//////////best preclibration for deuteron with position//////////////////
+double FITFUXD( double detleft, double x, double ADCleft ,double ADCright){
+ double BarN=detleft;
+ double func=0;
+ ////////////////////////Best Pre-Calibration function for deuteron ////////////////////
+ if (BarN==1)      func= 10.0901242e+00  + 2.254394e-02*x - 1.764212e-04*x*x + 2.092171e-07*x*x*x; 
+ else if (BarN==2) func= 8.6729606e+00  + 2.112341e-02*x - 1.182007e-04*x*x + 5.685267e-08*x*x*x;
+ else if (BarN==3) func= 9.4538659e+00  + 3.093151e-02*x - 2.572974e-04*x*x + 5.955087e-07*x*x*x; 
+ else if (BarN==4) func= 9.5721830e+00  + 1.225239e-02*x - 3.435246e-05*x*x - 1.406221e-07*x*x*x;
+ else if (BarN==5) func= 5.0166803e+00  + 9.059085e-03*x - 1.647952e-05*x*x - 1.831679e-07*x*x*x;
+ else if (BarN==6) func= 4.3463985e+00  + 1.171057e-02*x - 4.393140e-05*x*x - 9.217203e-08*x*x*x;
+ else if (BarN==7) func= 7.9034888e+00  + 1.058610e-02*x - 7.318189e-05*x*x + 7.133477e-08*x*x*x;
+ else if (BarN==8) func= 7.3459060e+00  + 9.942690e-03*x - 3.993604e-05*x*x - 6.771125e-08*x*x*x; 
+ else if (BarN==9) func= 7.4571124e+00  + 1.400878e-02*x - 8.118584e-05*x*x + 6.786945e-08*x*x*x; 
+ else              func= 9.0182811e+00  + 1.980015e-02*x - 1.319072e-04*x*x + 1.553978e-07*x*x*x;
+ ////////////////////////Best Pre-Calibration function for deuteron finished!!////////////////////
+return sqrt(ADCleft*ADCright)/func;
+}
+double calTOF(double dis, double Ekin, int id)
+{
+  
+  /* id==1 for deuteron, id==2 fpr proton */
+  double  Eratio=0.0;
+  double  TOF=0.0;
+  if(id==1)
+    Eratio = (md/(md + Ekin))* (md/(md + Ekin));
+  if(id==2)
+    Eratio = (mp/(mp + Ekin))* (mp/(mp + Ekin));
+  TOF =  dis/(0.3* (sqrt(1.0 - Eratio)));
+  return TOF;
+}
+
+
+  double Length(double theta, double phi)
+  {
+  double theta1,theta2;
+  double xx, zz, yy;
+  double distance;
+  
+  theta1 = TMath::ASin(TMath::Sin(D2R*theta)*TMath::Cos(D2R*phi));
+  theta2 =  TMath::ATan( TMath::Sin(D2R*theta)*TMath::Sin(D2R*phi)/TMath::Cos(D2R*theta));
+  
+  xx = R0* TMath::Tan(theta1);
+  yy = R0* TMath::Sin(theta2);
+  zz = R0* TMath::Cos(theta2);
+  
+  distance = sqrt(xx*xx + yy*yy + zz*zz);
+  return distance;
+}
+Bool_t         debug    = false; // Debug flag for some printouts.
+
+#define MP 0.938272
+#define MN 0.939573
+#define MD 1.875612793
+
+//TLorentzVector *pDeuteron;
+//TLorentzVector *pNeutron;
+TLorentzVector *pProton;
+
+Double_t       masses[3] = {MD, MP, MN};
+TLorentzVector target(0.0, 0.0, 0.0, MD);
+Double_t       ekin = (0.130);//-0.0023);
+Double_t       ebeam = ekin + MD;
+Double_t       pbeam = TMath::Sqrt(ebeam*ebeam - MD*MD);
+TLorentzVector beam(0.0, 0.0, pbeam, ebeam);
+
+Double_t       energyDeuteron;
+Double_t       thetaDeuteron; // input scattering angle variables for minuit
+Double_t       phiDeuteron;   // ditto, for azimuthal angles of protons
+Double_t       thetaProton; // input scattering angle variables for minuit
+Double_t       phiProton;  // ditto, for azimuthal angles of protons
+
+void GetMomenta(double th, double ph, double e, double m, TLorentzVector &pp )
+{
+  double p = TMath::Sqrt((e+m)*(e+m)-m*m);
+  Double_t pz = p * TMath::Cos(th);
+  Double_t px = p * TMath::Sin(th) * TMath::Cos(ph);
+  Double_t py = p * TMath::Sin(th) * TMath::Sin(ph);
+  pp.SetPxPyPzE(px,py,pz,e+m);
+  return;
+}
+
+void MissingMassFunction(int& nDim, double* gout, double& result, double par[], int flg)
+{
+  TLorentzVector pDeuteron;
+  GetMomenta(thetaDeuteron,phiDeuteron,energyDeuteron,MD,pDeuteron);
+
+  TLorentzVector pProton;
+  GetMomenta(thetaProton,phiProton,par[0],MP,pProton);
+
+  //TLorentzVector pNeutron;
+  //  GetMomenta(thetaNeutron,phiNeutron,par[0],MN,pNeutron);
+
+  TLorentzVector pNeutron = (target+beam) - (pDeuteron+pProton); 
+
+  result = (pNeutron.M()-MN)*(pNeutron.M()-MN);
+}
+
+//
+// Calculate the neutron energy using numerical method.
+// The variable en[2] contains first guess and error.
+// The program updates e[0] and returns success of the fit.
+//
+
+bool GetNeutronEnergy(TFitter *minimizer, double thd, double phd, double ed,
+		      double thp, double php, double &ep, double eep)
+{
+  Int_t ierr;
+  
+  thetaDeuteron = thd;
+  thetaProton = thp;
+  
+  phiDeuteron = phd;
+  phiProton = php;
+
+  energyDeuteron = ed;
+  
+  minimizer->SetParameter(0,        // variable number
+			  "Ep",     // variable name
+			  ep,    // variable value
+			  10*eep, // range to search for solution
+			  0,
+			  0);
+  
+  ierr = minimizer->ExecuteCommand("MIGRAD",0,0); // Find solution for en
+  
+  if (ierr) return false;
+      
+  ep = minimizer->GetParameter(0);
+
+  if (debug)
+    {
+      cout << "<D> Fitter En: " << ep << endl;
+    }
+  
+  return true; // Everything went according to expectations, return "true".
+}
+TF1 *Dtofe;
+double DelTOFe;
+void crsections1::Loop()
+{
+  using namespace std;
+TRandom *xran = new TRandom();
+   TCutG *cutg = new TCutG("cutg",20);
+   // cutg->SetVarX("b3_EFW1");
+   //cutg->SetVarY("deltTOF2");
+   cutg->SetTitle("Graph");
+   cutg->SetFillColor(1);
+   cutg->SetPoint(0,-0.12571,-3.75);
+   cutg->SetPoint(1,2.5456,-3.04802);
+   cutg->SetPoint(2,5.37405,-1.26608);
+   cutg->SetPoint(3,9.30246,-0.0241268);
+   cutg->SetPoint(4,15.5879,0.35386);
+   cutg->SetPoint(5,21.2448,0.623851);
+   cutg->SetPoint(6,29.7302,0.569853);
+   cutg->SetPoint(7,41.8296,0.515855);
+   cutg->SetPoint(8,53.6148,0.461857);
+   cutg->SetPoint(9,68.5428,0.461857);
+   cutg->SetPoint(10,77.6567,0.569853);
+   cutg->SetPoint(11,81.4279,1.359853);//1.259853
+   cutg->SetPoint(12,82.5279,1.469853);//1.369853
+   cutg->SetPoint(13,85.5135,1.569853);//1.469853
+   cutg->SetPoint(14,96.2847,1.669853);//1.569853
+   cutg->SetPoint(15,111.126,1.669853);//1.569853
+   cutg->SetPoint(16,110.969,-15.3596);
+   cutg->SetPoint(17,-0.12571,-15.3596);
+   cutg->SetPoint(18,0.188562,-3.75);
+   cutg->SetPoint(19,-0.12571,-3.75);
+   //////graphical cut for the line with 45 deg!!
+   TCutG *cutgC = new TCutG("cutgC",7);
+   //   cutgC->SetTitle("Graph");
+   cutgC->SetFillColor(1);
+   cutgC->SetPoint(0,0.827179,15.2013);
+   cutgC->SetPoint(1,0.807467,44.2776);
+   cutgC->SetPoint(2,0.797422,47.5933);
+   cutgC->SetPoint(3,0.796669,38.4113);
+   cutgC->SetPoint(4,0.817009,13.926);
+   cutgC->SetPoint(5,0.825045,11.1204);
+   cutgC->SetPoint(6,0.827179,15.2013);
+   ////////////////////////////////////////////
+   TCutG *cutgCL = new TCutG("cutgCL",6);
+   cutgCL->SetTitle("Graphcl");
+   cutgCL->SetFillColor(1);
+   cutgCL->SetPoint(0,0.82419,16.7316);
+   cutgCL->SetPoint(1,0.807566,44.5326);
+   cutgCL->SetPoint(2,0.80663,34.0754);
+   cutgCL->SetPoint(3,0.815995,16.9867);
+   cutgCL->SetPoint(4,0.82337,9.33502);
+   cutgCL->SetPoint(5,0.82419,16.7316);
+   ///////////////////////////////////////
+   TCutG *cutgCL2 = new TCutG("cutgCL2",6);
+   cutgCL2->SetTitle("Graph");
+   cutgCL2->SetFillColor(1);
+   cutgCL2->SetPoint(0,0.814644,28.7192);
+   cutgCL2->SetPoint(1,0.81405,19.7923);
+   cutgCL2->SetPoint(2,0.821415,13.926);
+   cutgCL2->SetPoint(3,0.823078,15.9665);
+   cutgCL2->SetPoint(4,0.815475,28.2091);
+   cutgCL2->SetPoint(5,0.814644,28.7192);
+   ////////////////////////////////////////
+   TCutG *cutgR = new TCutG("cutgR",6);
+   cutgR->SetTitle("Graph");
+   cutgR->SetFillColor(1);
+   cutgR->SetPoint(0,0.794713,42.2371);
+   cutgR->SetPoint(1,0.813287,19.0271);
+   cutgR->SetPoint(2,0.806042,12.6507);
+   cutgR->SetPoint(3,0.793528,16.4766);
+   cutgR->SetPoint(4,0.790629,31.7799);
+   cutgR->SetPoint(5,0.794713,42.2371);
+   ///////////////////////////////////////////
+   TCutG *cutg1 = new TCutG("cutg1",8);
+   cutg1->SetTitle("Graph1");
+   cutg1->SetFillColor(1);
+   cutg1->SetPoint(0,0.797141,101.131);
+   cutg1->SetPoint(1,0.80164,102.509);
+   cutg1->SetPoint(2,0.818691,104.577);
+   cutg1->SetPoint(3,0.827326,102.509);
+   cutg1->SetPoint(4,0.827253,94.9265);
+   cutg1->SetPoint(5,0.805558,89.8713);
+   cutg1->SetPoint(6,0.796851,89.4118);
+   cutg1->SetPoint(7,0.797141,101.131);
+   /////////////////////////////////////
+   TCutG *cutg2 = new TCutG("cutg2",6);
+   cutg2->SetTitle("Graph2");
+   cutg2->SetFillColor(1);
+   cutg2->SetPoint(0,0.808896,61.1489);
+   cutg2->SetPoint(1,0.797504,62.068);
+   cutg2->SetPoint(2,0.797649,80.6801);
+   cutg2->SetPoint(3,0.81441,90.7904);
+   cutg2->SetPoint(4,0.827253,92.1691);
+   cutg2->SetPoint(5,0.808896,61.1489);
+   //////////////////////////////////////
+   cutg001 = new TCutG("cutg001",5);
+   cutg001->SetTitle("Graph");
+   cutg001->SetFillColor(1);
+   cutg001->SetPoint(0,0.817089,59.0708);
+   cutg001->SetPoint(1,0.816618,45.2978);
+   cutg001->SetPoint(2,0.796221,48.8686);
+   cutg001->SetPoint(3,0.797633,61.6213);
+   cutg001->SetPoint(4,0.817089,59.0708);
+   ///////////////////////////////////////
+   cutg002 = new TCutG("cutg002",5);
+   cutg002->SetTitle("Graph");
+   cutg002->SetFillColor(1);
+   cutg002->SetPoint(0,0.839683,28.2091);
+   cutg002->SetPoint(1,0.839055,17.7518);
+   cutg002->SetPoint(2,0.827601,17.2417);
+   cutg002->SetPoint(3,0.827758,27.4439);
+   cutg002->SetPoint(4,0.839683,28.2091);
+   //////////////////////////////////////
+   cutg003 = new TCutG("cutg003",5);
+   cutg003->SetTitle("Graph");
+   cutg003->SetFillColor(1);
+   cutg003->SetPoint(0,0.817873,12.6507);
+   cutg003->SetPoint(1,0.796221,13.671);
+   cutg003->SetPoint(2,0.796221,10.6103);
+   cutg003->SetPoint(3,0.82007,9.07996);
+   cutg003->SetPoint(4,0.817873,12.6507);
+   ///////////////////////////////////////
+   cutg004 = new TCutG("cutg004",6);
+   cutg004->SetTitle("Graph");
+   cutg004->SetFillColor(1);
+   cutg004->SetPoint(0,0.789003,21.8327);
+   cutg004->SetPoint(1,0.783668,22.3428);
+   cutg004->SetPoint(2,0.784924,34.3304);
+   cutg004->SetPoint(3,0.788689,42.2371);
+   cutg004->SetPoint(4,0.791514,38.6664);
+   cutg004->SetPoint(5,0.789003,21.8327);
+/* Energy loss as a function of deposited  denergy for proton(func1) and for deutron (func2) */
+funcc1= new TF1("funn1","pol5",.01,110);
+funcc2= new TF1("funn2","pol4",.1,110);
+funcc1->SetParameters(18.72,-0.8077,0.0194,-0.000254,1.723e-6,-4.736e-9);
+funcc2->SetParameters(25.69,-0.7636,0.01181,-8.67e-5,2.307e-7);
+
+ Dtofe=new TF1("Dtofe","pol7",0,80);
+ Dtofe->SetParameters(-8.33554,1.21485,-0.092854,0.00397358,-9.83088e-05,1.39092e-06,-1.04294e-08,3.21104e-11);
+
+//double charge=1640492.0;
+ double cross[Nkinema][Snr],Ercross[Nkinema][Snr];
+ double LT=0.0,dowscale=0.0;
+ double iT11[Nkinema][Snr]={0.},EiT11[Nkinema][Snr]={0.},ImiT11[Nkinema][Snr]={0.},EImiT11[Nkinema][Snr]={0.},T20[Nkinema][Snr]={0.},ET20[Nkinema][Snr]={0.},T22[Nkinema][Snr]={0.},ET22[Nkinema][Snr]={0.},ImT22[Nkinema][Snr]={0.},EImT22[Nkinema][Snr]={0.};
+  double Ayy[Nkinema][Snr], EAyy[Nkinema][Snr];
+  double Ay[Nkinema][Snr],EAy[Nkinema][Snr];
+  double Azz[Nkinema][Snr], EAzz[Nkinema][Snr];
+  TFile *f = new TFile("vbrkupAnaPowNbin20_newCal25_missMassConstr_F1_Add_relativeE_GraCutLine_n.root","recreate");
+  fitfunctions();
+  TPostScript *ps = new TPostScript(psfile0,111);
+  cc=new TCanvas("cc","");
+  ofstream outch;
+  outch.open(chargeadr);
+if(outch)
+    {
+      fprintf(stdout,"file %s is open.\n", chargeadr);
+    }
+  else if(!outch)
+    {
+      fprintf(stdout,"can not open %s.\n", chargeadr);
+    }
+  BookingHist();
+  openfiles();
+  Define_GCuts();
+ openFile_newcal();
+ finalfuncpx= new TF1("finalfuncpx","pol4");
+  ////////////////////////////////////
+  TFitter* minimizer = new TFitter(1);
+  minimizer->GetMinuit()->SetPrintLevel(-1); // Be silent!
+  
+  // Tell the minimizer about the function to be minimzed
+  minimizer->SetFCN(MissingMassFunction);
+
+  ///////////////////////////////////
+  double Ekin0=.130;//-0.0022;//0.1277;//0.130;//, 160
+  double Mtar0=1.8756;
+  double Mbm0=1.8756;
+  double pz00=sqrt(Ekin0*(Ekin0+2*Mbm0));
+  double Ettal0=Mbm0+Ekin0;
+  double Mc0=(Mtar0*Mbm0)/(Mtar0+Mbm0);
+  double V00=pz00/Mbm0;
+  double Vc0=pz00/(Mbm0+Mtar0);
+  double Vc=pz00/(Ettal0+Mtar0);
+  ///////////////////////////////
+  //   In a ROOT session, you can do:
+  //      Root > .L crsections1.C
+  //      Root > crsections1 t
+  //      Root > t.GetEntry(12); // Fill t data members with entry number 12
+  //      Root > t.Show();       // Show values of entry 12
+  //      Root > t.Show(16);     // Read and show values of entry 16
+  //      Root > t.Loop();       // Loop on all entries
+  //
+  TH2F *h000 = new TH2F("h000","",360*4,0,360,20*4,-5,15);
+  TH1F *h22 = new TH1F("h22","",2000*4,-1000,1000);
+  TH2F *hee1 = new TH2F("hee1","",150,0,150,150,0,150);
+  TH2F *hee2 = new TH2F("hee2","",150,0,150,150,0,150);
+  TH2F *hee3 = new TH2F("hee3","",150,0,150,150,0,150);
+  TF1 *f21= new TF1("f212","pol3",-20,20);
+  TF1 *f31= new TF1("f31","gaus",-20,20);
+  TF1 *f22= new TF1("f22","pol3",-20,20);
+  TF1 *f32= new TF1("f32","gaus",-20,20);
+  
+  if (fChain == 0) return;
+  
+  Long64_t nentries = 1e8;// fChain->GetEntriesFast();
+      cout << "nentries=" << nentries << endl;
+  Long64_t nbytes = 0, nb = 0;
+  for (Long64_t jentry=0; jentry<nentries;jentry++) {
+    Long64_t ientry = LoadTree(jentry);
+    if (ientry < 0) break;
+    nb = fChain->GetEntry(jentry);   nbytes += nb;
+    // if (Cut(ientry) < 0) continue;
+    //Check random generator
+
+    double xran1=xran->Uniform (1);
+    //cout  << xran1 << endl;
+
+	 if (xran1<=0.001) printf("\r<I> Progress: %.0f%%",100*(float) jentry/((float) nentries));
+    //////if (xran1<=0.1){
+      //      cout <<"Hellooo"<< endl;
+    Delphi=0.0;
+    if(b3_10kHZ*b3_TFera>0 ) 
+      {
+	LT=(b3_10kHZDT * b3_AFera)/(b3_10kHZ * b3_TFera);
+	//double LT2=(b3_10kHZ * b3_AFera)/(b3_10kHZDT * b3_TFera);
+	//cout << b3_10kHZ << '\t' << b3_10kHZDT << '\t' << b3_AFera << '\t' << b3_TFera << '\t'<< LT << '\t' << LT2 << endl;
+	dowscale=b3_T1sDT/b3_T1sDTS;
+      }
+    if(b3_MWPCphi1>0. && b3_MWPCphi2>0. && b3_MWPCphi1<360. && b3_MWPCphi2<360.){ Delphi= b3_MWPCphi2-b3_MWPCphi1;}
+    /*making Delphi between -180 and 180*/
+    if(Delphi>180.) {Delphi=Delphi - 360.;}
+    if(Delphi<-180.) {Delphi=360. + Delphi;}
+    if(b3_ID==1 && LT>.1 && dowscale<100 && abs(b3_WLtdc1-b3_WLtdc2)<80 && b3_T1>0 && (b3_WLdet1!=b3_WLdet2) && (b3_WRdet1!=b3_WRdet2) &&  b3_EFW2>0 && b3_EFW1>0 && b3_MWPCtheta1>=15 && b3_MWPCtheta2>=15 && b3_MWPCtheta1<35 && b3_MWPCtheta2<35 /*&& b3_Pol==31*/)
+      {//<<--<<--!
+	//asume that first particle is d and second is p//
+	for(int q=0 ; q<Nkinema; q++)
+	  {
+	    tta1=tta_1[q]; tta2=tta_2[q]; pphi12=phi12[q];
+	    ///+++if (abs(b3_MWPCtheta1-tta1)<2 && abs(b3_MWPCtheta2-tta2)<2 && (abs(Delphi-pphi12)<5 || abs(Delphi+pphi12)<5))
+	    if ((abs(b3_MWPCtheta1-tta1)<dtta && abs(b3_MWPCtheta2-tta2)<dtta && (abs(Delphi-pphi12)<dphi || abs(Delphi+pphi12)<dphi))
+		||(abs(b3_MWPCtheta1-tta2)<dtta && abs(b3_MWPCtheta2-tta1)<dtta && (abs(Delphi-pphi12)<dphi || abs(Delphi+pphi12)<dphi)) )
+	      {//asume that first particle is d and second is p//
+		contrevent++;	    
+		tdc1t=(b3_WLtdc1+b3_WRtdc1)/4;
+		tdc2t=(b3_WLtdc2+b3_WRtdc2)/4;
+		tdc1m=(b3_WLtdc1-b3_WRtdc1);
+		tdc2m=(b3_WLtdc2-b3_WRtdc2);
+
+		deltTDC=(tdc1t-tdc2t);
+
+		R1=R0/TMath::Sqrt(1-TMath::Power(((TMath::Sin(b3_MWPCtheta1/r2d))*(TMath::Cos(b3_MWPCphi1/r2d))),2));
+		R2=R0/TMath::Sqrt(1-TMath::Power(((TMath::Sin(b3_MWPCtheta2/r2d))*(TMath::Cos(b3_MWPCphi2/r2d))),2));
+		
+		R11=TMath::Sqrt(TMath::Power((.002*297*b3_MWPCX1/285),2)+TMath::Power((.002*b3_MWPCY1),2)+TMath::Power(.297,2));
+		R12=R1-R11;
+		R21=TMath::Sqrt(TMath::Power((.002*297*b3_MWPCX2/285),2)+TMath::Power((.002*b3_MWPCY2),2)+TMath::Power(.297,2));
+		R22=R2-R21;
+
+		//asume that first particle is d and second is p//
+		if (1==1 && abs(b3_MWPCtheta1-tta1)<dtta && abs(b3_MWPCtheta2-tta2)<dtta && (abs(Delphi-pphi12)<dphi || abs(Delphi+pphi12)<dphi))
+		  {
+		    trueCont++;
+		    //////////////////////////////////////new calib 25 config///////////////////
+		    Pdetec=FITFUX(b3_WLdet2,b3_MWPCX2-95.5,b3_WLE2,b3_WRE2);
+		    Ddetec=FITFUXD(b3_WLdet1,b3_MWPCX1,b3_WLE1,b3_WRE1);
+		    ///Ddetec=b3_EFW1;//Ddetec0;
+		    /*****************/
+		    if (Ddetec<EDmin) Ddetec=Ddetec/dn_scalning(EDmin ,b3_WLdet1, b3_MWPCtheta1, b3_MWPCtheta2);
+		    if (Ddetec>=EDmin && Ddetec<=EDmax && Ddetec<(EDMAX[q]+5)) Ddetec=Ddetec/dn_scalning(Ddetec ,b3_WLdet1, b3_MWPCtheta1, b3_MWPCtheta2);
+		    if (Ddetec>MIN0(EDmax,(EDMAX[q]+5))) Ddetec=Ddetec/dn_scalning(MIN0(EDmax,(EDMAX[q]+5)),b3_WLdet1, b3_MWPCtheta1, b3_MWPCtheta2);
+		    
+		    if (Pdetec<EPmin) Pdetec=Pdetec/pn_scalning(EPmin ,b3_WLdet1, b3_MWPCtheta1, b3_MWPCtheta2);
+		    if (Pdetec>=EPmin && Pdetec<=EPmax && Pdetec<(EPMAX[q]+5)) Pdetec=Pdetec/pn_scalning(Pdetec ,b3_WLdet1, b3_MWPCtheta1, b3_MWPCtheta2);
+		    if (Pdetec>MIN0(EPmax,(EPMAX[q]+5))) Pdetec=Pdetec/pn_scalning(MIN0(EPmax,(EPMAX[q]+5)),b3_WLdet1, b3_MWPCtheta1, b3_MWPCtheta2);
+		    /*****************/
+		    //////////////////////////////////////////////////////////////////////////
+
+		    //+++Ddetec0 = b3_EFW1/d_scalning(b3_EFW1,b3_WLdet1,tta1); 
+		    //+++Pdetec0 = b3_EFW2/p_scalning(b3_EFW2,b3_WLdet1,tta2);
+		    /******************
+		    if (b3_EFW1<3) Ddetec0M = b3_EFW1/d_scalning(3,b3_WLdet1,tta1);
+		    if (b3_EFW1>=3 && b3_EFW1<=90) Ddetec0M = b3_EFW1/d_scalning(b3_EFW1,b3_WLdet1,tta1);//3< <90//for newst 3< <90
+		    if (b3_EFW1>90) Ddetec0M = b3_EFW1/d_scalning(90,b3_WLdet1,tta1);
+		    if (b3_EFW2<10) Pdetec0M = b3_EFW2/p_scalning(10,b3_WLdet1,tta2);
+		    if (b3_EFW2>=10 && b3_EFW2<=105) Pdetec0M = b3_EFW2/p_scalning(b3_EFW2,b3_WLdet1,tta2);//10 < <105//for newst 20< <105
+		    if (b3_EFW2>105) Pdetec0M = b3_EFW2/p_scalning(105,b3_WLdet1,tta2);
+		    /**************/
+		    /***************
+		    Ddetec0A = dd_scalning(b3_EFW1,(int)b3_WLdet1);
+		    Pdetec0A = pp_scalning(b3_EFW2,(int)b3_WLdet2);
+		    Pdetec0=.5*(Pdetec0M+Pdetec0A);
+		    Ddetec0=.5*(Ddetec0M+Ddetec0A);
+		    /***************
+
+		    Ptarg0 = Pdetec+funcc1->Eval(Pdetec);
+		    Dtarg0 = Ddetec+funcc2->Eval(Ddetec);
+		    /***************/
+
+		    if (q<3){
+		      Ptarg0 = func1->Eval(Pdetec);
+		      Dtarg0 = func2->Eval(Ddetec);
+		    }
+		    if (q>=3){
+		      Ptarg0 = func11->Eval(Pdetec);
+		      Dtarg0 = func21->Eval(Ddetec);
+		    }
+		    /**************/
+		  ///////////missing mass of Neutron(3th particle)//////////////////
+		  TLorentzVector pDeuteron0;
+		  GetMomenta(b3_MWPCtheta1/r2d,b3_MWPCphi1/r2d,Dtarg0/1000,MD,pDeuteron0);
+		  
+		  TLorentzVector pProton0;
+		  GetMomenta(b3_MWPCtheta2/r2d,b3_MWPCphi2/r2d,Ptarg0/1000,MP,pProton0);
+		  
+		  //TLorentzVector pNeutron;
+		  //  GetMomenta(thetaNeutron,phiNeutron,par[0],MN,pNeutron);
+		  
+		  TLorentzVector pNeutron0 = (target+beam) - (pDeuteron0+pProton0); 
+		  E_Neut=1000*(pNeutron0[3]-pNeutron0.M());//-MN);
+		  E_Neut1=1000*(pNeutron0[3]-MN);
+		  //P_Neut=1000*sqrt(pow(pNeutron0.Px(),2)+pow(pNeutron0.Py(),2)+pow(pNeutron0.Pz(),2));
+		  P_Neut=1000*pNeutron0.P();
+		  Theta_N=r2d*pNeutron0.Theta();
+		  Phi_N=r2d*pNeutron0.Phi();
+		  //// MissingMassN[q]->Fill(pNeutron0.M()*1000);
+		  MMN=pNeutron0.M()*1000;
+		  MMN2=pNeutron0.M2()*1000;
+		  Momtrf_p=(beam-pProton0).M2();//*1e3;//u mandelstam
+		  Momtrf_d=(beam-pDeuteron0).M2();//*1e3;//t mandelstam
+		  Momtrf_dp=(pProton0+pDeuteron0).M2();//*1e3;//s mandelstam
+		  Momtrf_dn=(pNeutron0+pDeuteron0).M2();//*1e3;//w mandelstam
+		  TotMand=Momtrf_p+Momtrf_d+Momtrf_dp;
+		  //TVector3 b1(0.0,0.0,-Vc);
+		  //pDeuteron0.Boost(b1);
+		  //pProton0.Boost(b1);
+		  po1cm = r2d*pDeuteron0.Theta();
+		  po2cm = 180-r2d*pProton0.Theta();
+
+		  RelPNE=Ptarg0-E_Neut;
+		  RelPNtta=Theta_N-b3_MWPCtheta2;
+		  //////////////////////////////////////////
+
+		    //+++++++TOF1dd=R11/(C0*TMath::Sqrt(1-TMath::Power((md/(Dtarg0+md)),2)))+R12/(C0*TMath::Sqrt(1-TMath::Power((md/(Ddetec0+md)),2)));
+		    //+++++++TOF2pp=R21/(C0*TMath::Sqrt(1-TMath::Power((mp/(Ptarg0+mp)),2)))+R22/(C0*TMath::Sqrt(1-TMath::Power((mp/(Pdetec0+mp)),2)));
+		    //cout << R11 << '\t' << R12 << '\t' << R1 << '\t' << R21 << '\t' << R22 << '\t' << R2 << endl;
+		    TOF1dd=R1/(C0*TMath::Sqrt(1-TMath::Power((md/(Dtarg0+md)),2)));
+		    TOF2pp=R2/(C0*TMath::Sqrt(1-TMath::Power((mp/(Ptarg0+mp)),2)));
+		    
+		    //Double_t X1X =(TOF2pp-TOF1pp);
+		    X2X =(TOF2pp-TOF1dd);
+		    // deltTOF1 = (X1X-deltTDC);
+		    deltTOF2 = -(X2X-deltTDC);
+		    deltTOF2 -= TDC_shift((int)b3_WLdet1,(int)b3_WLdet2,pphi12);
+		    
+		    TDC_ratio[q]->Fill(deltTOF2);
+		    //		TDC_ratio_phi[q]->Fill(b3_MWPCphi1,deltTOF2);
+		    //h0000->Fill(b3_MWPCphi1,deltTOF1);
+		    //double E1=TMath::Sqrt(b3_WLE1*b3_WRE1);
+		    //E2=TMath::Sqrt(b3_WLE2*b3_WRE2);
+		    ET[q]->Fill(b3_EFW1,deltTOF2);
+		    //		    TDC_ratio_phi[q]->Fill(b3_MWPCphi1,deltTOF2);
+		    if (cutg->IsInside(b3_EFW1,deltTOF2)) 
+		      {
+			MissingMassN00->Fill(P_Neut,MMN);
+			MissingMassN2->Fill(MMN2);
+		      }
+		    ///////cut when your first particle is deuteorn///
+		    //+++    if ( 1==1 && cutgpm1->IsInside(b3_EFW1,deltTOF2))
+		    if (/*deltTOF2<1.3 &&*/ cutg->IsInside(b3_EFW1,deltTOF2) && MMN>930 && MMN<946 /*&& E_Neut>=0 && E_Neut<0.3*/){ 
+  
+		      //E1E2t[q]->Fill(b3_EFW2,b3_EFW1); 
+		      //E1E2i[q][w]->Fill((Float_t)b3_EFW2,(Float_t)b3_EFW1);
+		      
+		      /*if (b3_EFW1<Ymin0[b3_WLdet1][qd]) Ddetec = b3_EFW1/d_scalning(Ymin0[b3_WLdet1][qd],b3_WLdet1,tta1);
+			if (b3_EFW1>=Ymin0[b3_WLdet1][qd] && b3_EFW1<=Ymax0[b3_WLdet1][qd]) Ddetec = b3_EFW1/d_scalning(b3_EFW1,b3_WLdet1,tta1);
+			if (b3_EFW1>Ymax0[b3_WLdet1][qd]) Ddetec = b3_EFW1/d_scalning(Ymax0[b3_WLdet1][qd],b3_WLdet1,tta1);
+			
+			if (b3_EFW2<Xmin0[b3_WLdet1][qp]) Pdetec = b3_EFW2/p_scalning(Xmin0[b3_WLdet1][qp],b3_WLdet1,tta2);
+			if (b3_EFW2>=Xmin0[b3_WLdet1][qp] && b3_EFW2<=Xmax0[b3_WLdet1][qp]) Pdetec = b3_EFW2/p_scalning(b3_EFW2,b3_WLdet1,tta2);
+			if (b3_EFW2>Xmax0[b3_WLdet1][qp]) Pdetec = b3_EFW2/p_scalning(Xmax0[b3_WLdet1][qp],b3_WLdet1,tta2);*/
+		      /*******************
+		      if (b3_EFW1<3) Ddetec = b3_EFW1/d_scalning(3,b3_WLdet1,tta1);
+		      if (b3_EFW1>=3 && b3_EFW1<=90) Ddetec = b3_EFW1/d_scalning(b3_EFW1,b3_WLdet1,tta1);
+		      if (b3_EFW1>90) Ddetec = b3_EFW1/d_scalning(90,b3_WLdet1,tta1);
+		      
+		      if (b3_EFW2<10) Pdetec = b3_EFW2/p_scalning(10,b3_WLdet1,tta2);
+		      if (b3_EFW2>=10 && b3_EFW2<=105) Pdetec = b3_EFW2/p_scalning(b3_EFW2,b3_WLdet1,tta2);
+		      if (b3_EFW2>105) Pdetec = b3_EFW2/p_scalning(105,b3_WLdet1,tta2);
+		      ***************/
+		      /*Ddetec = dd_scalning(b3_EFW1,(int)b3_WLdet1);
+		      Pdetec = pp_scalning(b3_EFW2,(int)b3_WLdet2);
+		      Ptarg = Pdetec+funcc1->Eval(Pdetec);
+		      Dtarg = Ddetec+funcc2->Eval(Ddetec);*/
+		      //Ddetec = b3_EFW1/d_scalning(b3_EFW1,b3_WLdet1,tta1);
+		      //Pdetec = b3_EFW2/p_scalning(b3_EFW2,b3_WLdet1,tta2);
+		      /*********************
+		      if (q<3){
+			Ptarg = func1->Eval(Pdetec);
+			Dtarg = func2->Eval(Ddetec);
+			//E1E2itarg[q][w]->Fill(Ptarg,Dtarg);
+		      }
+		      if (q>=3){
+			Ptarg = func11->Eval(Pdetec);
+			Dtarg = func21->Eval(Ddetec);
+		      }
+		      **************/
+		      Dtarg=Dtarg0;
+		      Ptarg=Ptarg0;
+		      //TOF1dd=8*R1/(C0*7*TMath::Sqrt(1-TMath::Power((md/(Dtarg+md)),2))+C0*TMath::Sqrt(1-TMath::Power((md/(Ddetec+md)),2)));
+		      //////TOF1dd=R11/(C0*TMath::Sqrt(1-TMath::Power((md/(Dtarg+md)),2)))+R12/(C0*TMath::Sqrt(1-TMath::Power((md/(Ddetec+md)),2)));
+		      /**if (b3_EFW1>79) DelTOFe=0.;
+			 else DelTOFe=Dtofe->Eval(b3_EFW1);
+			 //		  cout << DelTOFe <<endl;
+			 //DelTOFe=DelTOFe*.1;
+			 double TOF2pr=TOF1dd-DelTOFe+tdc1t-tdc2t-TDC_shift((int)b3_WLdet1,(int)b3_WLdet2,pphi12);
+			 double tofP0=R22/C0*TMath::Sqrt(1-TMath::Power((mp/(Pdetec0+mp)),2));
+			 double Ptargn=mp*(1/(TMath::Sqrt(1-TMath::Power((R2/(C0*(TOF2pr))),2)))-1);
+			 //////ET[q]->Fill(b3_EFW1,TOF1dd);
+			 // TDC_ratio[q]->Fill(TOF2pr);
+			 //TDC_ratio_phi[q]->Fill(b3_MWPCphi1,TOF2pr);
+			 he0[q]->Fill(Ptargn,Ptarg);
+			 he[q]->Fill(Ptargn,Dtarg);**/
+		      /*Pdetec=Pdetec0;
+		      Ddetec=Ddetec0;
+		      Ptarg=Ptarg0;
+		      Dtarg=Dtarg0;*/
+		      he0[q]->Fill(b3_EFW1,b3_EFW2);
+		      he[q]->Fill(Pdetec,Ddetec);
+		      he1[q]->Fill(Ptarg,Dtarg);
+		      //cout << "d_scalning(b3_EFW1,b3_WLdet1,tta1)=" << d_scalning(b3_EFW1,b3_WLdet1,tta1) << '\t' << contrevent  << endl;
+		      DisMin=1000.;
+		      for (int jq=0; jq<cnrl[q];jq++)
+			{
+			  DistS=sqrt(pow((Ptarg-ES1[q][jq]),2)+pow((Dtarg-ES2[q][jq]),2));
+			  DisMin=MIN0(DistS,DisMin);
+			  if(DistS==MIN0(DistS,DisMin)){Sint=Scu[q][jq];}
+			}
+		      hEnS[q]->Fill(Sint,E_Neut);
+		      hEnMT[q]->Fill(Momtrf_p,E_Neut);
+		      hEn0->Fill(P_Neut);
+		      hEnS0->Fill(Sint,E_Neut);
+		      hPnMT0->Fill(Momtrf_p,P_Neut);
+		      hEnMT0->Fill(Momtrf_p,E_Neut);
+		      hPnEn->Fill(E_Neut1,P_Neut);
+		      hEnMTt->Fill(Momtrf_d,E_Neut);
+		      hEnMTs->Fill(Momtrf_dp,E_Neut);
+		      hEnTMand->Fill(TotMand,E_Neut);
+		      hEnMTuMTt->Fill(Momtrf_p,Momtrf_d);
+		      hEnMTuMTs->Fill(Momtrf_dn,Momtrf_dp);
+		      hEnMTuMTTMan->Fill(Momtrf_p,TotMand);
+		      MTo->Fill(TotMand);
+		      hDiffEn->Fill(E_Neut1,E_Neut);
+		      hUthetaN->Fill(Momtrf_p,Theta_N);
+		      hThetaN->Fill(Theta_N);
+		      hPhiN->Fill(Phi_N);
+		      hThetaD->Fill(b3_MWPCtheta1);
+		      hThetaP->Fill(b3_MWPCtheta2);
+
+		      if (abs(b3_MWPCphi2-Phi_N)<40)// || abs(b3_MWPCphi2-Phi_N)>320)
+			    {
+			      hPnMT01->Fill(Momtrf_p,P_Neut);
+			    }
+		      if (abs(b3_MWPCphi2-Phi_N)>320)
+			{
+			  hPnMT03->Fill(Momtrf_p,P_Neut);
+			}
+			  if (abs(b3_MWPCphi2-Phi_N)<220 && abs(b3_MWPCphi2-Phi_N)>140)
+			    {
+			      hPnMT02->Fill(Momtrf_p,P_Neut);
+			    }
+
+		      hPhiDN->Fill(b3_MWPCphi1-Phi_N);
+		      hPhiPN->Fill(b3_MWPCphi2-Phi_N);
+		      if (cutgCL2->IsInside(Momtrf_p,P_Neut))
+			{
+			  hThetaNL->Fill(Theta_N);
+
+			  hRelEu1->Fill(Momtrf_p,RelPNE);
+			  hPnRelE->Fill(RelPNE,P_Neut);
+			}
+		      if (cutgC->IsInside(Momtrf_p,P_Neut))
+			{
+			  hRelEu->Fill(Momtrf_p,RelPNE);
+			  hEnMTuMTsL->Fill(Momtrf_dn,Momtrf_dp);
+			  hRelttu->Fill(Momtrf_p,Theta_N);
+			}
+		      if (cutgR->IsInside(Momtrf_p,P_Neut))
+			{
+			  hEnMTuMTsR->Fill(Momtrf_dn,Momtrf_dp);
+			  hThetaNR->Fill(Theta_N);
+			}
+		      if (cutg001->IsInside(Momtrf_p,P_Neut))
+			{
+			  hThetaN01->Fill(Theta_N);
+			}
+		      if (cutg002->IsInside(Momtrf_p,P_Neut))
+			{
+			  hThetaN02->Fill(Theta_N);
+			}
+		      if (cutg003->IsInside(Momtrf_p,P_Neut))
+			{
+			  hThetaN03->Fill(Theta_N);
+			}
+		      if (cutg004->IsInside(Momtrf_p,P_Neut))
+			{
+			  hThetaN04->Fill(Theta_N);
+			}
+
+		      for (int df=0;df<9;df++)
+			{
+			  if (Theta_N>=(df*20) && Theta_N<(20+df*20))
+			    {
+			      hPn[df]->Fill(P_Neut);
+			    }
+			}
+		      for (int as=0;as<10;as++)
+			{
+			  if (E_Neut>=as*.150 && E_Neut<(as+1)*.150)
+			    {
+			      for (int lj=0;lj<20;lj++)
+				{
+				  if (Momtrf_p>=.770+lj*.004 && Momtrf_p<.770+(lj+1)*.004)
+				    {
+				      hthetaDthetaP[lj][as]->Fill(b3_MWPCtheta2,b3_MWPCtheta1);
+				      HThetaN[lj][as]->Fill(Theta_N);
+				    }
+				}
+			    }
+			}
+		      //////////////////////////
+		      for (int as=0;as<4;as++)
+			{
+			  if (E_Neut>=as*.150 && E_Neut<(as+1)*.150)
+			    {
+			      for (int lj=0;lj<20;lj++)
+				{
+				  if (Momtrf_p>=.770+lj*.004 && Momtrf_p<.770+(lj+1)*.004)
+				    {
+				      MissingMassN0[lj][as]->Fill(pNeutron0.M()*1000);
+				    }
+				}
+			    }
+			}
+		      for(int j=0 ; j<Snr ; j++)
+			{
+			  if (cut[q][j]->IsInside(Ptarg,Dtarg) /*&& abs(pNeutron0.M()*1000-939.573)<5*/)
+			    {
+			      value1=projectScut(Ptarg,Dtarg,j,q,corec);
+			      if(b3_Pol==31 && value1>-6 && value1<10/*8*/) 
+				{
+				  for (int as=0;as<4;as++)
+				    {
+				      if (E_Neut>=as*.150 && E_Neut<(as+1)*.150)
+					{
+					  for (int lj=0;lj<20;lj++)
+					    {
+					      if (Momtrf_p>=.770+lj*.004 && Momtrf_p<.770+(lj+1)*.004)
+						{
+						  Phi31pm0[lj][as]->Fill(b3_MWPCphi1,dowscale/LT);
+						  Phiraw31pm0[lj][as]->Fill(b3_MWPCphi1);
+						  MissingMassN1[lj][as]->Fill(pNeutron0.M()*1000);
+						}
+					    }
+					}
+				    }
+				}
+			      if(b3_Pol==27 && value1>-6 && value1<10/*8*/) 
+				{
+				  for (int as=0;as<4;as++)
+				    {
+				      if (E_Neut>=as*.150 && E_Neut<(as+1)*.150)
+					{
+					  for (int lj=0;lj<20;lj++)
+					    {
+					      if (Momtrf_p>=.770+lj*.004 && Momtrf_p<.770+(lj+1)*.004)
+						{
+						  Phi27pm0[lj][as]->Fill(b3_MWPCphi1,dowscale/LT);
+						  Phiraw27pm0[lj][as]->Fill(b3_MWPCphi1);
+						  MissingMassN1[lj][as]->Fill(pNeutron0.M()*1000);
+						}
+					    }
+					}
+				    }
+				}
+			      if(b3_Pol==13 && value1>-6 && value1<10/*8*/) 
+				{
+				  for (int as=0;as<4;as++)
+				    {
+				      if (E_Neut>=as*.150 && E_Neut<(as+1)*.150)
+					{
+					  for (int lj=0;lj<20;lj++)
+					    {
+					      if (Momtrf_p>=.770+lj*.004 && Momtrf_p<.770+(lj+1)*.004)
+						{
+						  Phi13pm0[lj][as]->Fill(b3_MWPCphi1,dowscale/LT);
+						  Phiraw13pm0[lj][as]->Fill(b3_MWPCphi1);
+						  MissingMassN1[lj][as]->Fill(pNeutron0.M()*1000);
+						}
+					    }
+					}
+				    }
+				}
+			    }
+			}
+		      for(int j=0 ; j<Snr ; j++)
+			{
+			  if (cut[q][j]->IsInside(Ptarg,Dtarg))
+			    {
+			      //value1=projectScut(Ptarg,Dtarg,j,q,corec);
+			      hEn[q][j]->Fill(E_Neut);
+			      Mtrf_p[q][j]->Fill(Momtrf_dp);
+			      PoCm_d[q][j]->Fill(po1cm);
+			      PoCm_p[q][j]->Fill(po2cm);
+			      ///+++sbin11[q][j]->Fill(b3_MWPCphi1,value1,dowscale/LT);
+			      ////+++++sbin1D[q][j]->Fill(value1,dowscale/LT);
+			      /////sbinraw1D[q][j]->Fill(value1);
+			      //cout <<dowscale << '\t' << LT << '\t' << dowscale/LT << endl;
+			      //value1-=Dcorec->Eval(b3_MWPCphi1);
+			      //+   sbin1[i][j]->Fill(b3_MWPCphi1,value1,b3_DowScalT1/LT);
+			      //+   sbinraw1[i][j]->Fill(b3_MWPCphi1,value1);
+			      
+			      if(b3_Pol==31 && value1>-10/*6*/ && value1<10/*8*/) 
+				{
+				  // EPhitemp31[q][j]->Fill(b3_EFW1,b3_MWPCphi1,dowscale/LT);
+				  //EPhitempraw31[q][j]->Fill(b3_EFW1,b3_MWPCphi1);
+				  Phi31pm[q][j]->Fill(b3_MWPCphi1,dowscale/LT);
+				  Phiraw31pm[q][j]->Fill(b3_MWPCphi1);
+				  if (abs(Delphi-pphi12)<5)
+				    {
+				      Phi31p[q][j]->Fill(b3_MWPCphi1,dowscale/LT);
+				      Phiraw31p[q][j]->Fill(b3_MWPCphi1);
+				    }
+				  if (abs(Delphi+pphi12)<5)
+				    {
+				      Phi31m[q][j]->Fill(b3_MWPCphi1,dowscale/LT);
+				      Phiraw31m[q][j]->Fill(b3_MWPCphi1);
+				    }
+				}
+			      if(b3_Pol==27 && value1>-10/*6*/ && value1<10/*8*/) 
+				{
+				  //EPhitemp27[q][j]->Fill(b3_EFW1,b3_MWPCphi1,dowscale/LT);
+				  //EPhitempraw27[q][j]->Fill(b3_EFW1,b3_MWPCphi1);
+				  Phi27pm[q][j]->Fill(b3_MWPCphi1,dowscale/LT);
+				  Phiraw27pm[q][j]->Fill(b3_MWPCphi1);
+				  if (abs(Delphi-pphi12)<5)
+				    {
+				      Phi27p[q][j]->Fill(b3_MWPCphi1,dowscale/LT);
+				      Phiraw27p[q][j]->Fill(b3_MWPCphi1);
+				    }
+				  if (abs(Delphi+pphi12)<5)
+				    {
+				      Phi27m[q][j]->Fill(b3_MWPCphi1,dowscale/LT);
+				      Phiraw27m[q][j]->Fill(b3_MWPCphi1);
+				    }
+				}
+			      if(b3_Pol==13 && value1>-10/*6*/ && value1<10/*8*/)
+				{//<<--pol13
+				  //EPhitemp13[q][j]->Fill(b3_EFW1,b3_MWPCphi1,dowscale/LT);
+				  //EPhitempraw13[q][j]->Fill(b3_EFW1,b3_MWPCphi1);
+				  Phi13pm[q][j]->Fill(b3_MWPCphi1,dowscale/LT);
+				  Phiraw13pm[q][j]->Fill(b3_MWPCphi1);
+				  if (abs(Delphi-pphi12)<5)
+				    {
+				      Phi13p[q][j]->Fill(b3_MWPCphi1,dowscale/LT);
+				      Phiraw13p[q][j]->Fill(b3_MWPCphi1);
+				    }
+				  if (abs(Delphi+pphi12)<5)
+				    {
+				      Phi13m[q][j]->Fill(b3_MWPCphi1,dowscale/LT);
+				      Phiraw13m[q][j]->Fill(b3_MWPCphi1);
+				    }
+				}//<<--Pol13
+			      
+			    }
+			}
+		    }//<<--if of PID
+		  }//<<---if for assuming the first particle is deuteron
+
+		///////////assuming the first particle is proton
+		if (1==1 && abs(b3_MWPCtheta1-tta2)<dtta && abs(b3_MWPCtheta2-tta1)<dtta && (abs(Delphi-pphi12)<dphi || abs(Delphi+pphi12)<dphi))
+		  {
+		    trueCont++;
+		    ///////////////////////////new calib 25 config////////////////////////////////
+		    Pdetec0n=FITFUX(b3_WLdet1,b3_MWPCX1-95.5,b3_WLE1,b3_WRE1);
+		    Ddetec0n=FITFUXD(b3_WLdet2,b3_MWPCX2,b3_WLE2,b3_WRE2);
+		    /*****************/
+		    if (Ddetec0n<EDmin) Ddetec0n=Ddetec0n/dn_scalning(EDmin ,b3_WLdet2, b3_MWPCtheta2, b3_MWPCtheta1);
+		    if (Ddetec0n>=EDmin && Ddetec0n<=EDmax && Ddetec0n<(EDMAX[q]+5))  Ddetec0n=Ddetec0n/dn_scalning(Ddetec0n ,b3_WLdet2, b3_MWPCtheta2, b3_MWPCtheta1);
+		    if (Ddetec0n>MIN0(EDmax,(EDMAX[q]+5)))  Ddetec0n=Ddetec0n/dn_scalning(MIN0(EDmax,(EDMAX[q]+5)),b3_WLdet2, b3_MWPCtheta2, b3_MWPCtheta1);
+		    
+		    if (Pdetec0n<EPmin)  Pdetec0n=Pdetec0n/pn_scalning(EPmin ,b3_WLdet2, b3_MWPCtheta2, b3_MWPCtheta1);
+		    if (Pdetec0n>=EPmin && Pdetec0n<=EPmax && Pdetec0n<(EPMAX[q]+5)) Pdetec0n=Pdetec0n/pn_scalning(Pdetec0n ,b3_WLdet2, b3_MWPCtheta2, b3_MWPCtheta1);
+		    if (Pdetec0n>MIN0(EPmax,(EPMAX[q]+5)))  Pdetec0n=Pdetec0n/pn_scalning(MIN0(EPmax,(EPMAX[q]+5)),b3_WLdet2, b3_MWPCtheta2, b3_MWPCtheta1);
+		    /*****************/
+		    /////////////////////////////////////////////////////////////////////////////
+
+		    /****************
+		    if (b3_EFW2<3) Ddetec0nM = b3_EFW2/d_scalning(3,b3_WLdet1,tta2);
+		    if (b3_EFW2>=3 && b3_EFW2<=90) Ddetec0nM = b3_EFW2/d_scalning(b3_EFW2,b3_WLdet1,tta2);//3< <90//for newst 3< <90
+		    if (b3_EFW2>90) Ddetec0nM = b3_EFW2/d_scalning(90,b3_WLdet1,tta2);
+		    if (b3_EFW1<10) Pdetec0nM = b3_EFW1/p_scalning(10,b3_WLdet1,tta1);
+		    if (b3_EFW1>=10 && b3_EFW1<=105) Pdetec0nM = b3_EFW1/p_scalning(b3_EFW1,b3_WLdet1,tta1);//10 < <105//for newst 20< <105
+		    if (b3_EFW1>105) Pdetec0nM = b3_EFW1/p_scalning(105,b3_WLdet1,tta1);
+		    /****************/
+		    /****************
+		    Ddetec0nA = dd_scalning(b3_EFW2,(int)b3_WLdet2);
+		    Pdetec0nA = pp_scalning(b3_EFW1,(int)b3_WLdet1);
+		    Pdetec0n=.5*(Pdetec0nM+Pdetec0nA);
+		    Ddetec0n=.5*(Ddetec0nM+Ddetec0nA);
+		    /****************
+
+		    Ptarg0n = Pdetec0n+funcc1->Eval(Pdetec0n);
+		    Dtarg0n = Ddetec0n+funcc2->Eval(Ddetec0n);
+		    /****************/
+		    if (q<3){
+		      Ptarg0n = func1->Eval(Pdetec0n);
+		      Dtarg0n = func2->Eval(Ddetec0n);
+		    }
+		    if (q>=3){
+		      Ptarg0n = func11->Eval(Pdetec0n);
+		      Dtarg0n = func21->Eval(Ddetec0n);
+		    }
+		    /**************/
+		  ///////////missing mass of Neutron(3th particle)//////////////////
+		  TLorentzVector pDeuteron0;
+		  GetMomenta(b3_MWPCtheta2/r2d,b3_MWPCphi2/r2d,Dtarg0n/1000,MD,pDeuteron0);
+		  
+		  TLorentzVector pProton0;
+		  GetMomenta(b3_MWPCtheta1/r2d,b3_MWPCphi1/r2d,Ptarg0n/1000,MP,pProton0);
+		  
+		  //TLorentzVector pNeutron;
+		  //  GetMomenta(thetaNeutron,phiNeutron,par[0],MN,pNeutron);
+		  
+		  TLorentzVector pNeutron0 = (target+beam) - (pDeuteron0+pProton0); 
+		  E_Neut=1000*(pNeutron0[3]-pNeutron0.M());//-MN);
+		  E_Neut1=1000*(pNeutron0[3]-MN);
+		  //P_Neut=1000*sqrt(pow(pNeutron0.Px(),2)+pow(pNeutron0.Py(),2)+pow(pNeutron0.Pz(),2));
+		  P_Neut=1000*pNeutron0.P();
+		  Theta_N=r2d*pNeutron0.Theta();
+		  Phi_N=r2d*pNeutron0.Phi();
+		  //// MissingMassN[q]->Fill(pNeutron0.M()*1000);
+		  MMN=pNeutron0.M()*1000;
+		  MMN2=pNeutron0.M2()*1000;
+		  Momtrf_p=(beam-pProton0).M2();//*1e3;//u mandelstam
+		  Momtrf_d=(beam-pDeuteron0).M2();//*1e3;//t mandelstam
+		  Momtrf_dp=(pProton0+pDeuteron0).M2();//*1e3;//s mandelstam
+		  Momtrf_dn=(pNeutron0+pDeuteron0).M2();//*1e3;//w mandelstam
+		  TotMand=Momtrf_p+Momtrf_d+Momtrf_dp;
+		  //TVector3 b1(0.0,0.0,-Vc);
+		  //pDeuteron0.Boost(b1);
+		  //pProton0.Boost(b1);
+		  po1cm = r2d*pDeuteron0.Theta();
+		  po2cm = 180-r2d*pProton0.Theta();
+
+		  RelPNE=Ptarg0n-E_Neut;
+		  RelPNtta=Theta_N-b3_MWPCtheta1;
+		  //////////////////////////////////////////
+
+		    TOF2dd=R2/(C0*TMath::Sqrt(1-TMath::Power((md/(Dtarg0n+md)),2)));
+		    TOF1pp=R1/(C0*TMath::Sqrt(1-TMath::Power((mp/(Ptarg0n+mp)),2)));
+
+		    X3X =(TOF2dd-TOF1pp);
+		    deltTOF3 = (X3X-deltTDC);
+		    deltTOF3 -= TDC_shift((int)b3_WLdet2,(int)b3_WLdet1,pphi12);
+		    
+		    ETn[q]->Fill(b3_EFW2,deltTOF3);
+		    //TDC_ratio[q]->Fill(deltTOF3);
+		    TDC_ratio_phi[q]->Fill(b3_MWPCphi2,deltTOF3);
+		    if (cutg->IsInside(b3_EFW2,deltTOF3)) 
+		      {
+			MissingMassN00->Fill(P_Neut,MMN);
+			MissingMassN2->Fill(MMN2);
+		      }
+		    ///////cut when your second particle is deuteron//////
+		    ////++++	    if ( 1==1 && cutgpm1->IsInside(b3_EFW2,deltTOF3))
+		    if (/*deltTOF3<1.3 &&*/ cutg->IsInside(b3_EFW2,deltTOF3) && MMN>930 && MMN<946 /* && E_Neut>=0 && E_Neut<0.3*/){ 
+		      /**************
+		      	if (b3_EFW2<3) Ddetec = b3_EFW2/d_scalning(3,b3_WLdet1,tta2);
+			if (b3_EFW2>=3 && b3_EFW2<=90) Ddetec = b3_EFW2/d_scalning(b3_EFW2,b3_WLdet1,tta2);//3< <90//for newst 3< <90
+			if (b3_EFW2>90) Ddetec = b3_EFW2/d_scalning(90,b3_WLdet1,tta2);
+			if (b3_EFW1<10) Pdetec = b3_EFW1/p_scalning(10,b3_WLdet1,tta1);
+			if (b3_EFW1>=10 && b3_EFW1<=105) Pdetec = b3_EFW1/p_scalning(b3_EFW1,b3_WLdet1,tta1);//10 < <105//for newst 20< <105
+			if (b3_EFW1>105) Pdetec = b3_EFW1/p_scalning(105,b3_WLdet1,tta1);
+			***************/
+		      /*Ddetec = dd_scalning(b3_EFW2,(int)b3_WLdet2);
+		      Pdetec = pp_scalning(b3_EFW1,(int)b3_WLdet1);
+		      Ptarg = Pdetec+funcc1->Eval(Pdetec);
+		      Dtarg = Ddetec+funcc2->Eval(Ddetec);*/
+		      /************
+			if (q<3){
+			  Ptarg = func1->Eval(Pdetec);
+			  Dtarg = func2->Eval(Ddetec);
+			  //E1E2itarg[q][w]->Fill(Ptarg,Dtarg);
+			}
+			if (q>=3){
+			  Ptarg = func11->Eval(Pdetec);
+			  Dtarg = func21->Eval(Ddetec);
+			  
+			}
+		      *************/
+			/*Pdetec=Pdetec0n;
+		      Ddetec=Ddetec0n;
+		      Ptarg=Ptarg0n;
+		      Dtarg=Dtarg0n;*/
+		      Dtarg=Dtarg0n;
+		      Ptarg=Ptarg0n;
+		      
+		      he0[q]->Fill(b3_EFW1,b3_EFW2);
+		      he[q]->Fill(Pdetec,Ddetec);
+		      he1[q]->Fill(Ptarg,Dtarg);
+		      
+		      DisMin=1000.;
+		      for (int jq=0; jq<cnrl[q];jq++)
+			{
+			  DistS=sqrt(pow((Ptarg-ES1[q][jq]),2)+pow((Dtarg-ES2[q][jq]),2));
+			  DisMin=MIN0(DistS,DisMin);
+			  if(DistS==MIN0(DistS,DisMin)){Sint=Scu[q][jq];}
+			}
+
+		      hEnS[q]->Fill(Sint,E_Neut);
+		      hEnMT[q]->Fill(Momtrf_p,E_Neut);
+		      hEnS0->Fill(Sint,E_Neut);
+		      hEn0->Fill(P_Neut);
+		      hPnMT0->Fill(Momtrf_p,P_Neut);
+		      hEnMT0->Fill(Momtrf_p,E_Neut);
+		      hPnEn->Fill(E_Neut1,P_Neut);
+		      hEnMTt->Fill(Momtrf_d,E_Neut);
+		      hEnMTs->Fill(Momtrf_dp,E_Neut);
+		      hEnTMand->Fill(TotMand,E_Neut);
+		      hEnMTuMTt->Fill(Momtrf_p,Momtrf_d);
+		      hEnMTuMTs->Fill(Momtrf_dn,Momtrf_dp);
+		      hEnMTuMTTMan->Fill(Momtrf_p,TotMand);
+		      MTo->Fill(TotMand);
+		      hDiffEn->Fill(E_Neut1,E_Neut);
+		      hUthetaN->Fill(Momtrf_p,Theta_N);
+		      hThetaN->Fill(Theta_N);
+		      hPhiN->Fill(Phi_N);
+		      hThetaD->Fill(b3_MWPCtheta2);
+		      hThetaP->Fill(b3_MWPCtheta1);
+
+		      hPhiDN->Fill(b3_MWPCphi2-Phi_N);
+		      hPhiPN->Fill(b3_MWPCphi1-Phi_N);
+		      if (abs(b3_MWPCphi1-Phi_N)<40)// || abs(b3_MWPCphi1-Phi_N)>320)
+			{
+			  hPnMT01->Fill(Momtrf_p,P_Neut);
+			}
+		      if (abs(b3_MWPCphi1-Phi_N)>320)
+			{
+			  hPnMT03->Fill(Momtrf_p,P_Neut);
+			}
+
+		      if (abs(b3_MWPCphi1-Phi_N)<220 && abs(b3_MWPCphi1-Phi_N)>140)
+			{
+			  hPnMT02->Fill(Momtrf_p,P_Neut);
+			}
+
+		      if (cutgCL2->IsInside(Momtrf_p,P_Neut))
+			{
+			  hThetaNL->Fill(Theta_N);
+
+			  hRelEu1->Fill(Momtrf_p,RelPNE);
+			  hPnRelE->Fill(RelPNE,P_Neut);
+			}
+		      if (cutgC->IsInside(Momtrf_p,P_Neut))
+			{
+			  hRelEu->Fill(Momtrf_p,RelPNE);
+			  hEnMTuMTsL->Fill(Momtrf_dn,Momtrf_dp);
+			  hRelttu->Fill(Momtrf_p,Theta_N);
+			  if (cutg1->IsInside(Momtrf_p,RelPNE))
+			    {
+			      //  hPnMT01->Fill(Momtrf_p,P_Neut);
+			    }
+			  if (cutg2->IsInside(Momtrf_p,RelPNE))
+			    {
+			      //  hPnMT02->Fill(Momtrf_p,P_Neut);
+			    }
+			}
+		      if (cutgR->IsInside(Momtrf_p,P_Neut))
+			{
+			  hEnMTuMTsR->Fill(Momtrf_dn,Momtrf_dp);
+			  hThetaNR->Fill(Theta_N);
+			}
+		      if (cutg001->IsInside(Momtrf_p,P_Neut))
+			{
+			  hThetaN01->Fill(Theta_N);
+			}
+		      if (cutg002->IsInside(Momtrf_p,P_Neut))
+			{
+			  hThetaN02->Fill(Theta_N);
+			}
+		      if (cutg003->IsInside(Momtrf_p,P_Neut))
+			{
+			  hThetaN03->Fill(Theta_N);
+			}
+		      if (cutg004->IsInside(Momtrf_p,P_Neut))
+			{
+			  hThetaN04->Fill(Theta_N);
+			}
+		      for (int df=0;df<9;df++)
+			{
+			  if (Theta_N>=(df*20) && Theta_N<(20+df*20))
+			    {
+			      hPn[df]->Fill(P_Neut);
+			    }
+			}
+		      for (int as=0;as<10;as++)
+			{
+			  if (E_Neut>=as*.150 && E_Neut<(as+1)*.150)
+			    {
+			      for (int lj=0;lj<20;lj++)
+				{
+				  if (Momtrf_p>=.770+lj*.004 && Momtrf_p<.770+(lj+1)*.004)
+				    {
+				      hthetaDthetaP[lj][as]->Fill(b3_MWPCtheta1,b3_MWPCtheta2);
+				      HThetaN[lj][as]->Fill(Theta_N);
+				    }
+				}
+			    }
+			}
+		      //////////////////////////
+		      for (int as=0;as<4;as++)
+			{
+			  if (E_Neut>=as*.150 && E_Neut<(as+1)*.150)
+			    {
+			      for (int lj=0;lj<20;lj++)
+				{
+				  if (Momtrf_p>=.770+lj*.004 && Momtrf_p<.770+(lj+1)*.004)
+				    {
+				      MissingMassN0[lj][as]->Fill(pNeutron0.M()*1000);
+				    }
+				}
+			    }
+			}
+		      for(int j=0 ; j<Snr ; j++)
+			{
+			  if (cut[q][j]->IsInside(Ptarg,Dtarg)/* && abs(pNeutron0.M()*1000-939.573)<5*/)
+			    {
+			      value1=projectScut(Ptarg,Dtarg,j,q,corec);
+			      if(b3_Pol==31 && value1>-6 && value1<10/*8*/) 
+				{
+				  for (int as=0;as<4;as++)
+				    {
+				      if (E_Neut>=as*.150 && E_Neut<(as+1)*.150)
+					{
+					  for (int lj=0;lj<20;lj++)
+					    {
+					      if (Momtrf_p>=.770+lj*.004 && Momtrf_p<.770+(lj+1)*.004)
+						{
+						  Phi31pm0[lj][as]->Fill(b3_MWPCphi2,dowscale/LT);
+						  Phiraw31pm0[lj][as]->Fill(b3_MWPCphi2);
+						  MissingMassN1[lj][as]->Fill(pNeutron0.M()*1000);
+						}
+					    }
+					}
+				    }
+				}
+			      if(b3_Pol==27 && value1>-6 && value1<10/*8*/) 
+				{
+				  for (int as=0;as<4;as++)
+				    {
+				      if (E_Neut>=as*.150 && E_Neut<(as+1)*.150)
+					{
+					  for (int lj=0;lj<20;lj++)
+					    {
+					      if (Momtrf_p>=.770+lj*.004 && Momtrf_p<.770+(lj+1)*.004)
+						{
+						  Phi27pm0[lj][as]->Fill(b3_MWPCphi2,dowscale/LT);
+						  Phiraw27pm0[lj][as]->Fill(b3_MWPCphi2);
+						  MissingMassN1[lj][as]->Fill(pNeutron0.M()*1000);
+						}
+					    }
+					}
+				    }
+				}
+			      if(b3_Pol==13 && value1>-6 && value1<10/*8*/) 
+				{
+				  for (int as=0;as<4;as++)
+				    {
+				      if (E_Neut>=as*.150 && E_Neut<(as+1)*.150)
+					{
+					  for (int lj=0;lj<20;lj++)
+					    {
+					      if (Momtrf_p>=.770+lj*.004 && Momtrf_p<.770+(lj+1)*.004)
+						{
+						  Phi13pm0[lj][as]->Fill(b3_MWPCphi2,dowscale/LT);
+						  Phiraw13pm0[lj][as]->Fill(b3_MWPCphi2);
+						  MissingMassN1[lj][as]->Fill(pNeutron0.M()*1000);
+						}
+					    }
+					}
+				    }
+				}
+			    }
+			}
+		      for(int j=0 ; j<Snr ; j++)
+			{
+			  if (cut[q][j]->IsInside(Ptarg,Dtarg))
+			    {
+			      hEn[q][j]->Fill(E_Neut);
+			      Mtrf_p[q][j]->Fill(Momtrf_dp);
+			      PoCm_d[q][j]->Fill(po1cm);
+			      PoCm_p[q][j]->Fill(po2cm);
+			      value1=projectScut(Ptarg,Dtarg,j,q,corec);
+			      ///+++sbin11[q][j]->Fill(b3_MWPCphi1,value1,dowscale/LT);
+			      ////+++++sbin1D[q][j]->Fill(value1,dowscale/LT);
+			      /////sbinraw1D[q][j]->Fill(value1);
+			      //cout <<dowscale << '\t' << LT << '\t' << dowscale/LT << endl;
+			      //value1-=Dcorec->Eval(b3_MWPCphi1);
+			      //+   sbin1[i][j]->Fill(b3_MWPCphi1,value1,b3_DowScalT1/LT);
+			      //+   sbinraw1[i][j]->Fill(b3_MWPCphi1,value1);
+			      
+			      if(b3_Pol==31 && value1>-10/*6*/ && value1<10/*8*/) 
+				{
+				  // EPhitemp31[q][j]->Fill(b3_EFW1,b3_MWPCphi1,dowscale/LT);
+				  //EPhitempraw31[q][j]->Fill(b3_EFW1,b3_MWPCphi1);
+				  Phi31pm[q][j]->Fill(b3_MWPCphi2,dowscale/LT);
+				  Phiraw31pm[q][j]->Fill(b3_MWPCphi2);
+				  if (abs(-Delphi-pphi12)<5)
+				    {
+				      Phi31p[q][j]->Fill(b3_MWPCphi2,dowscale/LT);
+				      Phiraw31p[q][j]->Fill(b3_MWPCphi2);
+				    }
+				  if (abs(-Delphi+pphi12)<5)
+				    {
+				      Phi31m[q][j]->Fill(b3_MWPCphi2,dowscale/LT);
+				      Phiraw31m[q][j]->Fill(b3_MWPCphi2);
+				    }
+				}
+			      if(b3_Pol==27 && value1>-10/*6*/ && value1<10/*8*/) 
+				{
+				  //EPhitemp27[q][j]->Fill(b3_EFW1,b3_MWPCphi1,dowscale/LT);
+				  //EPhitempraw27[q][j]->Fill(b3_EFW1,b3_MWPCphi1);
+				  Phi27pm[q][j]->Fill(b3_MWPCphi2,dowscale/LT);
+				  Phiraw27pm[q][j]->Fill(b3_MWPCphi2);
+				  if (abs(-Delphi-pphi12)<5)
+				    {
+				      Phi27p[q][j]->Fill(b3_MWPCphi2,dowscale/LT);
+				      Phiraw27p[q][j]->Fill(b3_MWPCphi2);
+				    }
+				  if (abs(-Delphi+pphi12)<5)
+				    {
+				      Phi27m[q][j]->Fill(b3_MWPCphi2,dowscale/LT);
+				      Phiraw27m[q][j]->Fill(b3_MWPCphi2);
+				    }
+				}
+			      if(b3_Pol==13 && value1>-10/*6*/ && value1<10/*8*/)
+				{//<<--pol13
+				  //EPhitemp13[q][j]->Fill(b3_EFW1,b3_MWPCphi1,dowscale/LT);
+				  //EPhitempraw13[q][j]->Fill(b3_EFW1,b3_MWPCphi1);
+				  Phi13pm[q][j]->Fill(b3_MWPCphi2,dowscale/LT);
+				  Phiraw13pm[q][j]->Fill(b3_MWPCphi2);
+				  if (abs(-Delphi-pphi12)<5)
+				    {
+				      Phi13p[q][j]->Fill(b3_MWPCphi2,dowscale/LT);
+				      Phiraw13p[q][j]->Fill(b3_MWPCphi2);
+				    }
+				  if (abs(-Delphi+pphi12)<5)
+				    {
+				      Phi13m[q][j]->Fill(b3_MWPCphi2,dowscale/LT);
+				      Phiraw13m[q][j]->Fill(b3_MWPCphi2);
+				    }
+				}//<<--Pol13
+			      
+			    }
+			}
+		    }//<<--PID2
+		  }//<<---if for assuming the first particle is Proton
+
+
+	      }
+	  }
+      }//<<--<<--!
+    if (b3_ID==2 && LT>0.1 && dowscale<100 && abs(b3_WLtdc1-b3_WLtdc2)<80 && b3_T1>0 && (b3_WLdet1!=b3_WLdet2) && (b3_WRdet1!=b3_WRdet2) &&  b3_EFW2>0 && b3_EFW1>0 && b3_MWPCtheta1>=15 && b3_MWPCtheta2>=15 && b3_MWPCtheta1<35 && b3_MWPCtheta2<35)
+      {
+    	ScalerCount+=1.;
+	tempcharg+=b3_FC;
+    	TotBeamC+=(double)b3_FC;
+    	TotTime=b3_Time;   /* acomulating charge for given polarzation */ 
+    	kHzPol+=b3_10kHZ;                           /* acomulating 10kHz for given polarzation */
+	//++cout << "tempcharg=" << tempcharg  << '\t' << TotBeamC << '\t' << kHzPol << endl;	
+	if(b3_Pol==31)
+	  {
+	    charge31+=(double)b3_FC;
+	    kHz31+=b3_10kHZ;
+
+	    //	    ORET31+=b3_ORE;
+	    //ORdET31+=b3_ORdE;
+	    //OREAORdET31+=b3_OREAORdET;
+	    //ORBALLT31+=b3_ORBALL;
+	  }
+	if(b3_Pol==27)
+	  {
+	    charge27+=(double)b3_FC;
+	    kHz27+=b3_10kHZ;
+
+	    //ORET27+=b3_ORE;
+	    //ORdET27+=b3_ORdE;
+	    //OREAORdET27+=b3_OREAORdET;
+	    //ORBALLT27+=b3_ORBALL;
+	  }
+	if(b3_Pol==13)
+	  {
+	    charge13+=(double)b3_FC;
+	    kHz13+=b3_10kHZ;
+
+	    //ORET13+=b3_ORE;
+	    //ORdET13+=b3_ORdE;
+	    //OREAORdET13+=b3_OREAORdET;
+	    //ORBALLT13+=b3_ORBALL;
+	  }
+      }
+    //    }//-->>xran
+    ///else {xran1=.9;}
+  }
+   TF1 *function1p=new TF1("function1p","[0]*(1+[1]*sqrt(3)*cos((x+180)*0.01745))",0,360);
+   TF1 *function1m=new TF1("function1m","[0]*sqrt(3)*sin((x+180)*0.01745)",0,360);
+   TF1 *function2p=new TF1("function2p","[0]*(1+[1]*0.0- [2]*(1./sqrt(8))-[3]*sqrt(3)*.5*cos(2.*(x+180)*0.01745))",0,360);
+   TF1 *function2m=new TF1("function2m","(-1*[0]*sqrt(3)*.5*sin(2.*(x+180)*0.01745))",0,360);
+  //printf("%f %f %f %f %f  \n", tempcharg, TotTime,b3_FC,tempcharg/(8.35*TotTime),10000*tempcharg/(8.35*kHzPol));
+  //++RelativTime=TotTime-oldTime;
+  //++ oldTime=TotTime;  
+  double II= TotBeamC/(1e-4*kHzPol*8.35);
+  double II31= charge31/(1e-4*kHz31*8.35);
+  double II27= charge27/(1e-4*kHz27*8.35);
+  double II13= charge13/(1e-4*kHz13*8.35);
+  //cout << "ORET31= " << ORET31 << '\t' << "ORBALLT31= " << ORBALLT31 << '\t' << "ORdET31= " << ORdET31 <<'\t' << "ORET13= " << ORET13 << '\t' << "ORBALLT13= " << ORBALLT13 << '\t' << "ORdET13= " << ORdET13 << endl;
+  //cout << "kHz31= " << kHz31 << '\t' << "kHz27= " << kHz27 << '\t' << "kHz31= " << kHz13 << endl;
+  ///+++tempcharg=1e-4*kHzPol*(II+.5);
+  outch << charge31 << '\t' << '\t' << charge27 << '\t' << '\t'  << charge13 << '\t' <<"II= " << II <<'\t'<<"II31= " << II31 <<'\t'<<"II27= " << II27 <<'\t'<<"II13= " << II13 << '\t' << "kHz31= " << kHz31 << '\t' << "kHz27= " << kHz27 << '\t' << "kHz31= " << kHz13 <<endl;
+  //+++ for(int q=0 ; q<Nkinema; q++)
+    {  
+      //+++for(int j=0 ; j<Snr ; j++)
+	{ 
+	  /**
+	  for(int k=0;k<Phiraw31pm[q][j]->GetNbinsX();k++)
+	    {
+	      double val=Phiraw31pm[q][j]->GetBinContent(k);
+	      double error=Phiraw31pm[q][j]->GetBinError(k);
+	      if(val>0)
+		{
+		  double newerror=(error/val)*Phi31pm[q][j]->GetBinContent(k);
+		  Phi31pm[q][j]->SetBinError(k,newerror);
+		}
+	    }
+	  for(int k=0;k<Phiraw31p[q][j]->GetNbinsX();k++)
+	    {
+	      double val=Phiraw31p[q][j]->GetBinContent(k);
+	      double error=Phiraw31p[q][j]->GetBinError(k);
+	      if(val>0)
+		{
+		  double newerror=(error/val)*Phi31p[q][j]->GetBinContent(k);
+		  Phi31p[q][j]->SetBinError(k,newerror);
+		}
+	    }
+	  for(int k=0;k<Phiraw31m[q][j]->GetNbinsX();k++)
+	    {
+	      double val=Phiraw31m[q][j]->GetBinContent(k);
+	      double error=Phiraw31m[q][j]->GetBinError(k);
+	      if(val>0)
+		{
+		  double newerror=(error/val)*Phi31m[q][j]->GetBinContent(k);
+		  Phi31m[q][j]->SetBinError(k,newerror);
+		}
+	    }
+	  for(int k=0;k<Phiraw27pm[q][j]->GetNbinsX();k++)
+	    {
+	      double val=Phiraw27pm[q][j]->GetBinContent(k);
+	      double error=Phiraw27pm[q][j]->GetBinError(k);
+	      if(val>0)
+		{
+		  double newerror=(error/val)*Phi27pm[q][j]->GetBinContent(k);
+		  Phi27pm[q][j]->SetBinError(k,newerror);
+		}
+	    }
+	  for(int k=0;k<Phiraw27p[q][j]->GetNbinsX();k++)
+	    {
+	      double val=Phiraw27p[q][j]->GetBinContent(k);
+	      double error=Phiraw27p[q][j]->GetBinError(k);
+	      if(val>0)
+		{
+		  double newerror=(error/val)*Phi27p[q][j]->GetBinContent(k);
+		  Phi27p[q][j]->SetBinError(k,newerror);
+		}
+	    }
+	  for(int k=0;k<Phiraw27m[q][j]->GetNbinsX();k++)
+	    {
+	      double val=Phiraw27m[q][j]->GetBinContent(k);
+	      double error=Phiraw27m[q][j]->GetBinError(k);
+	      if(val>0)
+		{
+		  double newerror=(error/val)*Phi27m[q][j]->GetBinContent(k);
+		  Phi27m[q][j]->SetBinError(k,newerror);
+		}
+	    }
+	  for(int k=0;k<Phiraw13pm[q][j]->GetNbinsX();k++)
+	    {
+	      double val=Phiraw13pm[q][j]->GetBinContent(k);
+	      double error=Phiraw13pm[q][j]->GetBinError(k);
+	      if(val>0)
+		{
+		  double newerror=(error/val)*Phi13pm[q][j]->GetBinContent(k);
+		  Phi13pm[q][j]->SetBinError(k,newerror);
+		}
+	    }
+	  for(int k=0;k<Phiraw13p[q][j]->GetNbinsX();k++)
+	    {
+	      double val=Phiraw13p[q][j]->GetBinContent(k);
+	      double error=Phiraw13p[q][j]->GetBinError(k);
+	      if(val>0)
+		{
+		  double newerror=(error/val)*Phi13p[q][j]->GetBinContent(k);
+		  Phi13p[q][j]->SetBinError(k,newerror);
+		}
+	    }
+	  for(int k=0;k<Phiraw13m[q][j]->GetNbinsX();k++)
+	    {
+	      double val=Phiraw13m[q][j]->GetBinContent(k);
+	      double error=Phiraw13m[q][j]->GetBinError(k);
+	      if(val>0)
+		{
+		  double newerror=(error/val)*Phi13m[q][j]->GetBinContent(k);
+		  Phi13m[q][j]->SetBinError(k,newerror);
+		}
+	    }**/
+
+	  /*Phi31pm[q][j]->Scale(1./charge31);
+	  Phi27pm[q][j]->Scale(1./charge27);
+	  Phi13pm[q][j]->Scale(1./charge13);
+	  Phi31p[q][j]->Scale(1./charge31);
+	  Phi27p[q][j]->Scale(1./charge27);
+	  Phi13p[q][j]->Scale(1./charge13);
+	  Phi31m[q][j]->Scale(1./charge31);
+	  Phi27m[q][j]->Scale(1./charge27);
+	  Phi13m[q][j]->Scale(1./charge13);*/
+	  //ratio27_31p[q][j]= new TH1D(*Phi27p[q][j]);
+	  /**********************ratio27_31p[q][j]->Divide(Phi27p[q][j],Phi31p[q][j],1,1);//Divide(Phi31p[q][j]);
+	  //ratio27_31m[q][j]= new TH1D(*Phi27m[q][j]);
+	  ratio27_31m[q][j]->Divide(Phi27m[q][j],Phi31m[q][j],1,1);//Divide(Phi31m[q][j]);
+
+	  //ratiosum27[q][j]= new TH1D(*ratio27_31p[q][j]);
+	  //++++++ratiosum27[q][j]->Add(ratio27_31p[q][j],ratio27_31m[q][j],0.5,0.5);//Add(ratio27_31m[q][j],1);
+	  //ratiosum27[q][j]->Scale(.5);
+	  //ratiosub27[q][j]= new TH1D(*ratio27_31p[q][j]);
+	  ratiosub27[q][j]->Add(ratio27_31p[q][j],ratio27_31m[q][j],0.5,-0.5);//Add(ratio27_31m[q][j],-1);
+	  //ratiosub27[q][j]->Scale(.5);
+	  
+	  ratiosum27[q][j]->Divide(Phi27pm[q][j],Phi31pm[q][j],1,1);
+
+	  //++function1p->SetParameters(1,0.1);
+	  ///++function1p->FixParameter(0,1);
+	  ratiosum27[q][j]->Fit(function1p,"Q");
+	  double p0p=function1p->GetParameter(0);
+	  double p1p=function1p->GetParameter(1);
+	  double Ep1p=function1p->GetParError(1);
+	  //++function1m->SetParameters(0);
+	  ratiosub27[q][j]->Fit(function1m,"Q");
+	  double p1m=function1m->GetParameter(0);
+	  double Ep1m=function1m->GetParError(0);
+
+	  //ratio13_31p[q][j]= new TH1D(*Phi13p[q][j]);
+	  ratio13_31p[q][j]->Divide(Phi13p[q][j],Phi31p[q][j],1,1);//Divide(Phi31p[q][j]);
+	  //ratio13_31m[q][j]= new TH1D(*Phi13m[q][j]);
+	  ratio13_31m[q][j]->Divide(Phi13m[q][j],Phi31m[q][j],1,1);//Divide(Phi31m[q][j]);
+
+	  //ratiosum13[q][j]= new TH1D(*ratio13_31p[q][j]);
+	  //+++++++ratiosum13[q][j]->Add(ratio13_31p[q][j],ratio13_31m[q][j],0.5,0.5);//Add(ratio13_31m[q][j],1);
+	  //ratiosum13[q][j]->Scale(.5);
+	  ratiosub13[q][j]->Add(ratio13_31p[q][j],ratio13_31m[q][j],0.5,-0.5);//Add(ratio13_31m[q][j],1);
+
+	  ratiosum13[q][j]->Divide(Phi13pm[q][j],Phi31pm[q][j],1,1);
+
+	  //++function2p->SetParameters(1,0.0,0.04,0.01);
+	  //function2p->FixParameter(0,1);
+	  //++function2p->FixParameter(1,0);
+	  ratiosum13[q][j]->Fit(function2p,"Q");
+	  /////////////////Ks13[ko]=func1->GetChisquare()/func1->GetNDF();
+	  double p20p=function2p->GetParameter(0);
+	  double p2p=function2p->GetParameter(2);
+	  double p3p=function2p->GetParameter(3);
+	  double Ep2p=function2p->GetParError(2);
+	  double Ep3p=function2p->GetParError(3);
+
+	  //function2m->SetParameters(0.0);
+	  ratiosub13[q][j]->Fit(function2m,"Q");
+	  double p3m=function2m->GetParameter(0);
+	  double Ep3m=function2m->GetParError(0);
+
+	  cout << "P0=" << p0p << '\t' << "P20= " << p20p << "P02=" << p2p << endl;
+	  iT11[q][j]=p1p/pz27;
+	  EiT11[q][j]=Ep1p/(-pz27);
+	  ImiT11[q][j]=p1m/pz27;
+	  EImiT11[q][j]=Ep1m/(-pz27);
+	  T20[q][j]= p2p/pzz13;
+	  ET20[q][j]=Ep2p/(-pzz13);
+	  T22[q][j]= p3p/pzz13;
+	  ET22[q][j]=Ep3p/(-pzz13);
+	  ImT22[q][j]= p3m/pzz13;
+	  EImT22[q][j]=Ep3m/(-pzz13);
+	  gr_iT11[q]->SetPoint(j,(Smin1[q]+(dss[q]/2)+(j*dss[q])),iT11[q][j]);
+	  gr_iT11[q]->SetPointError(j,0, EiT11[q][j]);
+	  
+	  gr_ImiT11[q]->SetPoint(j,(Smin1[q]+(dss[q]/2)+(j*dss[q])),ImiT11[q][j]);
+	  gr_ImiT11[q]->SetPointError(j,0, EImiT11[q][j]);
+	  
+	  gr_T20[q]->SetPoint(j,(Smin1[q]+(dss[q]/2)+(j*dss[q])),T20[q][j]);
+	  gr_T20[q]->SetPointError(j,0, ET20[q][j]);
+	  
+	  gr_T22[q]->SetPoint(j,(Smin1[q]+(dss[q]/2)+(j*dss[q])),T22[q][j]);
+	  gr_T22[q]->SetPointError(j,0, ET22[q][j]);
+
+	  gr_ImT22[q]->SetPoint(j,(Smin1[q]+(dss[q]/2)+(j*dss[q])),ImT22[q][j]);
+	  gr_ImT22[q]->SetPointError(j,0, EImT22[q][j]);**************/
+
+	  /*bm=sbin1D[q][j]->GetMaximumBin();
+	  for(int k=0;k<sbin1D[q][j]->GetNbinsX();k++)
+	    {
+	      double val=sbinraw1D[q][j]->GetBinContent(k);
+	      double error=sbinraw1D[q][j]->GetBinError(k);
+	      if(val>0)
+		{
+		  double newerror=(error/val)*sbin1D[q][j]->GetBinContent(k);
+		  sbin1D[q][j]->SetBinError(k,newerror);
+		}
+	    }
+	    f21->SetNpx(sbin1D[q][j]->GetNbinsX());
+	  f31->SetNpx(sbin1D[q][j]->GetNbinsX());
+	  f22->SetNpx(sbinraw1D[q][j]->GetNbinsX());
+	  f32->SetNpx(sbinraw1D[q][j]->GetNbinsX());*/
+	  /*sprintf(cn1,"fnormD%d_%d_%d",tta_1[q],tta_2[q],Smin1[q]+(dss[q]/2)+(j*dss[q]));
+	  sprintf(cn2,"frawD%d_%d_%d",tta_1[q],tta_2[q],Smin1[q]+(dss[q]/2)+(j*dss[q]));*/
+	  /*TF1 *ff1= new TF1("cn1n","pol3(0)+gaus(4)",-15,20);
+	  TF1 *ff2= new TF1("cn2n","pol3(0)+gaus(4)",-15,20);
+	  Double_t par[7]={4,0,0,0,50,0,1}; 
+	  ff1->SetParameters(par); 
+	  sbin1D[q][j]->Fit(ff1,"Q","",-25,15);
+	  ff2->SetParameters(par); 
+	  sbinraw1D[q][j]->Fit(ff2,"Q","",-25,15);
+	  Double_t param1[7];
+	  ff1->GetParameters(param1);
+	  f31->SetParameters(&param1[4]);
+	  f21->SetParameters(&param1[0]);
+	  Double_t param2[7];
+	  ff2->GetParameters(param2);
+	  f32->SetParameters(&param2[4]);
+	  f22->SetParameters(&param2[0]);
+	  sbin1D[q][j]->Add(f21,-1);
+	  double sig1=sbin1D[q][j]->GetXaxis()->FindBin(f31->GetParameter(1)-3*fabs(f31->GetParameter(2)));
+	  double sig2=sbin1D[q][j]->GetXaxis()->FindBin(f31->GetParameter(1)+3*fabs(f31->GetParameter(2)));
+	  output[q][j] =(double) sbin1D[q][j]->Integral(sig1,sig2);
+	  double sig1E=sbinraw1D[q][j]->GetXaxis()->FindBin(f32->GetParameter(1)-3*fabs(f32->GetParameter(2)));
+	  double sig2E=sbinraw1D[q][j]->GetXaxis()->FindBin(f32->GetParameter(1)+3*fabs(f32->GetParameter(2)));
+	  cout << "sig1= " << sig1 << '\t' << "sig2= " << sig2 << '\t' << q << '\t' << j << endl;
+	  cout << "sig1E= " << sig1E << '\t' << sig2E << '\t' << q << '\t' << j << endl;*/
+	  //double count11=1.;//(double)sbinraw1D[q][j]->Integral(sig1E,sig2E);
+	  //	  sbinraw1D[q][j]->Add(f22,-1);
+	  //double count12=1.;//(double)sbinraw1D[q][j]->Integral(sig1E,sig2E);
+	  /*sbin1D[q][j]->Fit("ff","","",-15,+20);
+	  bg=ff->GetParameter(0);
+	  bm=ff->GetParameter(1);
+	  bn=ff->GetParameter(2);
+	  double sig1=sbin1D[q][j]->GetXaxis()->FindBin(bm-3*bn);
+	  double sig2=sbin1D[q][j]->GetXaxis()->FindBin(bm+3*bn);
+	  double countgaus =(double) sbin1D[q][j]->Integral(sig1,sig2);
+	  //double bmE=sbinraw1D[j]->GetMaximumBin();
+	  sbinraw1D[q][j]->Fit("ff","Q","",-15,+20);
+	  bgE=ff->GetParameter(0);
+	  bmE=ff->GetParameter(1);
+	  bnE=ff->GetParameter(2);
+	  double sig1E=sbinraw1D[q][j]->GetXaxis()->FindBin(bmE-3*bnE);
+	  double sig2E=sbinraw1D[q][j]->GetXaxis()->FindBin(bmE+3*bnE);
+	  double countgausE =(double) sbinraw1D[q][j]->Integral(sig1E,sig2E);*/
+	  //double countgaus =(double) ff->Integral(bm-3*bn,bm+3*bn);
+	  //double  ct = 1./(3.75872);            /*constant*/
+	  //double   dx = (3.35 + 0.65)*0.1*0.169*1000; /* 0.65 ballging --target thickness mg/cm2 Density off D =0.169 (g/cm3)*/
+	  //double   n_atom = 2.; /* number of atoms per compond molecule*/
+	  //double  m_mol = 4.028;    /* target weight in amu*/
+	  //double  a = n_atom/m_mol;
+	  //double omega1=(2.*D2R*(10.*D2R)*sin(tta1*D2R));/*sr*/
+	  //double omega2=(2.*D2R*(360.*D2R)*sin(tta2*D2R));/*sr*/
+	  //double deno = a*dx*omega1*omega2*dss[q];//deltaS;
+	  //double  AUB= (ct)/(deno);
+	  //cross[q][j]=(AUB*output[q][j]/(1e-3*tempcharg/8.35325));
+	  //cross[q][j]=(AUB*countgaus/(1e-3*tempcharg/8.35325));
+	  //cross[q][j]=cross[q][j]/(.84*.90*.99*.97);
+	  /*Ercross[q][j]=(AUB*sqrt(countgausE)/(1e-3*tempcharg/8.35325));
+	  Ercross[q][j]=Ercross[q][j]/(.84*.90*.99*.97);*/
+	  //Ercross[q][j]=cross[q][j]*sqrt(count11)/count12;
+	  //cout << "cross[q][j]= " << cross[q][j] << "Ercross[q][j]= " << Ercross[q][j] << '\t' << q << '\t' << j << endl;
+	  //gr_Cro[q]->SetPoint(j,(Smin1[q]+(dss[q]/2)+(j*dss[q])),cross[q][j]);
+	  //gr_Cro[q]->SetPointError(j,0, Ercross[q][j]);
+	}
+    }
+    cout << "charge31= " << charge31 << '\t' << "charge27= " << charge27 << '\t' << "charge13= " << charge13 << '\t' <<"II= " << II <<'\t'<<"II31= " << II31 <<'\t'<<"II27= " << II27 <<'\t'<<"II13= " << II13 <<endl;
+  cout << "trueCont= " << trueCont << endl;
+  cout << "kHz31= " << kHz31 << '\t' << "kHz27= " << kHz27 << '\t' << "kHz31= " << kHz13 << endl;
+  //cout << "ORET31= " << ORET31 << '\t' << "ORBALLT31= " << ORBALLT31 << '\t' << "ORdET31= " << ORdET31 <<'\t' << "ORET13= " << ORET13 << '\t' << "ORBALLT13= " << ORBALLT13 << '\t' << "ORdET13= " << ORdET13 << endl;
+  f->cd();
+  ps->Close();
+  hRelEu->Write();
+  hRelEu1->Write();
+  hRelttu->Write();
+  hPnRelE->Write();
+  hEnMTuMTs->Write();
+ hEnMTuMTsL->Write();
+ hEnMTuMTsR->Write();
+  hPnMT01->Write();
+  hPnMT02->Write();
+  hPnMT03->Write();
+  hThetaNL->Write();
+  hThetaNR->Write();
+  hPhiN->Write();
+  hPhiDN->Write();
+  hPhiPN->Write();
+  hThetaN01->Write();
+  hThetaN02->Write();
+  hThetaN03->Write();
+  hThetaN04->Write();
+  hPnEn->Write();
+  hDiffEn->Write();
+  MissingMassN00->Write();
+  MissingMassN2->Write();
+  hUthetaN->Write();
+  cutg->Write();
+  hEn0->Write();
+  hEnS0->Write();
+  hPnMT0->Write();
+  hEnMT0->Write();
+  hEnMTt->Write();
+  hEnMTs->Write();
+  hEnTMand->Write();
+  MTo->Write();
+  hEnMTuMTt->Write();
+  hEnMTuMTTMan->Write();
+  hThetaN->Write();
+  hThetaD->Write();
+  hThetaP->Write();
+  for (int df=0;df<9;df++)
+    {
+      hPn[df]->Write();
+    }
+for (int as=0;as<10;as++)
+    {
+      for (int lj=0;lj<20;lj++)
+	{
+	  hthetaDthetaP[lj][as]->Write();
+	  HThetaN[lj][as]->Write();
+	}
+    }
+   for (int as=0;as<4;as++)
+    {
+      for (int lj=0;lj<20;lj++)
+	{
+	  // MissingMassN0[lj][as]->Write();
+	  //MissingMassN1[lj][as]->Write();
+	  Phi31pm0[lj][as]->Write();
+	  Phiraw31pm0[lj][as]->Write();
+	  Phi27pm0[lj][as]->Write();
+	  Phiraw27pm0[lj][as]->Write();
+	  Phi13pm0[lj][as]->Write();
+	  Phiraw13pm0[lj][as]->Write();
+	}
+    }
+    for (int i=0;i<Nkinema;i++){
+    p1p2[i]->Write();
+    p1p2dep[i]->Write();
+    TDC_ratio_phi[i]->Write();
+    TDC_ratio[i]->Write();
+    ET[i]->Write();
+    ETn[i]->Write();
+    he0[i]->Write();
+    he[i]->Write();
+    he1[i]->Write();
+    hEnS[i]->Write();
+    hEnMT[i]->Write();
+   // for (int j=0;j<Snr;j++){
+      //hEn[i][j]->Write();
+      //Mtrf_p[i][j]->Write();
+      // Mtrf_d[i][j]->Write();
+      // PoCm_d[i][j]->Write();
+      //PoCm_p[i][j]->Write();
+      // cut[i][j]->Write();
+   // }
+         for (int j=0;j<Snr;j++){
+      Phi31pm[i][j]->Write();
+      Phiraw31pm[i][j]->Write();
+      Phi27pm[i][j]->Write();
+      Phiraw27pm[i][j]->Write();
+      Phi13pm[i][j]->Write();
+      Phiraw13pm[i][j]->Write();
+      Phi31p[i][j]->Write();
+      Phiraw31p[i][j]->Write();
+      Phi27p[i][j]->Write();
+      Phiraw27p[i][j]->Write();
+      Phi13p[i][j]->Write();
+      Phiraw13p[i][j]->Write();
+      Phi31m[i][j]->Write();
+      Phiraw31m[i][j]->Write();
+      Phi27m[i][j]->Write();
+      Phiraw27m[i][j]->Write();
+      Phi13m[i][j]->Write();
+      Phiraw13m[i][j]->Write();
+    }
+    /*gr_iT11[i]->Write();
+      gr_ImiT11[i]->Write();
+      gr_T20[i]->Write();
+      gr_T22[i]->Write();
+      gr_ImT22[i]->Write();*/
+   }
+  //  for (int i=0;i<Nkinema;i++){
+    //   for (int j=0;j<Snr;j++){
+      //++ ratiosum27[i][j]->Write();
+      //++ratiosub27[i][j]->Write();
+      //++ratiosum13[i][j]->Write();
+      //sbin11[i][j]->Write();
+      //sbin1D[i][j]->Write();
+      //      cut[i][j]->Write();
+  //   }
+  // }
+  /*for (int i=0;i<Nkinema;i++){
+  //E1E2ta[i]->Write();
+  for (int j=1;j<11;j++){
+  //E1E2ia[i][j]->Write();
+  //E1E2i[i][j]->Write();
+  E1E2idetec[i][j]->Write();
+  E1E2itarg[i][j]->Write();
+  }
+  }*/
+  //h22->Write();
+  //h000->Write();
+  //////  gr_Cro->Write();
+  f->Close();
+}
+
+    //==========--------  FUNCTIONS  ---------=========//
+double pp_scalning(double x ,int i)
+{
+
+  double E1;
+ 
+   double p1p[11]={0.0,1.03114e+00,1.02186e+00,1.01379e+00,1.00901e+00,1.14116e+00,1.18719e+00,1.01289e+00,1.17155e+00,1.02336e+00,1.03931e+00};
+  double p2p[11]={0.0,8.37156e-04,7.79199e-04,7.05292e-04,6.99657e-04,-4.76056e-04,-7.48614e-04,6.66924e-04,-7.53701e-04,7.94843e-04,9.63563e-04};
+  
+  E1=0.0;
+  
+    E1=(sqrt(1+4*x*p2p[i]/p1p[i])-1.0)/(2.0*p2p[i]);
+  
+return E1;
+}
+
+double dd_scalning(double y ,int i)
+{
+ 
+   double p1d[11]={0.0,7.91892e-01,7.36947e-01,7.35129e-01,7.19197e-01,5.91244e-01,5.67824e-01,7.28194e-01,6.05242e-01,7.45787e-01,8.03423e-01};
+  double p2d[11]={0.0,2.99735e-03,3.96421e-03,3.59499e-03,3.65988e-03,6.59518e-03,7.47618e-03,3.80554e-03,6.70629e-03,4.17246e-03,2.56402e-03};
+
+  double E2;
+  E2==0.0;
+  E2=(sqrt(1+4*y*p2d[i]/p1d[i])-1.0)/(2.0*p2d[i]);
+  return E2;
+}
+
+
+
+/*   double p_scalning(double x ,int i, double thet)
+{
+  double E1;
+  int j=0;
+  E1=0.0;
+  finalfuncpf= new TF1("finalfuncpf","pol6",.1,120);
+  if (thet<16.5){j=1;
+    finalfuncpf->SetParameters(parr0[i][j],parr1[i][j],parr2[i][j],parr3[i][j],parr4[i][j],parr5[i][j],parr6[i][j]);} 
+  else if (thet>=16.5  && thet<19){j=2;
+    finalfuncpf->SetParameters(parr0[i][j],parr1[i][j],parr2[i][j],parr3[i][j],parr4[i][j],parr5[i][j],parr6[i][j]);}
+  else if (thet>=19 && thet<22.5){j=3;
+    finalfuncpf->SetParameters(parr0[i][j],parr1[i][j],parr2[i][j],parr3[i][j],parr4[i][j],parr5[i][j],parr6[i][j]);
+    //if (i==4) cout << parr0[i][j]<< '\t' << parr1[i][j] << '\t' << parr2[i][j] << '\t' << parr3[i][j] << '\t' << parr4[i][j] << '\t' << parr5[i][j] << '\t' << parr6[i][j] << endl;
+  }
+  else if (thet>=22.5 && thet<26.5){j=4;
+    finalfuncpf->SetParameters(parr0[i][j],parr1[i][j],parr2[i][j],parr3[i][j],parr4[i][j],parr5[i][j],parr6[i][j]);}
+  else if (thet>=26.5 && thet<29){j=5;
+    finalfuncpf->SetParameters(parr0[i][j],parr1[i][j],parr2[i][j],parr3[i][j],parr4[i][j],parr5[i][j],parr6[i][j]);}
+  else if (thet>=29 && thet<31.5){j=6;
+    finalfuncpf->SetParameters(parr0[i][j],parr1[i][j],parr2[i][j],parr3[i][j],parr4[i][j],parr5[i][j],parr6[i][j]);}
+  else if (thet>=31.5 && thet<34){j=7;
+    finalfuncpf->SetParameters(parr0[i][j],parr1[i][j],parr2[i][j],parr3[i][j],parr4[i][j],parr5[i][j],parr6[i][j]);}
+  else if (thet>=34){j=8;
+    finalfuncpf->SetParameters(parr0[i][j],parr1[i][j],parr2[i][j],parr3[i][j],parr4[i][j],parr5[i][j],parr6[i][j]);}
+  double val = finalfuncpf->Eval(x);
+  delete finalfuncpf;
+  return val;
+}*/
+double p_scalning(double x ,int i, double thet)
+{
+  double E1;
+  int j=0;
+  E1=0.0;
+  finalfuncpf= new TF1("finalfuncpf","pol5",10,105);
+  if (thet<16.5){j=1;
+    finalfuncpf->SetParameters(parr0[i][j],parr1[i][j],parr2[i][j],parr3[i][j],parr4[i][j],parr5[i][j]);} 
+  else if (thet>=16.5  && thet<19){j=2;
+    finalfuncpf->SetParameters(parr0[i][j],parr1[i][j],parr2[i][j],parr3[i][j],parr4[i][j],parr5[i][j]);}
+  else if (thet>=19 && thet<22.5){j=3;
+    finalfuncpf->SetParameters(parr0[i][j],parr1[i][j],parr2[i][j],parr3[i][j],parr4[i][j],parr5[i][j]);}
+  else if (thet>=22.5 && thet<26.5){j=4;
+    finalfuncpf->SetParameters(parr0[i][j],parr1[i][j],parr2[i][j],parr3[i][j],parr4[i][j],parr5[i][j]);}
+  else if (thet>=26.5 && thet<29){j=5;
+    finalfuncpf->SetParameters(parr0[i][j],parr1[i][j],parr2[i][j],parr3[i][j],parr4[i][j],parr5[i][j]);}
+  else if (thet>=29 && thet<31.5){j=6;
+    finalfuncpf->SetParameters(parr0[i][j],parr1[i][j],parr2[i][j],parr3[i][j],parr4[i][j],parr5[i][j]);}
+  else if (thet>=31.5 && thet<34){j=7;
+    finalfuncpf->SetParameters(parr0[i][j],parr1[i][j],parr2[i][j],parr3[i][j],parr4[i][j],parr5[i][j]);}
+  else if (thet>=34){j=8;
+    finalfuncpf->SetParameters(parr0[i][j],parr1[i][j],parr2[i][j],parr3[i][j],parr4[i][j],parr5[i][j]);}
+  double val = finalfuncpf->Eval(x);
+  delete finalfuncpf;
+  return val;
+  }
+
+/*double d_scalning(double y ,int i, double thet)
+{
+  double E2;
+  E2==0.0;
+  int j=0;
+  finalfuncdf= new TF1("finalfuncdf","pol6",4,90);
+  if (thet<16.5){j=1;
+    finalfuncdf->SetParameters(par0[i][j],par1[i][j],par2[i][j],par3[i][j],par4[i][j],par5[i][j],par6[i][j]);} 
+  else if (thet>=16.5  && thet<19){j=2;
+    finalfuncdf->SetParameters(par0[i][j],par1[i][j],par2[i][j],par3[i][j],par4[i][j],par5[i][j],par6[i][j]);}
+  else if (thet>=19  && thet<22.5){j=3;
+    finalfuncdf->SetParameters(par0[i][j],par1[i][j],par2[i][j],par3[i][j],par4[i][j],par5[i][j],par6[i][j]);
+    // if (i==4) cout << par0[i][j]<< '\t' << par1[i][j] << '\t' << par2[i][j] << '\t' << par3[i][j] << '\t' << par4[i][j] << '\t' << par5[i][j] << '\t' << par6[i][j] << endl;
+}
+  else if (thet>=22.5  && thet<26.5){j=4;
+    finalfuncdf->SetParameters(par0[i][j],par1[i][j],par2[i][j],par3[i][j],par4[i][j],par5[i][j],par6[i][j]);}
+  else if (thet>=26.5  && thet<29){j=5;
+    finalfuncdf->SetParameters(par0[i][j],par1[i][j],par2[i][j],par3[i][j],par4[i][j],par5[i][j],par6[i][j]);}
+  else if (thet>=29  && thet<31.5){j=6;
+    finalfuncdf->SetParameters(par0[i][j],par1[i][j],par2[i][j],par3[i][j],par4[i][j],par5[i][j],par6[i][j]);}
+  else if (thet>=31.5  && thet<34){j=7;
+    finalfuncdf->SetParameters(par0[i][j],par1[i][j],par2[i][j],par3[i][j],par4[i][j],par5[i][j],par6[i][j]);}
+  else if (thet>=34){j=8;
+    finalfuncdf->SetParameters(par0[i][j],par1[i][j],par2[i][j],par3[i][j],par4[i][j],par5[i][j],par6[i][j]);}
+ double val = finalfuncdf->Eval(y);
+  delete finalfuncdf;
+  return val;
+}*/
+double d_scalning(double y ,int i, double thet)
+{
+  double E2;
+  E2==0.0;
+  int j=0;
+  finalfuncdf= new TF1("finalfuncdf","(2.0*[0]*x+[1]*x*x)/(sqrt(1+4*x*[2]+[3]*x*x/[4])-[5])",3,90);
+  //finalfuncdf= new TF1("finalfuncdf","pol6",4,90);
+  if (thet<16.5){j=1;
+    finalfuncdf->SetParameters(par0[i][j],par1[i][j],par2[i][j],par3[i][j],par4[i][j],par5[i][j]);} 
+  else if (thet>=16.5  && thet<19){j=2;
+    finalfuncdf->SetParameters(par0[i][j],par1[i][j],par2[i][j],par3[i][j],par4[i][j],par5[i][j]);}
+  else if (thet>=19  && thet<22.5){j=3;
+    finalfuncdf->SetParameters(par0[i][j],par1[i][j],par2[i][j],par3[i][j],par4[i][j],par5[i][j]);}
+  else if (thet>=22.5  && thet<26.5){j=4;
+    finalfuncdf->SetParameters(par0[i][j],par1[i][j],par2[i][j],par3[i][j],par4[i][j],par5[i][j]);}
+  else if (thet>=26.5  && thet<29){j=5;
+    finalfuncdf->SetParameters(par0[i][j],par1[i][j],par2[i][j],par3[i][j],par4[i][j],par5[i][j]);}
+  else if (thet>=29  && thet<31.5){j=6;
+    finalfuncdf->SetParameters(par0[i][j],par1[i][j],par2[i][j],par3[i][j],par4[i][j],par5[i][j]);}
+  else if (thet>=31.5  && thet<34){j=7;
+    finalfuncdf->SetParameters(par0[i][j],par1[i][j],par2[i][j],par3[i][j],par4[i][j],par5[i][j]);}
+  else if (thet>=34){j=8;
+    finalfuncdf->SetParameters(par0[i][j],par1[i][j],par2[i][j],par3[i][j],par4[i][j],par5[i][j]);}
+ double val = finalfuncdf->Eval(y);
+  delete finalfuncdf;
+  return val;
+  }
+/*Opens the input data files*/
+int openfiles()
+{
+  ifstream angle;
+  //char ch[150];
+  int l=0,ll=0;
+
+   /*list of the kinematics */
+  angle.open(Smklist);
+  if(angle) fprintf(stdout,"file  %s is open.\n",Smklist);
+  else{
+    fprintf(stdout,"1 can't open file %s \n",Smklist);
+    return 0;
+  }
+  for(int k=0 ; k<Nkinema ; k++)
+    {
+    angle >> Smking[k];
+    sprintf(namep1[k],"gr_p1p2_%d_%d_%d",(int)tta_1[k],(int)tta_2[k],(int)phi12[k]);
+    sprintf(namep2[k],"gr_p1p2dep_%d_%d_%d",(int)tta_1[k],(int)tta_2[k],(int)phi12[k]);
+    p1p2[k] = new TGraphErrors(10000);
+    p1p2[k]->SetName(namep1[k]);
+    p1p2[k]->SetMarkerStyle(k+1);
+    p1p2[k]->SetMarkerColor(k+1);
+    p1p2dep[k] = new TGraphErrors(10000);
+    p1p2dep[k]->SetName(namep2[k]);
+    p1p2dep[k]->SetMarkerStyle(k+1);
+    p1p2dep[k]->SetMarkerColor(k+1);
+    //p1s[k] = new TGraphErrors(10000);
+    /* if (k==0){p1p2[k]->SetName("p1p2_0"); p1p2dep[k]->SetName("p1p2dep_0");}
+    if (k==1){p1p2[k]->SetName("p1p2_1"); p1p2dep[k]->SetName("p1p2dep_1");}
+    if (k==2){p1p2[k]->SetName("p1p2_2"); p1p2dep[k]->SetName("p1p2dep_2");}
+    if (k==3){p1p2[k]->SetName("p1p2_3"); p1p2dep[k]->SetName("p1p2dep_3");}
+    if (k==4){p1p2[k]->SetName("p1p2_4"); p1p2dep[k]->SetName("p1p2dep_4");}
+    if (k==5){p1p2[k]->SetName("p1p2_5"); p1p2dep[k]->SetName("p1p2dep_5");}
+    if (k==6){p1p2[k]->SetName("p1p2_6"); p1p2dep[k]->SetName("p1p2dep_6");}
+    if (k==7){p1p2[k]->SetName("p1p2_7"); p1p2dep[k]->SetName("p1p2dep_7");}
+    if (k==8){p1p2[k]->SetName("p1p2_8"); p1p2dep[k]->SetName("p1p2dep_8");}*/
+
+
+    /*scurve file*/
+    ifstream Sinput;
+    Sinput.open(Smking[k]);
+    if(Sinput) fprintf(stdout,"file  %s is open.\n",Smking[k]);
+    else {
+      fprintf(stdout,"2 can't open file %s \n",Smking[k]);
+      return 0;
+    }
+    l=0; ll=0;
+    do { l++;
+      Sinput >> Scu[k][l] >> ES2[k][l] >> ES1[k][l] >>  ES3[k][l];/* E1 is proton and E2 is deuteron energy */
+      //if (ES2[k][l]>26 && ES1[k][l]>22.8 && ES1[k][l]<23) Smin1[k]=Scu[k][l];
+      //if (ES1[k][l]>25 && ES2[k][l]<30.3 && ES2[k][l]>30) Smax1[k]=Scu[k][l];
+	if (ES2[k][l]>26 && ES1[k][l]>20.4 && ES1[k][l]<21) {EDMAX[k]=ES2[k][l];}
+	if ((tta_1[k]==35 && tta_2[k]==28 && phi12[k]==180)) EDMAX[k]=77.;
+	if ((tta_1[k]==35 && tta_2[k]==33 && phi12[k]==180) || (tta_1[k]==35 && tta_2[k]==35 && phi12[k]==160)) EDMAX[k]=79.;
+	if (ES1[k][l]>25 && ES2[k][l]<25.3 && ES2[k][l]>25) {EPMAX[k]=ES1[k][l];}
+
+      Smin1[k]=130;
+      Smax1[k]=280;
+      ///if (ES2[k][l]>30 && ES1[k][l]>24.8 && ES1[k][l]<=25) Smin2[k]=Scu[k][l];
+      ///if (ES1[k][l]>25 && ES2[k][l]<=30.1 && ES2[k][l]>29.9) Smax2[k]=Scu[k][l];
+      if (ES1[k][l]>10 && ES2[k][l]>10){
+	p1p2[k]->SetPoint(l,ES1[k][l],ES2[k][l]);  p1p2[k]->SetPointError(l,0,0);}
+      if (k<3){
+	ES1dep[k][l]=func5->Eval(ES1[k][l]);
+	ES2dep[k][l]=func6->Eval(ES2[k][l]);
+      }
+      else {
+	ES1dep[k][l]=func3->Eval(ES1[k][l]);
+	ES2dep[k][l]=func4->Eval(ES2[k][l]);
+      }
+
+      //henergy1[k][l]->Fill(ES1dep[k][l],ES2dep[k][l]);
+      if (ES1dep[k][l]>0 && ES2dep[k][l]>0){ll++;
+	p1p2dep[k]->SetPoint(ll,ES1dep[k][l],ES2dep[k][l]);  p1p2dep[k]->SetPointError(ll,0,0);
+	ES1depr[k][ll]=ES1dep[k][l];	ES2depr[k][ll]=ES2dep[k][l];
+      }
+      //      p1s[k]->SetPoint(l,ES1[k][l], Scu[k][l]);   p1s[k]->SetPointError(l,0,0);
+      //p1s[k]->SetPoint(l,l,l);   p1s[k]->SetPointError(l,0,0);
+    }while(!Sinput.eof());
+    Sinput.close();
+    contrll[k]=ll;
+    cnrl[k]=l;
+ }/*finished loading the data of all kinemas*/
+  //for (int k=0; k<Nkinema;k++)cout << Smin1[k] << '\t' << Smax1[k] << '\t' << k << endl;
+  ifstream parad,parap;
+  parad.open(paramsd);
+  if(parad) fprintf(stdout,"file  %s is open.\n",paramsd);
+  else{
+    fprintf(stdout,"1 can't open file %s \n",paramsd);
+    return 0;
+  }
+  parap.open(paramsp);
+  if(parap) fprintf(stdout,"file  %s is open.\n",paramsp);
+  else{
+    fprintf(stdout,"1 can't open file %s \n",paramsp);
+    return 0;
+  }
+  for(int kk=1 ; kk<11 ; kk++){
+    parad >> dpara[kk];
+    parap >> ppara[kk];
+    ifstream parainputp,parainputd;
+    parainputp.open(ppara[kk]);
+    if(parainputp) fprintf(stdout,"file  %s is open.\n",ppara[kk]);
+    else {
+      fprintf(stdout,"2 can't open file %s \n",ppara[kk]);
+      return 0;
+    }
+    int l1=0;
+    do { l1++;
+      //parainputd >> par0[kk][l1]>>par1[kk][l1]>>par2[kk][l1]>>par3[kk][l1]>>par4[kk][l1]>>par5[kk][l1]>>par6[kk][l1];
+      parainputp >> parr0[kk][l1]>>parr1[kk][l1]>>parr2[kk][l1]>>parr3[kk][l1]>>parr4[kk][l1]>>parr5[kk][l1]>>parr6[kk][l1];
+
+    }while(!parainputp.eof());
+    parainputp.close();
+    parainputd.open(dpara[kk]);
+    if(parainputd) fprintf(stdout,"file  %s is open.\n",dpara[kk]);
+    else {
+      fprintf(stdout,"2 can't open file %s \n",dpara[kk]);
+      return 0;
+    }
+    l1=0;
+    do { l1++;
+      parainputd >> par0[kk][l1]>>par1[kk][l1]>>par2[kk][l1]>>par3[kk][l1]>>par4[kk][l1]>>par5[kk][l1]>>par6[kk][l1];
+      // parainputp >> parr0[kk][l1]>>parr1[kk][l1]>>parr2[kk][l1]>>parr3[kk][l1]>>parr4[kk][l1]>>parr5[kk][l1]>>parr6[kk][l1];
+
+    }while(!parainputd.eof());
+    parainputd.close();
+    }
+  ifstream pcons;
+  pcons.open(paracons);
+  if(pcons) fprintf(stdout,"file  %s is open.\n",paracons);
+  else{
+    fprintf(stdout,"1 can't open file %s \n",paracons);
+    return 0;
+  }
+  for(int kz=1 ; kz<11 ; kz++)
+{
+    pcons >> conspara[kz];
+    ifstream temcons;
+    temcons.open(conspara[kz]);
+    if(temcons) fprintf(stdout,"file  %s is open.\n",conspara[kz]);
+    else {
+      fprintf(stdout,"2 can't open file %s \n",conspara[kz]);
+      return 0;
+    }
+    int l1=0;
+    do { l1++;
+      temcons >> Xmin0[kz][l1]>>Xmax0[kz][l1]>>Ymin0[kz][l1]>>Ymax0[kz][l1];
+
+    }while(!temcons.eof());
+    temcons.close();
+ }
+}
+int BookingHist(){
+  /****  for (int i=0;i<Nkinema;i++){
+    sprintf(namegr[i],"gr_crsection_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i]);
+    gr_Cro[i] = new TGraphErrors();
+    gr_Cro[i]->SetName(namegr[i]);
+    gr_Cro[i]->SetMarkerStyle(i+1);
+    gr_Cro[i]->SetMarkerColor(i+1);
+    sprintf(namegr1[i],"gr_iT11_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i]);
+    gr_iT11[i] = new TGraphErrors();
+    gr_iT11[i]->SetName(namegr1[i]);
+    gr_iT11[i]->SetMarkerStyle(20);
+    gr_iT11[i]->SetMarkerColor(4);
+
+    sprintf(namegr2[i],"gr_ImiT11_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i]);
+    gr_ImiT11[i] = new TGraphErrors();
+    gr_ImiT11[i]->SetName(namegr2[i]);
+    gr_ImiT11[i]->SetMarkerStyle(20);
+    gr_ImiT11[i]->SetMarkerColor(4);
+
+    sprintf(namegr3[i],"gr_T20_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i]);
+    gr_T20[i] = new TGraphErrors();
+    gr_T20[i]->SetName(namegr3[i]);
+    gr_T20[i]->SetMarkerStyle(20);
+    gr_T20[i]->SetMarkerColor(4);
+
+    sprintf(namegr4[i],"gr_T22_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i]);
+    gr_T22[i] = new TGraphErrors();
+    gr_T22[i]->SetName(namegr4[i]);
+    gr_T22[i]->SetMarkerStyle(20);
+    gr_T22[i]->SetMarkerColor(4);
+
+    sprintf(namegr5[i],"gr_ImT22_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i]);
+    gr_ImT22[i] = new TGraphErrors();
+    gr_ImT22[i]->SetName(namegr5[i]);
+    gr_ImT22[i]->SetMarkerStyle(20);
+    gr_ImT22[i]->SetMarkerColor(4);
+  }
+       cc->Size(27,18);
+      cc->SetFillColor(10);
+      cc->SetBottomMargin(.15);
+      cc->SetLeftMargin(.15);****/
+  for (int i=0;i<Nkinema;i++){
+    sprintf(name20[i],"TDC_ratio_phi_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i]);
+    TDC_ratio_phi[i] = new TH2D (name20[i],"",360,0,360,80,-20,20);
+     sprintf(name21[i],"TDC_ratio_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i]);
+     TDC_ratio[i]=new TH1D(name21[i],";TOF_p - TOF_d [channel];Counts",80,-20,20);
+     sprintf(name22[i],"E_DelTDC_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i]);
+    ET[i] = new TH2D (name22[i],"",150,0,150,200,-50,50);
+     sprintf(name22n[i],"E_DelTDCn_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i]);
+    ETn[i] = new TH2D (name22n[i],"",150,0,150,200,-50,50);
+     sprintf(name23[i],"E1E2_detecto_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i]);
+    he[i] = new TH2D (name23[i],"",150,0,150,150,0,150);
+    sprintf(name24[i],"E1E2_target_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i]);
+    he1[i] = new TH2D (name24[i],"",150,0,150,150,0,150);
+    sprintf(name23c[i],"E1E2_precalib_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i]);
+    he0[i] = new TH2D (name23c[i],"",150,0,150,150,0,150);
+  }
+  
+   /****  for (int i=0;i<Nkinema;i++){
+    for(int j=0 ; j<Snr ; j++)
+      {
+	//sprintf(name25[i][j],"sbin_phi_%d_%d",i,j);
+	sprintf(name55[i][j],"sbin1D_%d_%d",i,j);
+	//sprintf(nameE[i][j],"sbinraw1_%d_%d",i,j);
+	//sbin11[i][j]= new TH2D(name25[i][j],";#phi_{d} [deg];D [MeV]",360,0,360,60,-30,30);
+	sbin1D[i][j]= new TH1D(name55[i][j],";D [MeV]",60,-30,30);
+	//sbinraw1D[i][j]= new TH1D(nameE[i][j],";D [MeV]",60,-30,30);
+      }
+  }***/
+  /*  for (int i=0;i<Nkinema;i++){
+    for(int j=0 ; j<Snr ; j++)
+      {
+	sprintf(car1[i][j],"EPhitemp%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],31,j);
+	sprintf(car2[i][j],"EPhitempraw%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],31,j);
+	sprintf(car3[i][j],"EPhitemp%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],27,j);
+	sprintf(car4[i][j],"EPhitempraw%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],27,j);
+	sprintf(car5[i][j],"EPhitemp%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],13,j);
+	sprintf(car6[i][j],"EPhitempraw%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],13,j);
+	EPhitemp31[i][j]= new TH2D (car1[i][j],"pol;E[MeV];phi",150,0,150,360,0,360);
+	EPhitempraw31[i][j]= new TH2D (car2[i][j],"pol;E[MeV];phi",150,0,150,360,0,360);
+	EPhitemp27[i][j]= new TH2D (car3[i][j],"pol;E[MeV];phi",150,0,150,360,0,360);
+	EPhitempraw27[i][j]= new TH2D (car4[i][j],"pol;E[MeV];phi",150,0,150,360,0,360);
+	EPhitemp13[i][j]= new TH2D (car5[i][j],"pol;E[MeV];phi",150,0,150,360,0,360);
+	EPhitempraw13[i][j]= new TH2D (car6[i][j],"pol;E[MeV];phi",150,0,150,360,0,360);
+	EPhitemp31[i][j]->Sumw2();
+	EPhitempraw31[i][j]->Sumw2();
+	EPhitemp27[i][j]->Sumw2();
+	EPhitempraw27[i][j]->Sumw2();
+	EPhitemp13[i][j]->Sumw2();
+	EPhitempraw13[i][j]->Sumw2();
+      }
+      }*/
+  for (int as=0;as<4;as++)
+    {
+      for (int lj=0;lj<20;lj++)
+	{
+	  sprintf(car7pm0[lj][as],"Phipm0_%d_%d_%d",(int)(772+lj*4),as,31);
+	  sprintf(car8pm0[lj][as],"Phirawpm0_%d_%d_%d",(int)(772+lj*4),as,31);
+	  sprintf(car9pm0[lj][as],"Phipm0_%d_%d_%d",(int)(772+lj*4),as,27);
+	  sprintf(car10pm0[lj][as],"Phirawpm0_%d_%d_%d",(int)(772+lj*4),as,27);
+	  sprintf(car11pm0[lj][as],"Phipm0_%d_%d_%d",(int)(772+lj*4),as,13);
+	  sprintf(car12pm0[lj][as],"Phirawpm0_%d_%d_%d",(int)(772+lj*4),as,13);
+	  Phi31pm0[lj][as]= new TH1D (car7pm0[lj][as],"pol;phi",Nbin,0,360);
+	  Phiraw31pm0[lj][as]= new TH1D (car8pm0[lj][as],"pol;phi",Nbin,0,360);
+	  Phi27pm0[lj][as]= new TH1D (car9pm0[lj][as],"pol;phi",Nbin,0,360);
+	  Phiraw27pm0[lj][as]= new TH1D (car10pm0[lj][as],"pol;phi",Nbin,0,360);
+	  Phi13pm0[lj][as]= new TH1D (car11pm0[lj][as],"pol;phi",Nbin,0,360);
+	  Phiraw13pm0[lj][as]= new TH1D (car12pm0[lj][as],"pol;phi",Nbin,0,360);
+	  
+	  sprintf(carmiss[lj][as],"En0_%d_%d",(int)(772+lj*4),as);
+	  MissingMassN0[lj][as]= new TH1D (carmiss[lj][as],";En [MeV]",900,100,1000);
+	  sprintf(carmiss1[lj][as],"En1_%d_%d",(int)(772+lj*4),as);
+	  MissingMassN1[lj][as]= new TH1D (carmiss1[lj][as],";En [MeV]",900,100,1000);
+	}
+    }
+    for (int as=0;as<10;as++)
+    {
+      for (int lj=0;lj<20;lj++)
+	{
+	  sprintf(carthetaDthetaP[lj][as],"hthetaDthetaP_%d_%d",(int)(772+lj*4),as);
+	  sprintf(carHThetaN[lj][as],"HThetaN_%d_%d",(int)(772+lj*4),as);
+	  hthetaDthetaP[lj][as] = new TH2D (carthetaDthetaP[lj][as],";#theta_{p} [deg]; #theta_{d} [deg]",80,15,35,80,15,35);
+	  HThetaN[lj][as] = new TH1D (carHThetaN[lj][as],";#theta_{n} [deg]",180*2,0,180);
+	}
+    }
+  for (int i=0;i<Nkinema;i++){
+    for(int j=0 ; j<Snr ; j++)
+      {
+	sprintf(car7pm[i][j],"Phipm%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],31,j);
+	sprintf(car8pm[i][j],"Phirawpm%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],31,j);
+	sprintf(car9pm[i][j],"Phipm%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],27,j);
+	sprintf(car10pm[i][j],"Phirawpm%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],27,j);
+	sprintf(car11pm[i][j],"Phipm%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],13,j);
+	sprintf(car12pm[i][j],"Phirawpm%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],13,j);
+	Phi31pm[i][j]= new TH1D (car7pm[i][j],"pol;phi",Nbin,0,360);
+	Phiraw31pm[i][j]= new TH1D (car8pm[i][j],"pol;phi",Nbin,0,360);
+	Phi27pm[i][j]= new TH1D (car9pm[i][j],"pol;phi",Nbin,0,360);
+	Phiraw27pm[i][j]= new TH1D (car10pm[i][j],"pol;phi",Nbin,0,360);
+	Phi13pm[i][j]= new TH1D (car11pm[i][j],"pol;phi",Nbin,0,360);
+	Phiraw13pm[i][j]= new TH1D (car12pm[i][j],"pol;phi",Nbin,0,360);
+	Phi31pm[i][j]->Sumw2();
+	//Phiraw31pm[i][j]->Sumw2();
+	Phi27pm[i][j]->Sumw2();
+	//Phiraw27pm[i][j]->Sumw2();
+	Phi13pm[i][j]->Sumw2();
+	//Phiraw13pm[i][j]->Sumw2();
+      }
+  }
+  for (int i=0;i<Nkinema;i++){
+    for(int j=0 ; j<Snr ; j++)
+      {
+	sprintf(car7[i][j],"Phip%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],31,j);
+	sprintf(car8[i][j],"Phirawp%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],31,j);
+	sprintf(car9[i][j],"Phip%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],27,j);
+	sprintf(car10[i][j],"Phirawp%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],27,j);
+	sprintf(car11[i][j],"Phip%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],13,j);
+	sprintf(car12[i][j],"Phirawp%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],13,j);
+	Phi31p[i][j]= new TH1D (car7[i][j],"pol;phi",Nbin,0,360);
+	Phiraw31p[i][j]= new TH1D (car8[i][j],"pol;phi",Nbin,0,360);
+	Phi27p[i][j]= new TH1D (car9[i][j],"pol;phi",Nbin,0,360);
+	Phiraw27p[i][j]= new TH1D (car10[i][j],"pol;phi",Nbin,0,360);
+	Phi13p[i][j]= new TH1D (car11[i][j],"pol;phi",Nbin,0,360);
+	Phiraw13p[i][j]= new TH1D (car12[i][j],"pol;phi",Nbin,0,360);
+	Phi31p[i][j]->Sumw2();
+	//Phiraw31p[i][j]->Sumw2();
+	Phi27p[i][j]->Sumw2();
+	//Phiraw27p[i][j]->Sumw2();
+	Phi13p[i][j]->Sumw2();
+	//Phiraw13p[i][j]->Sumw2();
+      }
+  }
+  hRelEu= new TH2D ("hRelEu",";u [GeV/c]^2;E_{rel} [MeV]",300,.750,.900,5000,10,110);
+  hRelEu1= new TH2D ("hRelEu1",";u [GeV/c]^2;E_{rel} [MeV]",300,.750,.900,5000,10,110);
+  hRelttu= new TH2D ("hRelttu",";u [GeV/c]^2;#theta_{rel} [deg]",300,.750,.900,360,-180,180);
+  hPnRelE= new TH2D ("hPnRelE",";E_{rel} [MeV];Pn [MeV/c]",5000,10,110,3000,0,300);
+  
+  hThetaD= new TH1D ("hThetaD",";#theta_d [deg]",60,10,40);
+  hThetaP= new TH1D ("hThetaP",";#theta_p [deg]",60,10,40);
+  hThetaN= new TH1D ("hThetaN",";#theta_n [deg]",1800,0,180);
+  hThetaNL= new TH1D ("hThetaNL",";#theta_n [deg]",1800,0,180);
+  hThetaNR= new TH1D ("hThetaNR",";#theta_n [deg]",1800,0,180);
+  hThetaN01= new TH1D ("hThetaN01",";#theta_n [deg]",1800,0,180);
+  hThetaN02= new TH1D ("hThetaN02",";#theta_n [deg]",1800,0,180);
+  hThetaN03= new TH1D ("hThetaN03",";#theta_n [deg]",1800,0,180);
+  hThetaN04= new TH1D ("hThetaN04",";#theta_n [deg]",1800,0,180);
+  hPhiN= new TH1D ("hPhiN",";#phi_n [deg]",540,-180,360);
+
+  hPhiDN= new TH1D ("hPhiDN",";#phi_n [deg]",720,-360,360);
+  hPhiPN= new TH1D ("hPhiPN",";#phi_n [deg]",720,-360,360);
+
+  hUthetaN= new TH2D ("hUthetaN",";u [GeV/c]^2;Theta_N [deg]",300,.750,.900,1800,0,180);
+  hDiffEn= new TH2D ("hDiffEn",";En_cons [MeV];En_rec [MeV]",1500,-50,100,1500,-50,100);
+  MissingMassN00=new TH2D ("hMISSPn",";Pn [MeV/c];Miss_Mass [MeV]",500,0,500,1000,900,1000);
+  MissingMassN2=new TH1D ("MissingMassN2",";Miss_Mass [MeV/c^{2}]",2000,800,1000);
+  hEn0= new TH1D ("hEn0",";Pn [MeV/c]",10000,0,1000);
+  hEnS0= new TH2D ("hEnS0",";S [MeV];En [MeV]",140,140,280,500,0,5);
+  hPnEn= new TH2D ("hPnEn",";En [MeV];Pn [MeV/c]",500,0,5,3000,0,300);
+  //	sprintf(car18enMT[i],"hEnMT0_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i]);
+  hEnMT0= new TH2D ("hEnMT0",";u [GeV/c]^2;En [MeV]",300,.750,.900,500,0,5);
+  hPnMT0= new TH2D ("hPnMT0",";u [GeV/c]^2;Pn [MeV/c]",300,.750,.900,3000,0,300);
+  hPnMT01= new TH2D ("hPnMT01",";u [GeV/c]^2;Pn [MeV/c]",300,.750,.900,3000,0,300);
+  hPnMT02= new TH2D ("hPnMT02",";u [GeV/c]^2;Pn [MeV/c]",300,.750,.900,3000,0,300);
+  hPnMT03= new TH2D ("hPnMT03",";u [GeV/c]^2;Pn [MeV/c]",300,.750,.900,3000,0,300);
+  hEnMTt= new TH2D ("hEnMTt",";t [GeV/c]^2;En [MeV]",500,-.250,0.00,500,0,5);
+  hEnMTs= new TH2D ("hEnMTs",";s [GeV/c]^2;En [MeV]",2000,8.000,9.000,500,0,5);
+  hEnTMand= new TH2D ("hEnTMand",";(s+t+u) [GeV/c]^2;En [MeV]",2000,8.500,9.500,500,0,5);
+  MTo= new TH1D ("MTo",";(s+t+u) [GeV/c]^2",10000,5.000,10.000);
+  hEnMTuMTt= new TH2D ("hEnMTuMTt",";u [GeV/c]^2;t [GeV/c]^2",300,.750,.900,500,-.250,0.00);
+  hEnMTuMTs= new TH2D ("hEnMTuMTs",";u [GeV/c]^2;s [GeV/c]^2",3000,7.500,9.000,3000,7.500,9.000);
+  hEnMTuMTsL= new TH2D ("hEnMTuMTsL",";u [GeV/c]^2;s [GeV/c]^2",3000,7.500,9.000,3000,7.500,9.000);
+  hEnMTuMTsR= new TH2D ("hEnMTuMTsR",";u [GeV/c]^2;s [GeV/c]^2",3000,7.500,9.000,3000,7.500,9.000);
+  hEnMTuMTTMan= new TH2D ("hEnMTuMTTMan",";u [GeV/c]^2;(s+u+t) [GeV/c]^2",300,.750,.900,2000,8.500,9.500);
+  for (int df=0;df<9;df++){
+    sprintf(namhpn[df],"hPn_%d",df);
+    hPn[df]=new TH1D (namhpn[df],";Pn [MeV/c]",1000,0,500);
+  }
+  for (int i=0;i<Nkinema;i++){
+	sprintf(car18ens[i],"hEnS_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i]);
+	hEnS[i]= new TH2D (car18ens[i],";S [MeV];En [MeV]",140,140,280,500,0,5);
+	sprintf(car18enMT[i],"hEnMT_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i]);
+	hEnMT[i]= new TH2D (car18enMT[i],";MT_P [GeV/c]^2;En [MeV]",800,.500,.900,500,0,5);
+    for(int j=0 ; j<Snr ; j++)
+      {
+	sprintf(car13[i][j],"Phim%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],31,j);
+	sprintf(car14[i][j],"Phirawm%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],31,j);
+	sprintf(car15[i][j],"Phim%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],27,j);
+	sprintf(car16[i][j],"Phirawm%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],27,j);
+	sprintf(car17[i][j],"Phim%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],13,j);
+	sprintf(car18[i][j],"Phirawm%d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],13,j);
+
+	Phi31m[i][j]= new TH1D (car13[i][j],"pol;phi",Nbin,0,360);
+	Phiraw31m[i][j]= new TH1D (car14[i][j],"pol;phi",Nbin,0,360);
+	Phi27m[i][j]= new TH1D (car15[i][j],"pol;phi",Nbin,0,360);
+	Phiraw27m[i][j]= new TH1D (car16[i][j],"pol;phi",Nbin,0,360);
+	Phi13m[i][j]= new TH1D (car17[i][j],"pol;phi",Nbin,0,360);
+	Phiraw13m[i][j]= new TH1D (car18[i][j],"pol;phi",Nbin,0,360);
+	Phi31m[i][j]->Sumw2();
+	//Phiraw31m[i][j]->Sumw2();
+	Phi27m[i][j]->Sumw2();
+	//Phiraw27m[i][j]->Sumw2();
+	Phi13m[i][j]->Sumw2();
+	//Phiraw13m[i][j]->Sumw2();
+	sprintf(car18en[i][j],"hEn_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],j);
+	hEn[i][j]= new TH1D (car18en[i][j],"hEn;En [MeV]",900,0,0.9);
+	  sprintf(nmt1[i][j],"momentum_transfer_p_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],j);
+	  Mtrf_p[i][j]= new TH1D(nmt1[i][j],";mtr_p",60000,0,1000);
+	  sprintf(nmcmd[i][j],"ScatterAngle_d_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],j);
+	  PoCm_d[i][j]= new TH1D(nmcmd[i][j],";ScaAng_d",720,0,180);
+	  sprintf(nmcmp[i][j],"ScatterAngle_p_%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],j);
+	  PoCm_p[i][j]= new TH1D(nmcmp[i][j],";ScaAng_",720,0,180);
+      }
+  }
+  /****   for (int i=0;i<Nkinema;i++){
+    for(int j=0 ; j<Snr ; j++)
+      {
+	sprintf(car19[i][j],"ratio27_31p%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],j);
+	sprintf(car20[i][j],"ratio27_31m%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],j);
+	sprintf(car21[i][j],"ratio13_31p%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],j);
+	sprintf(car22[i][j],"ratio13_31m%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],j);
+
+	ratio27_31p[i][j]= new TH1D (car19[i][j],"countStrong/countOff;MWPCphi ",36,0,360);
+	ratio27_31m[i][j]= new TH1D (car20[i][j],"countStrong/countOff;MWPCphi ",36,0,360);
+	ratio13_31p[i][j]= new TH1D (car21[i][j],"countStrong/countOff;MWPCphi ",36,0,360);
+	ratio13_31m[i][j]= new TH1D (car22[i][j],"countStrong/countOff;MWPCphi ",36,0,360);
+	ratio27_31p[i][j]->Sumw2();
+	ratio27_31m[i][j]->Sumw2();
+	ratio13_31p[i][j]->Sumw2();
+	ratio13_31m[i][j]->Sumw2();
+	sprintf(car23[i][j],"ratiosum27%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],j);
+	sprintf(car24[i][j],"ratiosub27%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],j);
+	ratiosum27[i][j]= new TH1D (car23[i][j],"cntStgP+cntStgM/2;MWPCphi ",36,0,360);
+	ratiosub27[i][j]= new TH1D (car24[i][j],"cntStgM-cntStgP/2;MWPCphi ",36,0,360);
+	ratiosum27[i][j]->Sumw2();
+	ratiosub27[i][j]->Sumw2();
+	sprintf(car25[i][j],"ratiosum13%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],j);
+	ratiosum13[i][j]= new TH1D (car25[i][j],"cntStgP+cntStgM/2;MWPCphi ",36,0,360);
+	ratiosum13[i][j]->Sumw2();
+	sprintf(car26[i][j],"ratiosub13%d_%d_%d_%d",(int)tta_1[i],(int)tta_2[i],(int)phi12[i],j);
+	ratiosub13[i][j]= new TH1D (car26[i][j],"cntStgP+cntStgM/2;MWPCphi ",36,0,360);
+	ratiosub13[i][j]->Sumw2();
+      }
+    }****/
+
+
+}
+
+int fitfunctions(){
+  //====--- start functions for go from dep to thr and inverse ---===//
+  /*func1= new TF1("fun1","pol5",.01,110); //for proton, dep to thr
+  func1->SetParameters((18.72+.50),-0.8077,0.0194,-0.000254,1.723e-6,-4.736e-9);
+  func2= new TF1("fun2","pol4",.1,110); //for deuteron, dep to thr
+  func2->SetParameters((25.69+.50),-0.7636,0.01181,-8.67e-5,2.307e-7);*/
+  func1= new TF1("fun1","pol6",.01,110); //for proton, dep to thr
+  func1->SetParameters(19.4812,0.0565719,0.0300499,-0.000589125,6.78455e-06,-4.17453e-08,1.05267e-10);
+  func2= new TF1("fun2","pol5",.1,110); //for deuteron, dep to thr
+  func2->SetParameters(26.3485,0.0941233,0.0205012,-0.000279293,2.03707e-06,-6.05863e-09);
+  func11= new TF1("fun1","pol6",.01,110); //for proton, dep to thr tet>=25
+  func11->SetParameters((19.4812+.5),0.0565719,0.0300499,-0.000589125,6.78455e-06,-4.17453e-08,1.05267e-10);
+  func21= new TF1("fun2","pol5",.1,110); //for deuteron, dep to thr tet>=25
+  func21->SetParameters((26.3485+.5),0.0941233,0.0205012,-0.000279293,2.03707e-06,-6.05863e-09);
+  func3= new TF1("fun3","pol6",.01,120);//for proton, thr to dep
+  func3->SetParameters((-73.8858-.5),7.01275,-0.226214,0.00455813,-5.0831e-05,2.95676e-07,-6.99866e-10);
+  func4= new TF1("fun4","pol7",.1,120); //for deuteron, thr to dep
+  func4->SetParameters((-324.944-.5),33.0866,-1.41793,0.0346872,-0.00050217,4.28835e-06,-1.99831e-08,3.92007e-11);
+  func5= new TF1("fun5","pol6",.01,120);//for proton, thr to dep//for tet<=20
+  func5->SetParameters((-73.8858),7.01275,-0.226214,0.00455813,-5.0831e-05,2.95676e-07,-6.99866e-10);
+  func6= new TF1("fun6","pol7",.1,120); //for deuteron,thr to dep//for tet<=20
+  func6->SetParameters((-324.944),33.0866,-1.41793,0.0346872,-0.00050217,4.28835e-06,-1.99831e-08,3.92007e-11);
+  //====--- end functions for go from dep to thr and inverse ---===//
+
+  //====start fitfunctions step1 ====///
+  fitfuncp1= new TF1("fitfuncp1","pol6");//,.1,120);
+  //fitfuncp1->SetParameters(1.04523,-0.00193864,1.49095e-05);//,7.72676e-08,1e-11);
+  //++==fitfuncp1= new TF1("fitfuncp1","1+[0]*x+[1]*x*x+[2]*pow(x,3)+[3]*pow(x,4)+[4]*pow(x,5)+[5]*pow(x,6)",.1,120);
+  //++==fitfuncp1->SetParameters(0.0442695,0.00223367,5.44083e-05,6.99352e-07,4.56142e-09,1.19489e-11);
+  /*fitfuncp1= new TF1("fitfuncp1","(2.0*[0]*x)/(sqrt(1+4*x*[0]/[1]))",5,120);
+  fitfuncp1->SetParameters(6.99657e-04,1.00901e+00,.9);*/
+  fitfuncd1= new TF1("fitfuncd1","pol6");//,6,90);
+  /*fitfuncd1= new TF1("fitfuncd1","(2.0*[0]*x)/(sqrt(1+4*x*[0]/[1])-[2])",.01,110);
+  fitfuncd1->SetParameters(3.65988e-03,7.19197e-01,1.0);*/
+    //====end fitfunctions step1 ====///
+
+  ff =new TF1 ("ff","gaus");
+
+}
+/*Projects the energy on the axis perpendicular to the Scurve*/
+double projectScut(float Ex,float Ey,int bin,int kin,double *corec){
+  float E11,E12,E22,E21;
+  // mid_diff[Nkinema][Snr];
+   E11=Sbon1[kin][bin];     E12=Sbon2[kin][bin];
+  E21=Sbon3[kin][bin];     E22=Sbon4[kin][bin];
+  float m=(E22-E12)/(E21-E11);       /*line slop*/
+  float b=E12-m*E11;
+  float h=(m*Ex+b-Ey)/(sqrt(1+m*m));
+
+  corec[0] = h/(sqrt(1+m*m)); /* Ex offset from kinematic line */
+  corec[1] = h/(sqrt(1+1./(m*m)));/* Ey offset from kinematic line */
+  // mid_diff[kin][bin] =  TOF_p->Eval(abs(E21-E11)/2.) -  TOF_d->Eval(abs(E22-E12)/2.);
+  // TDC_corec[kin][bin] = 1.*((TOF_p->Eval(Ex+ corec[0]) -  TOF_d->Eval(Ey + corec[1])) -  mid_diff[kin][bin]);
+  ///corec[2] = mid_diff[kin][bin];
+  /* the 2 is for changing the ns to channel */
+
+
+  //   fprintf(stdout,"kin %d bin %d  m %f b %f h %f E11 %f E12 %f  E21 %f  E22 %f \n",
+  //   kin,bin,m,b,h,E11,E12,E21,E22);
+  return -1.0*h;
+}
+/*This defines the scuts */
+int Define_GCuts(){
+  float m,m1,m2,y1,y2,y3,y4,x1,x2,x3,x4;
+  float s1,s2,ds,tmps1,tmps2,tmps10,tmps20,tmps11,tmps21,E11,E12,E21,E22,E211,E221,E110,E120,E210,E220,E111,E121;
+  E11=E12=E21=E22=E110=E120=E210=E220=E111=E121=E211=E221=0.0;
+  char cha[Snr][250];
+  //++++++ds=(Smax-Smin)/Snr;
+  /*define Gcuts*/
+  for (int k=0 ; k<Nkinema ; k++){ds=0.;
+    dss[k]=(Smax1[k]-Smin1[k])/Snr;
+    ds=(Smax1[k]-Smin1[k])/Snr;
+    /*defining the GCuts*/
+    for(int count=0;count<Snr;count++){
+      tmps1=tmps2=tmps10=tmps20=tmps11=tmps21=0;
+      s1=Smin1[k]+count*ds; s2=s1+ds;
+      for(int i=1;i<10000;i++){
+	if ( Scu[k][i]>0 && Scu[k][i]>tmps10 && Scu[k][i]<(s1-ds/10)){
+	  tmps10=Scu[k][i]; E110=ES1[k][i]; E120=ES2[k][i];
+	}
+	if ( Scu[k][i]>0 && Scu[k][i]>tmps1 && Scu[k][i]<s1){
+	  tmps1=Scu[k][i]; E11=ES1[k][i]; E12=ES2[k][i];
+	}
+	if ( Scu[k][i]>0 && Scu[k][i]>tmps11 && Scu[k][i]<(s1+ds/10)){
+	  tmps11=Scu[k][i]; E111=ES1[k][i]; E121=ES2[k][i];
+	}
+	if (Scu[k][i]>tmps20 && Scu[k][i]<(s2-ds/10)){
+	  tmps20=Scu[k][i]; E210=ES1[k][i]; E220=ES2[k][i];
+	}
+	if (Scu[k][i]>tmps2 && Scu[k][i]<s2){
+	  tmps2=Scu[k][i]; E21=ES1[k][i]; E22=ES2[k][i];
+	}
+	if (Scu[k][i]>tmps21 && Scu[k][i]<(s2+ds/10)){
+	  tmps21=Scu[k][i]; E211=ES1[k][i]; E221=ES2[k][i];
+	}
+
+      }
+
+      Sbon1[k][count]=E11;     Sbon2[k][count]=E12;
+      Sbon3[k][count]=E21;     Sbon4[k][count]=E22;
+      Emid1[k][count] = (E11+E21)/2.0;
+      Emid2[k][count] = (E12+E22)/2.0;
+      m=(E22-E12)/(E21-E11);       /*line slop*/
+      m1=(E121-E120)/(E111-E110);       /*line slop*/
+      m2=(E221-E220)/(E211-E210);       /*line slop*/
+      /* y1=0;         x1=E21+m*E22;
+      y2=0;         x2=E11+m*E12;
+      y3=E12-E11/m; x3=2*E11;
+      y4=2*E22;     x4=E21-m*E22;*/
+      y1=0;         x1=E21+m2*E22;
+      y2=0;         x2=E11+m1*E12;
+      y3=E12-E11/m1; x3=2*E11;
+      y4=2*E22;     x4=E21-m2*E22;
+      float x[5] = {x1,x2,x3,x4,x1};    
+      float y[5] = {y1,y2,y3,y4,y1};
+      sprintf(cha[0],"cut%dthe%d",k,count);
+      cut[k][count] = new TCutG(cha[0],5,x,y);
+      if (!cut[k][count]) return 0;
+    }/*finished defining the GCuts*/
+  }
+  fprintf(stdout,"Booking the Gcuts finished\n");
+  return 1;
+}
+
+double  TDC_shift(int det1, int det2,double phi)
+{
+  // double shift[11]={0.0, -0.1, 6.94, 3.0, 9.2, 2.25, 8.4, 1.3, 7.83, 0.94, 7.95}; /* benchmark */
+  double shift[11][11];
+  for(int i=1 ; i<11 ; i++)
+    {
+      for(int j=1 ; j<11 ; j++)
+	{
+	  shift[i][j] = 0.0;
+	}
+    }
+  shift[1][8] = 0.40;
+  shift[1][9] = 0.40;
+  shift[1][10] = 0.51;
+  shift[2][7] = -2.5;
+  shift[2][8] = -1.1;
+  shift[2][9] = -1.35;
+  shift[2][10] = -1.1;
+  shift[3][7] = -1.36;
+  shift[3][8] = 0.00;
+  shift[3][9] = 0.12;
+  shift[3][10] = 0.38;
+  shift[4][7] = -1.70;
+  shift[4][7] = -1.50;
+  shift[4][8] = -0.11;
+  shift[4][9] = -0.11;
+  shift[5][6] = 0.00;
+  shift[5][7] = -1.8;
+  shift[6][4] = -2.11;
+  shift[6][5] = -2.30+1.5;
+  shift[7][2] = 1.6;
+  shift[7][3] = 0.2;
+  shift[7][4] = 0.26;
+  shift[7][5] = 0.72;
+  shift[8][1] = -1.36;
+  shift[8][2] = 0.1;
+  shift[8][3] = -1.74+.5;
+  shift[8][4] = -1.4;
+  shift[9][1] = -1.1;
+  shift[9][2] = 0.17;
+  shift[9][3] = -0.83;
+  shift[9][4] = -0.62;
+  shift[10][1] = -1.45;
+  shift[10][2] = -0.1;
+  shift[10][3] = -1.11;
+  
+  /* for deltaphi 160 */
+  shift[1][7] = -0.54;
+  shift[3][6] = 1.14;
+  shift[4][5] = -0.70;
+  shift[5][4] = -1.36;
+  shift[5][8] = -1.06;
+  shift[6][3] = -2.85;
+  shift[6][7] = -3.11;
+  shift[7][6] = 1.96;
+  shift[8][5] = -1.0;
+  shift[10][4] = -0.85;
+  shift[4][6] = 0.62;
+  /*************/
+  if(phi==160)
+    {
+
+ shift[1][8] = 0.40;
+  shift[1][9] = 0.40;
+  shift[1][10] = 0.51;
+  shift[2][7] = -2.5;
+  shift[2][8] = -1.1;
+  shift[2][9] = -1.35;
+  shift[2][10] = -1.1;
+  shift[3][7] = -1.36;
+  shift[3][8] = 0.00;
+  shift[3][9] = 0.12;
+  shift[3][10] = 0.38;
+  shift[4][7] = -1.70;
+  shift[4][7] = -1.50;
+  shift[4][8] = -0.11;
+  shift[4][9] = -0.11;
+  shift[5][6] = 0.00;
+  shift[5][7] = -1.8;
+  shift[6][4] = -2.11;
+  shift[6][5] = -2.30+.8;
+  shift[7][2] = 1.6;
+  shift[7][3] = 0.2;
+  shift[7][4] = 0.26;
+  shift[7][5] = 0.72;
+  shift[8][1] = -1.36;
+  shift[8][2] = 0.1;
+  shift[8][3] = -1.74+.5;
+  shift[8][4] = -1.4;
+  shift[9][1] = -1.1;
+  shift[9][2] = 0.17;
+  shift[9][3] = -0.83;
+  shift[9][4] = -0.62;
+  shift[10][1] = -1.45;
+  shift[10][2] = -0.1;
+  shift[10][3] = -1.11;
+  
+  /* for deltaphi 160 */
+  shift[1][7] = -0.54;
+  shift[3][6] = 1.14;
+  shift[4][5] = -0.70;
+  shift[5][4] = -1.36;
+  shift[5][8] = -1.06;
+  shift[6][3] = -2.85;
+  shift[6][7] = -3.11;
+  shift[7][6] = 1.96;
+  shift[8][5] = -1.0;
+  shift[10][4] = -0.85;
+  shift[4][6] = 0.62;
+
+      shift[5][7] = -2.2;
+      shift[6][4] = -2.6;
+    }
+ else if(phi==140)
+    {
+ shift[1][8] = 0.40;
+  shift[1][9] = 0.40;
+  shift[1][10] = 0.51;
+  shift[2][7] = -2.9;
+  shift[2][8] = -1.1;
+  shift[2][9] = -1.1;
+  shift[2][10] = -1.1;
+  shift[3][7] = -1.36;
+  shift[3][8] = 0.00;
+  shift[3][9] = 0.12;
+  shift[3][10] = 0.38;
+  shift[4][7] = -1.70;
+  shift[4][7] = -1.50;
+  shift[4][8] = -0.11;
+  shift[4][9] = -0.11;
+  shift[5][6] = 0.00;
+  shift[5][7] = -1.8;
+  shift[6][4] = -2.11;
+  shift[6][5] = -2.30+.8;
+  shift[7][2] = 1.25;
+  shift[7][3] = 0.2;
+  shift[7][4] = 0.26;
+  shift[7][5] = 0.72;
+  shift[8][1] = -1.36;
+  shift[8][2] = 0.1;
+  shift[8][3] = -1.74+.5;
+  shift[8][4] = -1.4;
+  shift[9][1] = -1.1;
+  shift[9][2] = 0.17;
+  shift[9][3] = -0.83;
+  shift[9][4] = -0.62;
+  shift[10][1] = -1.45;
+  shift[10][2] = -0.1;
+  shift[10][3] = -1.11;
+  
+  /* for deltaphi 160 */
+  shift[1][7] = -0.54;
+  shift[3][6] = 1.14;
+  shift[4][5] = -0.70;
+  shift[5][4] = -1.36;
+  shift[5][8] = -1.06;
+  shift[6][3] = -2.85;
+  shift[6][7] = -3.11;
+  shift[7][6] = 1.96;
+  shift[8][5] = -1.0;
+  shift[8][6] = 0.90;
+  shift[10][4] = -0.85;
+  shift[4][6] = 0.62;
+
+      shift[2][7] = -2.1;
+      shift[4][3] = -1.0;
+      shift[4][9] = -0.22;
+      shift[5][3] = -1.4;
+      shift[5][7] = -2.6;
+      shift[6][2] = -1.6;
+      shift[6][8] = -2.4;
+      shift[8][1] = -1.48;
+      shift[4][5] = -0.20;
+      shift[4][6] = 0.62;
+      shift[4][8] = -0.46;
+    }
+  
+
+  return (shift[det1][det2]+.9);
+} 
+
+//==double TDC_shift(int i)
+//=={
+  /* 28-28-180 */
+  //double shift[11]={ 0.0,-2.27739e+01,-2.65366e+01,-2.47249e+01,-2.78352e+01,-2.57609e+01,-2.88856e+01,-2.39853e+01,-2.71370e+01, -2.35108e+01,-2.63947e+01};
+/* 25-25-180 */
+  //double shift[11]={0.0,-2.58252e+01,-2.58986e+01,-2.42062e+01,-2.72390e+01,-2.54434e+01,-2.84678e+01,-2.35366e+01,-2.65477e+01,-2.30142e+01,-2.55401e+01};
+//== double shift[11]={0.0, -0.1, 6.94, 3.0, 9.2, 2.25, 8.4, 1.3, 7.83, 0.94, 7.95}; /* benchmark */
+  // double shift[11]={0.0, 2.75, 4.25, 2.75, 3.38, 4.9 , 5.0, 2.25, 4.25, 4.25, 3.75};
+//==return  shift[i];
+//==}
+/*the way of useing TDC-shif(i)*/
+/*double Time = 0.25*((b3_WLtdc1+b3_WRtdc1)-(b3_WLtdc2+b3_WRtdc2) + TDC_shift(b3_WLdet1));
+double Timeratio1 = Time + (TOF_d1 - TOF_p1);*/
+
+//*other correction for tdc_ratio*//
+/*TF1 *fcorec1=new TF1("fcorec1"," (-1.1*cos((3.14/180.)*x))**2",0,360);
+TF1 *fcorec2=new TF1("fcorec2"," (-1.1*cos((3.14/180.)*x))**2",0,360);
+double Time =0.25*((b3_WLtdc1+b3_WRtdc1)-(b3_WLtdc2+b3_WRtdc2+ TDC_shift(b3_WLdet1)));
+double Timeratio1 = Time/(TOF_d1 - TOF_p1);
+Timeratio1 += -1 -fcorec1->Eval(b3_MWPCphi1);*/
+
+/*TDC_clibration*/
+/*ouble findshift(double T, int det1, int det2, TH2D *his)
+{
+  int num1[11][11];
+  int num2[11][11];
+  for(int i=1 ; i<11 ; i++)
+    {
+      for(int j=1 ; j<11 ; j++)
+	{
+	  if(i<10 && j<10)
+	    {
+	      num1[i][j] = i*10 + j;
+	      num2[j][i] = j*10 + i;
+	    }
+	  if(i==10 || j==10)
+	    {
+	      num1[i][j] = i*100 + j;
+	      num2[j][i] = j*100 + i;
+	    }
+	  if(det1==i && det2==j)
+	    his->Fill(num1[i][j],T);
+	  if(det1==j && det2==i)
+	    his->Fill(num2[j][i],T);
+	  //printf("1)%d %d %d \n",i,j,num1[i][j]);
+	  //printf("2)%d %d %d \n",j,i,num2[j][i]);
+	}
+    }
+}*/
+
+ /*
+   double Time = 0.25*((b3_WLtdc1+b3_WRtdc1)-(b3_WLtdc2+b3_WRtdc2)) ;
+   double Timeratio1 = Time + (TOF_d1 - TOF_p1);
+   Timeratio1 -= TDC_shift((int)b3_WLdet1,(int)b3_WLdet2);
+   
+   htest1->Fill(Time,(TOF_d1 - TOF_p1));
+   findshift(Timeratio1,b3_WLdet1,b3_WLdet2,timedet[i]);
+   timedet[i] = new TH2D (name22[i],"",1005,10,1015,160,-20,20);
+ */
+Double_t MIN0(Double_t a,Double_t b){
+  if (a<b) return a;
+  if (b<a) return b;
+  if( a==b) return a; 
+  else return -1;
+}/*End of MIN*/
+
+double pn_scalning(double x ,int i, double thetd, double thetp)
+{// i is the detector number for deuteron
+  double E1;
+  int j=0;
+  E1=0.0;
+  finalfuncpf= new TF1("finalfuncpf","pol4",5,105);
+  if (thetd<17.5)
+    {
+      if (thetp<17.5)
+	{j=1;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+      else if (thetp>=17.5  && thetp<22.5)
+	{j=2;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+      else if (thetp>=22.5 && thetp<27.5)
+	{j=3;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+      else if (thetp>=27.5 && thetp<32.5)
+	{j=4;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+      else if (thetp>=32.5)
+	{j=5;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+    } ///
+  if (thetd>=17.5  && thetd<22.5)
+    {
+      if (thetp<17.5)
+	{j=6;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+      else if (thetp>=17.5  && thetp<22.5)
+	{j=7;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+      else if (thetp>=22.5 && thetp<27.5)
+	{j=8;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+      else if (thetp>=27.5 && thetp<32.5)
+	{j=9;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+      else if (thetp>=32.5)
+	{j=10;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+    } ///
+  if (thetd>=22.5  && thetd<27.5)
+    {
+      if (thetp<17.5)
+	{j=11;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+      else if (thetp>=17.5  && thetp<22.5)
+	{j=12;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+      else if (thetp>=22.5 && thetp<27.5)
+	{j=13;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+      else if (thetp>=27.5 && thetp<32.5)
+	{j=14;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+      else if (thetp>=32.5)
+	{j=15;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+    } ///
+  if (thetd>=27.5  && thetd<32.5)
+    {
+      if (thetp<17.5)
+	{j=16;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+      else if (thetp>=17.5  && thetp<22.5)
+	{j=17;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+      else if (thetp>=22.5 && thetp<27.5)
+	{j=18;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+      else if (thetp>=27.5 && thetp<32.5)
+	{j=19;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+      else if (thetp>=32.5)
+	{j=20;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+    } ///
+  if (thetd>=32.5)
+    {
+      if (thetp<17.5)
+	{j=21;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	  //cout  <<"i======== " << i << '\t' << j << '\t' <<  parp0[i][j]<< '\t' << parp1[i][j] << '\t' << parp2[i][j] << '\t' << parp3[i][j]<< '\t' << parp4[i][j] << '\t' <<parp5[i][j]<< endl;
+	}
+      else if (thetp>=17.5  && thetp<22.5)
+	{j=22;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+      else if (thetp>=22.5 && thetp<27.5)
+	{j=23;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+      else if (thetp>=27.5 && thetp<32.5)
+	{j=24;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+      else if (thetp>=32.5)
+	{j=25;
+	  finalfuncpf->SetParameters(parp0[i][j],parp1[i][j],parp2[i][j],parp3[i][j],parp4[i][j],parp5[i][j]);
+	}
+    } ///
+  double val = finalfuncpf->Eval(x);
+  delete finalfuncpf;
+  return val;
+}
+
+
+
+///////////new calibration for deuteron
+double dn_scalning(double y ,int i, double thetd, double thetp)
+{// i is the detector number for deuteron
+  double E1;
+  int j=0;
+  E1=0.0;
+  finalfuncdf= new TF1("finalfuncdf","pol4",3,100);
+  if (thetd<17.5)
+    {
+      if (thetp<17.5)
+	{j=1;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+      else if (thetp>=17.5  && thetp<22.5)
+	{j=2;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+      else if (thetp>=22.5 && thetp<27.5)
+	{j=3;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+      else if (thetp>=27.5 && thetp<32.5)
+	{j=4;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+      else if (thetp>=32.5)
+	{j=5;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+    } ///
+  if (thetd>=17.5  && thetd<22.5)
+    {
+      if (thetp<17.5)
+	{j=6;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+      else if (thetp>=17.5  && thetp<22.5)
+	{j=7;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+      else if (thetp>=22.5 && thetp<27.5)
+	{j=8;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+      else if (thetp>=27.5 && thetp<32.5)
+	{j=9;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+      else if (thetp>=32.5)
+	{j=10;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+    } ///
+  if (thetd>=22.5  && thetd<27.5)
+    {
+      if (thetp<17.5)
+	{j=11;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+      else if (thetp>=17.5  && thetp<22.5)
+	{j=12;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+      else if (thetp>=22.5 && thetp<27.5)
+	{j=13;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+      else if (thetp>=27.5 && thetp<32.5)
+	{j=14;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+      else if (thetp>=32.5)
+	{j=15;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+    } ///
+  if (thetd>=27.5  && thetd<32.5)
+    {
+      if (thetp<17.5)
+	{j=16;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+      else if (thetp>=17.5  && thetp<22.5)
+	{j=17;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+      else if (thetp>=22.5 && thetp<27.5)
+	{j=18;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+      else if (thetp>=27.5 && thetp<32.5)
+	{j=19;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+      else if (thetp>=32.5)
+	{j=20;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+    } ///
+  if (thetd>=32.5)
+    {
+      if (thetp<17.5)
+	{j=21;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	  //cout  <<"i======== " << i << '\t' << j << '\t' <<  pard0[i][j]<< '\t' << pard1[i][j] << '\t' << pard2[i][j] << '\t' << pard3[i][j]<< '\t' << pard4[i][j] << '\t' <<pard5[i][j]<< endl;
+	}
+      else if (thetp>=17.5  && thetp<22.5)
+	{j=22;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+      else if (thetp>=22.5 && thetp<27.5)
+	{j=23;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+      else if (thetp>=27.5 && thetp<32.5)
+	{j=24;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+      else if (thetp>=32.5)
+	{j=25;
+	  finalfuncdf->SetParameters(pard0[i][j],pard1[i][j],pard2[i][j],pard3[i][j],pard4[i][j],pard5[i][j]);
+	}
+    } ///
+  double val = finalfuncdf->Eval(y);
+  delete finalfuncdf;
+  return val;
+}
+/////open file for new calib/////////
+int openFile_newcal()
+{
+  ifstream parad0,parap0;
+  parad0.open(paramsdn);
+  if(parad0) fprintf(stdout,"file  %s is open.\n",paramsdn);
+  else{
+    fprintf(stdout,"1 can't open file %s \n",paramsdn);
+    return 0;
+  }
+  parap0.open(paramspn);
+  if(parap0) fprintf(stdout,"file  %s is open.\n",paramspn);
+  else{
+    fprintf(stdout,"1 can't open file %s \n",paramspn);
+    return 0;
+  }
+  for(int kk=1 ; kk<11 ; kk++){
+    parad0 >> dparan[kk];
+    parap0 >> pparan[kk];
+    ifstream parainputp0,parainputd0;
+    parainputp0.open(pparan[kk]);
+    if(parainputp0) fprintf(stdout,"file  %s is open.\n",pparan[kk]);
+    else {
+      fprintf(stdout,"2 can't open file %s \n",pparan[kk]);
+      return 0;
+    }
+    int l1=0;
+    do { l1++;
+      parainputp0 >> parp0[kk][l1]>>parp1[kk][l1]>>parp2[kk][l1]>>parp3[kk][l1]>>parp4[kk][l1]>>parp5[kk][l1];//>>parr6[kk][l1];
+      //if (l1==21) cout <<kk << '\t' <<  parp0[kk][l1]<< '\t' << parp1[kk][l1] << '\t' << parp2[kk][l1] << '\t' << parp3[kk][l1]<< '\t' << parp4[kk][l1] << '\t' <<parp5[kk][l1]<< endl;
+    }while(!parainputp0.eof());
+    parainputp0.close();
+    parainputd0.open(dparan[kk]);
+    if(parainputd0) fprintf(stdout,"file  %s is open.\n",dparan[kk]);
+    else {
+      fprintf(stdout,"2 can't open file %s \n",dparan[kk]);
+      return 0;
+    }
+    l1=0;
+    do { l1++;
+      parainputd0 >> pard0[kk][l1]>>pard1[kk][l1]>>pard2[kk][l1]>>pard3[kk][l1]>>pard4[kk][l1]>>pard5[kk][l1];//>>par6[kk][l1];
+      //if (l1==21) cout <<kk << '\t' << l1 << '\t' <<  pard0[kk][l1]<< '\t' << pard1[kk][l1] << '\t' << pard2[kk][l1] << '\t' << pard3[kk][l1]<< '\t' << pard4[kk][l1] << '\t' <<pard5[kk][l1]<< endl;
+      
+    }while(!parainputd0.eof());
+    parainputd0.close();
+
+    // cout << "l1= " << l1 << endl;
+  }
+  fprintf(stdout,"open files for new calib done \n");
+}
+

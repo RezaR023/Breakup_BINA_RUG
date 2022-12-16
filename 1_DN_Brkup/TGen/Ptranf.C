@@ -1,0 +1,90 @@
+#include "TGenPhaseSpace.h"
+#include "TLorentzVector.h"
+#include "TCanvas.h"
+#include "TH1.h"
+#include "TLine.h"
+#include "Riostream.h"
+
+void Ptranf() {
+  if (!gROOT->GetClass("TGenPhaseSpace")) gSystem->Load("libPhysics");
+  Double_t theta, phi, pPPipz, pPPimz, pNNpz, pNNmz,Mtar,Mbm,Mc,V0,Vc,Ekin,Ettal;
+  Double_t pz,Ettal1, po1,po2,po3,po4,Ep1,Ep2,EN1,EN2;
+  const Double_t r2d=(180.0/TMath::Pi());
+  const Double_t mp=0.9382720813;
+  const Double_t mn=0.9395654133, mhe3=2.809033445;
+
+   Ekin=0.130;
+   Mtar=1.8756;
+   Mbm=1.8756;
+   pz=sqrt(Ekin*(Ekin+2*Mbm));
+   Ettal=Mbm+Ekin;
+   Mc=(Mtar*Mbm)/(Mtar+Mbm);
+   V0=pz/Mbm;
+   Vc=V0*Mc/Mtar;
+   TLorentzVector target(0.0, 0.0, 0.0, Mtar);
+   TLorentzVector beam(0.0, 0.0, pz, Ettal);
+   TLorentzVector W = beam + target;
+
+   //(Momentum, Energy units are Gev/C, GeV)
+   Double_t masses[2] = {mhe3,mn} ;
+
+   TGenPhaseSpace event;
+   event.SetDecay(W, 2, masses);
+
+   // TH2F *h2 = new TH2F("h2","h2", 100,0,.2, 100,0,.2);
+   TH1F *h11 = new TH1F("h11","He3;Ekin(Mev);COUNT", 130,0.0,130);
+   TH1F *h12 = new TH1F("h12","Neutron;Ekin(Mev);COUNT", 130,0.0,130);
+   TH1F *ht1 = new TH1F("ht1","He3;plarangle(degree);COUNT", 180,0.0,180);
+   TH1F *ht2 = new TH1F("ht2","neutron;polarangle(degree);COUNT", 180,0.0,180);
+   TH2F *h2pp = new TH2F("h2pp","HeN corr;polarangle(degree);polarangle(degree)", 180,0.0,180,180,0.0,180);
+   TH2F *h2ETH = new TH2F("h2ETH","HeN corr;polarangle[degree];Ekin[Mev]", 40,0,40,200,5,150);
+   TH2F *h2ETH2 = new TH2F("h2ETH2","HeN corr;polarangle[degree];Ekin[Mev]", 180,0,180,200,5,150);
+   
+   for (Int_t n=0;n<100000;n++) {
+      Double_t weight = event.Generate();
+
+      TLorentzVector *pProton1 = event.GetDecay(0);
+      TLorentzVector *pProton2 = event.GetDecay(1);
+      TLorentzVector pPPip = *pProton1;
+      TLorentzVector pPPim = *pProton2;
+
+      po1 = r2d*pPPip.Theta();
+      po2 = r2d*pPPim.Theta();
+      ht1->Fill(po1 ,weight);
+      ht2->Fill(po2 ,weight);
+      h2pp->Fill(po1,po2 ,weight);
+
+
+       const Double_t teta1=10.0, teta2=32.0;
+       const Double_t teta11=40.0, teta22=165.0;
+
+       //   if(po1>teta1 && po1<teta2 && po2>teta1 && po2<teta2) 
+       //  	{
+	  Ep1=1000*(pPPip[3]-masses[0]);
+	  Ep2=1000*(pPPim[3]-masses[1]);
+
+	  h11->Fill(Ep1 ,weight);
+	  h12->Fill(Ep2 ,weight);
+	  // 	}
+	  h2ETH->Fill(po1,Ep1 ,weight);
+	  if (Ep1>70 && po1>15) h2ETH2->Fill(po1,Ep1 ,weight);
+   }
+   // TCanvas *Cp = new TCanvas("Cp","P1&p2");
+   // Cp->Divide(2,2);
+   // Cp->cd(1);
+   //  h11->Draw();
+   // Cp->cd(2);
+   // h12->Draw();
+
+   //TCanvas *Cpp = new TCanvas("Cpp","polar angle");
+   //   Cpp->Divide(1,2);
+   //  Cpp->cd(1);
+   //  ht1->Draw();
+   //  Cpp->cd(2);
+   // ht2->Draw();
+TCanvas *Cppp = new TCanvas("Cppp","polar angle");
+//   h2pp->Draw();
+   h2ETH2->Draw();
+TCanvas *CHp = new TCanvas("CHp","E,polar angle");
+   h2ETH->Draw();
+}

@@ -1,0 +1,504 @@
+//////////////////////////////////////////////////////////
+// This class has been automatically generated on
+// Thu Feb  7 12:30:37 2008 by ROOT version 5.06/00
+// from There pdbreakup/BINA p-d Breakup
+// found on file: Memory Directory
+//////////////////////////////////////////////////////////
+
+#ifndef pdbreakup_h
+#define pdbreakup_h
+
+#include <TROOT.h>
+#include <TChain.h>
+#include <TFile.h>
+#define pdbreakup_cxx
+
+#include <TH2.h>
+#include <TStyle.h>
+#include <TCanvas.h>
+
+class pdbreakup {
+public :
+   TTree          *fChain;   //!pointer to the analyzed TTree or TChain
+   Int_t           fCurrent; //!current Tree number in a TChain
+
+   // Declaration of leave types
+   /*  
+       Double_t        b3_ID;
+       Double_t        b3_EFW1;
+       Double_t        b3_WLE1;
+       Double_t        b3_WLtdc1;
+       Double_t        b3_WLdet1;
+       Double_t        b3_WRE1;
+       Double_t        b3_WRtdc1;
+       Double_t        b3_WRdet1;
+       Double_t        b3_WDdE1;
+       Double_t        b3_WDtdc1;
+       Double_t        b3_WDdet1;
+       Double_t        b3_WUdE1;
+       Double_t        b3_WUtdc1;
+       Double_t        b3_WUdet1;
+       Double_t        b3_MWPCX1;
+       Double_t        b3_MWPCY1;
+       Double_t        b3_MWPCU1;
+       Double_t        b3_MWPCtheta1;
+       Double_t        b3_MWPCphi1;
+       Double_t        b3_EFW2;
+       Double_t        b3_WLE2;
+       Double_t        b3_WLtdc2;
+       Double_t        b3_WLdet2;
+       Double_t        b3_WRE2;
+       Double_t        b3_WRtdc2;
+       Double_t        b3_WRdet2;
+       Double_t        b3_WDdE2;
+       Double_t        b3_WDtdc2;
+       Double_t        b3_WDdet2;
+       Double_t        b3_WUdE2;
+       Double_t        b3_WUtdc2;
+       Double_t        b3_WUdet2;
+       Double_t        b3_MWPCX2;
+       Double_t        b3_MWPCY2;
+       Double_t        b3_MWPCU2;
+       Double_t        b3_MWPCtheta2;
+       Double_t        b3_MWPCphi2;
+       Double_t        b3_Bnr;
+       Double_t        b3_BLE;
+       Double_t        b3_BSE;
+       Double_t        b3_BcalE;
+       Double_t        b3_Btheta;
+       Double_t        b3_Bphi;
+       Double_t        b3_ballhits;
+       Double_t        b3_T1;
+       Double_t        b3_T2;
+       Double_t        b3_T3;
+       Double_t        b3_T4;
+       Double_t        b3_T1D;
+       Double_t        b3_T2D;
+       Double_t        b3_T3D;
+       Double_t        b3_T4D;
+       Double_t        b3_T1DS;
+       Double_t        b3_T2DS;
+       Double_t        b3_T3DS;
+       Double_t        b3_T4DS;
+       Double_t        b3_Pol;
+       Double_t        b3_res1;
+       Double_t        b3_res2;
+       Double_t        b3_res3;
+       Double_t        b3_T1s;
+       Double_t        b3_T1sDT;
+       Double_t        b3_T1sDTS;
+       Double_t        b3_10kHZ;
+       Double_t        b3_10kHZDT;
+       Double_t        b3_FC;
+       Double_t        b3_TFera;
+       Double_t        b3_AFera;
+       Double_t        b3_Ex;
+       Double_t        b3_Ey; */
+   
+   
+   
+   Double_t        b3_ID;
+   Double_t        b3_WLE1;
+   Double_t        b3_WLtdc1;
+   Double_t        b3_WLdet1;
+   Double_t        b3_WRE1;
+   Double_t        b3_WRtdc1;
+   Double_t        b3_WRdet1;
+   Double_t        b3_WDdE1;
+   Double_t        b3_WDtdc1;
+   Double_t        b3_WDdet1;
+   Double_t        b3_WUdE1;
+   Double_t        b3_WUtdc1;
+   Double_t        b3_WUdet1;
+   Double_t        b3_MWPCX1;
+   Double_t        b3_MWPCY1;
+   Double_t        b3_MWPCU1;
+   Double_t        b3_MWPCtheta1;
+   Double_t        b3_MWPCphi1;
+   Double_t        b3_WLE2;
+   Double_t        b3_WLtdc2;
+   Double_t        b3_WLdet2;
+   Double_t        b3_WRE2;
+   Double_t        b3_WRtdc2;
+   Double_t        b3_WRdet2;
+   Double_t        b3_WDdE2;
+   Double_t        b3_WDtdc2;
+   Double_t        b3_WDdet2;
+   Double_t        b3_WUdE2;
+   Double_t        b3_WUtdc2;
+   Double_t        b3_WUdet2;
+   Double_t        b3_MWPCX2;
+   Double_t        b3_MWPCY2;
+   Double_t        b3_MWPCU2;
+   Double_t        b3_MWPCtheta2;
+   Double_t        b3_MWPCphi2;
+   Double_t        b3_Bnr;
+   Double_t        b3_BLE;
+   Double_t        b3_BSE;
+   Double_t        b3_Btheta;
+   Double_t        b3_Bphi;
+   Double_t        b3_ballhits;
+   Double_t        b3_Pol;
+   Double_t        b3_RF;
+   Double_t        b3_T1P;
+   Double_t        b3_T2P;
+   Double_t        b3_T3P;
+   Double_t        b3_T4P;
+   Double_t        b3_T1DT;
+   Double_t        b3_T2DT;
+   Double_t        b3_T3DT;
+   Double_t        b3_T4DT;
+   Double_t        b3_T1;
+   Double_t        b3_T2;
+   Double_t        b3_T3;
+   Double_t        b3_T4;
+   Double_t        b3_Time;
+   Double_t        b3_10Khz;
+   Double_t        b3_10KhzD;
+   Double_t        b3_TFera;
+   Double_t        b3_AcFera;
+   Double_t        b3_FC;
+   Double_t        b3_EFW1;
+   Double_t        b3_EFW2;
+   Double_t        b3_DowScalT1;
+   Double_t        b3_MWPChits;
+   Double_t        b3_Wallhits; 
+   
+  
+   
+   // List of branches
+   TBranch        *b_b3;   //!
+
+   pdbreakup(TTree *tree=0);
+   virtual ~pdbreakup();
+   virtual Int_t    Cut(Long64_t entry);
+   virtual Int_t    GetEntry(Long64_t entry);
+   virtual Long64_t LoadTree(Long64_t entry);
+   virtual void     Init(TTree *tree);
+   // virtual void     Loop();
+   virtual Bool_t   Notify();
+   virtual void     Show(Long64_t entry = -1);
+
+ int Analysis(unsigned int evSta ,unsigned int evSto,int Polar);
+ //double neuteron_ETheta(double Ed , double Ep ,int id);
+ // void calculation(TH1D *h1 ,TH1D *h2, double charge,double TotTime ,double,int ,double,double,TH2D*,TH2D*);
+
+};
+ 
+#endif
+
+#ifdef pdbreakup_cxx
+pdbreakup::pdbreakup(TTree *tree)
+{
+  // if parameter tree is not specified (or zero), connect the file
+  // used to generate this class and read the Tree.
+  if (tree == 0) {
+    
+#ifdef SINGLE_TREE
+    TFile *f = (TFile*)gROOT->GetListOfFiles()->FindObject("Memory Directory");
+    if (!f) {
+      f = new TFile("Memory Directory");
+      f->cd("Rint:/");
+      //f->cd("BINA Online analysis:/");
+    }
+    tree = (TTree*)gDirectory->Get("pdbreakup");
+#else // SINGLE_TREE
+    
+ 
+   
+    TChain * chain = new TChain("pdbreakup",""); 
+               
+
+    //==chain->Add("/home/reza/BINAreall/rootfiles/ddbreakupeventsFeb09.root/pdbreakup");
+
+    chain->Add("/media/New Volume/AhmadFiles/ddBreakupNtuplesFeb09/ddbreakupeventsFeb09_9.root");
+    //chain->Add("/media/New Volume/AhmadFiles/ddBreakupNtuplesFeb09/ddbreakupeventsFeb09_10.root");
+    //chain->Add("/mnt/ExtHDD1/ddBreakupNtuplesFeb09/ddbreakupeventsFeb09_11.root");
+    //chain->Add("/mnt/ExtHDD1/ddBreakupNtuplesFeb09/ddbreakupeventsFeb09_12.root"); 
+    //chain->Add("/mnt/ExtHDD1/ddBreakupNtuplesFeb09/ddbreakupeventsFeb09_13.root");
+    //chain->Add("/mnt/ExtHDD1/ddBreakupNtuplesFeb09/ddbreakupeventsFeb09_14.root");
+    //chain->Add("/mnt/ExtHDD1/ddBreakupNtuplesFeb09/ddbreakupeventsFeb09_15.root");
+    //chain->Add("/mnt/ExtHDD1/ddBreakupNtuplesFeb09/ddbreakupeventsFeb09_16.root");    
+    //chain->Add("/mnt/ExtHDD1/ddBreakupNtuplesFeb09/ddbreakupeventsFeb09_17.root");
+    //chain->Add("/mnt/ExtHDD1/ddBreakupNtuplesFeb09/ddbreakupeventsFeb09_18.root");
+    //chain->Add("/mnt/ExtHDD1/ddBreakupNtuplesFeb09/ddbreakupeventsFeb09_19.root"); 
+    //chain->Add("/mnt/ExtHDD1/ddBreakupNtuplesFeb09/ddbreakupeventsFeb09.root");
+    //chain->Add("/mnt/ExtHDD1/ddBreakupNtuplesFeb09/ddbreakupeventsFeb09_1.root");
+    //chain->Add("/mnt/ExtHDD1/ddBreakupNtuplesFeb09/ddbreakupeventsFeb09_2.root");
+    //chain->Add("/mnt/ExtHDD1/ddBreakupNtuplesFeb09/ddbreakupeventsFeb09_3.root");
+    //chain->Add("/mnt/ExtHDD1/ddBreakupNtuplesFeb09/ddbreakupeventsFeb09_4.root");
+    //chain->Add("/mnt/ExtHDD1/ddBreakupNtuplesFeb09/ddbreakupeventsFeb09_5.root");
+    //chain->Add("/mnt/ExtHDD1/ddBreakupNtuplesFeb09/ddbreakupeventsFeb09_6.root");
+    //chain->Add("/mnt/ExtHDD1/ddBreakupNtuplesFeb09/ddbreakupeventsFeb09_7.root");
+    //chain->Add("/mnt/ExtHDD1/ddBreakupNtuplesFeb09/ddbreakupeventsFeb09_8.root");
+    
+    /*
+     chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/Sept2008/ddBreakupSep2008_680_4.root");
+     chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/Sept2008/ddBreakupSep2008_680_5.root");
+     chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/Sept2008/ddBreakupSep2008_680_6.root");
+     
+     chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/Sept2008/ddBreakupSep2008_680_8.root");*/
+   
+    /*
+      chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/Sept2008/ddBreakupSep2008.root");
+      chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/Sept2008/ddBreakupSep2008_1.root");
+      chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/Sept2008/ddBreakupSep2008_2.root");
+      chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/Sept2008/ddBreakupSep2008_3.root");
+      chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/Sept2008/ddBreakupSep2008_4.root");
+      chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/Sept2008/ddBreakupSep2008_5.root");
+      chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/Sept2008/ddBreakupSep2008_6.root");
+      chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/Sept2008/ddBreakupSep2008_7.root");
+      chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/Sept2008/ddBreakupSep2008_8.root");  */
+    /*
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_1.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_2.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_3.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_4.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_5.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_6.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_7.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_8.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_9.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_10.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_11.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_12.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_13.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_14.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_15.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_16.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_17.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_18.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_19.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_20.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_21.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_22.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_23.root");
+      chain->Add("/mnt/ExtHDD/Break_MWPXEffi_Ntuples/ddbreakupeventsMWPCEffi_24.root"); */
+    
+
+
+
+
+    tree = chain;
+#endif // SINGLE_TREE
+
+   }
+   Init(tree);
+}
+
+pdbreakup::~pdbreakup()
+{
+   if (!fChain) return;
+   delete fChain->GetCurrentFile();
+}
+Int_t pdbreakup::GetEntry(Long64_t entry)
+//pdbreakup->SetMaxTreeSize(Long64_t 50); / * ahmad */
+{
+  // Read contents of entry.
+  if (!fChain) return 0;
+  return fChain->GetEntry(entry);
+}
+Long64_t pdbreakup::LoadTree(Long64_t entry)
+{
+// Set the environment to read one entry
+   if (!fChain) return -5;
+   Long64_t centry = fChain->LoadTree(entry);
+   if (centry < 0) return centry;
+   if (fChain->IsA() != TChain::Class()) return centry;
+   TChain *chain = (TChain*)fChain;
+   if (chain->GetTreeNumber() != fCurrent) {
+      fCurrent = chain->GetTreeNumber();
+      Notify();
+   }
+   return centry;
+}
+
+void pdbreakup::Init(TTree *tree)
+{
+   // The Init() function is called when the selector needs to initialize
+   // a new tree or chain. Typically here the branch addresses of the tree
+   // will be set. It is normaly not necessary to make changes to the
+   // generated code, but the routine can be extended by the user if needed.
+   // Init() will be called many times when running with PROOF.
+
+   // Set branch addresses
+   if (tree == 0) return;
+   fChain = tree;
+   fCurrent = -1;
+   fChain->SetMakeClass(1);
+
+   fChain->SetBranchAddress("b3",&b3_ID);
+   Notify();
+}
+
+Bool_t pdbreakup::Notify()
+{
+   // The Notify() function is called when a new file is opened. This
+   // can be either for a new TTree in a TChain or when when a new TTree
+   // is started when using PROOF. Typically here the branch pointers
+   // will be retrieved. It is normaly not necessary to make changes
+   // to the generated code, but the routine can be extended by the
+   // user if needed.
+
+   // Get branch pointers
+   b_b3 = fChain->GetBranch("b3");
+
+   return kTRUE;
+}
+
+void pdbreakup::Show(Long64_t entry)
+{
+// Print contents of entry.
+// If entry is not specified, print current entry
+   if (!fChain) return;
+   fChain->Show(entry);
+}
+Int_t pdbreakup::Cut(Long64_t entry)
+{
+// This function may be called from Loop.
+// returns  1 if entry is accepted.
+// returns -1 otherwise.
+   return 1;
+}
+#endif // #ifdef pdbreakup_cxx
+
+
+
+ /*  chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008.root"); */
+/*     chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_1.root"); */
+/*     chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_2.root"); */
+/*     chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_3.root"); */
+/*     chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_4.root"); */
+/*     chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_5.root"); */
+/*     chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_6.root"); */
+/*     chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_7.root"); */
+/*     chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_8.root"); */
+/*     chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_617.root"); */
+/*     chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_617_1.root"); */
+/*     chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_617_2.root"); */
+/*     chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_617_3.root"); */
+/*     chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_617_4.root"); */
+/*     chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_680_1.root"); */
+/*     chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_680_2.root"); */
+/*     chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_680_3.root"); */
+/*     chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_680_6.root");       */
+/*     chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_680_7.root");  */
+/*     chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_680_p2.root");  */
+/*     chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_680_p2_1.root");  */
+    //   chain->Add("/home/ahmad/ddBreakupNtuples/Sept2008/ddBreakupSep2008_680_5.root");  File is damged
+
+
+   
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_405-420.root"); */
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_rest.root"); */
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_1_rest.root"); */
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_2_rest.root"); */
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_3_rest.root"); */
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_4_rest.root"); */
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_5_rest.root"); */
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_6_rest.root"); */
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_7_rest.root"); */
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_8_rest.root"); */
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_9_rest.root"); */
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_10_rest.root"); */
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_11_rest.root"); */
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_12_rest.root"); */
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_13_rest.root"); */
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_14_rest.root"); */
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_15_rest.root"); */
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_16_rest.root"); */
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_17_rest.root"); */
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_18_rest.root"); */
+    /*       chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupJun2008_19_rest.root"); */
+   /*   // chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupFeb2008_p2_1.root"); */
+/*     chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupFeb2008_p2_2.root"); */
+/*     //chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupFeb2008_p2.root"); */
+/*     chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupFeb2008_p2_3.root"); */
+/*     chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupFeb2008_p2_4.root"); */
+/*     //chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupFeb2008_p2_5.root"); */
+/*     chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupFeb2008_p2_6.root"); */
+/*     chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupFeb2008_p2_7.root"); */
+/*     chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupFeb2008_462-500.root"); */
+/*     chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupFeb2008_462-500_1.root"); */
+/*     chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupFeb2008_462-500_2.root"); */
+/*     chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupFeb2008_500-890.root"); */
+/*     chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupFeb2008_500-890_1.root"); */
+/*     chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupFeb2008_500-890_3.root"); */
+/*     chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupFeb2008_500-890_4.root"); */
+/*     chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupFeb2008_500-890_5.root"); */
+/*     //chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupFeb2008_500-890_6.root"); */
+/*     chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupFeb2008_500-890_7.root"); */
+/*     chain->Add("/mnt/ExtHDD1/ddBreakupNtuples/ddBreakupFeb2008_500-890_8.root"); */
+
+ /*
+   Double_t        b3_ID;
+   Double_t        b3_EFW1;
+   Double_t        b3_WLE1;
+   Double_t        b3_WLtdc1;
+   Double_t        b3_WLdet1;
+   Double_t        b3_WRE1;
+   Double_t        b3_WRtdc1;
+   Double_t        b3_WRdet1;
+   Double_t        b3_WDdE1;
+   Double_t        b3_WDtdc1;
+   Double_t        b3_WDdet1;
+   Double_t        b3_WUdE1;
+   Double_t        b3_WUtdc1;
+   Double_t        b3_WUdet1;
+   Double_t        b3_MWPCX1;
+   Double_t        b3_MWPCY1;
+   Double_t        b3_MWPCU1;
+   Double_t        b3_MWPCtheta1;
+   Double_t        b3_MWPCphi1;
+   Double_t        b3_EFW2;
+   Double_t        b3_WLE2;
+   Double_t        b3_WLtdc2;
+   Double_t        b3_WLdet2;
+   Double_t        b3_WRE2;
+   Double_t        b3_WRtdc2;
+   Double_t        b3_WRdet2;
+   Double_t        b3_WDdE2;
+Double_t        b3_WDtdc2;
+Double_t        b3_WDdet2;
+Double_t        b3_WUdE2;
+   Double_t        b3_WUtdc2;
+Double_t        b3_WUdet2;
+Double_t        b3_MWPCX2;
+Double_t        b3_MWPCY2;
+Double_t        b3_MWPCU2;
+Double_t        b3_MWPCtheta2;
+ Double_t        b3_MWPCphi2;
+ Double_t        b3_Bnr;
+ Double_t        b3_BLE;
+ Double_t        b3_BSE;
+ Double_t        b3_BcalE;
+ Double_t        b3_Btheta;
+ Double_t        b3_Bphi;
+ Double_t        b3_ballhits;
+ Double_t        b3_T1;
+ Double_t        b3_T2;
+ Double_t        b3_T3;
+ Double_t        b3_T4;
+ Double_t        b3_T1D;
+ Double_t        b3_T2D;
+ Double_t        b3_T3D;
+ Double_t        b3_T4D;
+ Double_t        b3_T1DS;
+ Double_t        b3_T2DS;
+ Double_t        b3_T3DS;
+ Double_t        b3_T4DS;
+ Double_t        b3_Pol;
+ Double_t        b3_res1;
+ Double_t        b3_res2;
+ Double_t        b3_res3;
+ Double_t        b3_T1s;
+ Double_t        b3_T1sDT;
+ Double_t        b3_T1sDTS;
+ Double_t        b3_10kHZ;
+ Double_t        b3_10kHZDT;
+ Double_t        b3_FC;
+ Double_t        b3_TFera;
+ Double_t        b3_AFera;
+ Double_t        b3_Ex;
+ Double_t        b3_Ey; */

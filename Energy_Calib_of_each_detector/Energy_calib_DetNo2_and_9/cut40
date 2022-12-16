@@ -1,0 +1,28 @@
+{
+//========= Macro generated from object: CUTG/Graph
+//========= by ROOT version5.34/28
+   
+   cutg = new TCutG("cut40",17);
+   cutg->SetVarX("TMath::Sqrt(WLE2*WRE2)");
+   cutg->SetVarY("TMath::Sqrt(WLE1*WRE1)");
+   cutg->SetTitle("Graph40");
+   cutg->SetFillColor(1);
+   cutg->SetPoint(0,927.802,6.3291);
+   cutg->SetPoint(1,841.595,223.892);
+   cutg->SetPoint(2,604.526,445.411);
+   cutg->SetPoint(3,450.97,579.905);
+   cutg->SetPoint(4,302.802,694.62);
+   cutg->SetPoint(5,151.94,821.203);
+   cutg->SetPoint(6,1.07758,924.051);
+   cutg->SetPoint(7,-4.31036,753.956);
+   cutg->SetPoint(8,138.47,722.31);
+   cutg->SetPoint(9,294.72,615.506);
+   cutg->SetPoint(10,485.991,461.234);
+   cutg->SetPoint(11,574.892,374.209);
+   cutg->SetPoint(12,704.203,208.07);
+   cutg->SetPoint(13,779.634,109.177);
+   cutg->SetPoint(14,830.819,2.37341);
+   cutg->SetPoint(15,927.802,2.37341);
+   cutg->SetPoint(16,927.802,6.3291);
+   //cutg->Draw("");
+}

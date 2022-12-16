@@ -1,0 +1,17 @@
+{
+//========= Macro generated from object: CUTG/Graph
+//========= by ROOT version5.34/28
+   
+   TCutG *cutgIneff = new TCutG("cutgIneff",6);
+   cutgIneff->SetVarX("");
+   cutgIneff->SetVarY("");
+   cutgIneff->SetTitle("Graph");
+   cutgIneff->SetFillColor(1);
+   cutgIneff->SetPoint(0,0.2068,0.551469);
+   cutgIneff->SetPoint(1,68.1066,0.896139);
+   cutgIneff->SetPoint(2,61.2132,20.3676);
+   cutgIneff->SetPoint(3,26.9187,59.8346);
+   cutgIneff->SetPoint(4,0.0344658,87.4081);
+   cutgIneff->SetPoint(5,0.2068,0.551469);
+   cutg->Draw("");
+}

@@ -1,0 +1,21 @@
+cpp	= cxx
+file	= SystematicError_130
+
+
+all:
+	gle  ReviewError_T11_130.gle
+	gv ReviewError_T11_130.eps &
+	gle  ReviewError_T21_130.gle
+	gv ReviewError_T21_130.eps &
+	gle  ReviewError_T20_130.gle
+	gv ReviewError_T20_130.eps &
+	gle  ReviewError_T22_130.gle
+	gv ReviewError_T22_130.eps &
+	gle SystematicError.gle 
+	@echo 
+	@echo Error files of iT11,T22,T20,T21 are created, and final errors are writen to SystematicError_130.dat
+	@echo 
+
+clean:
+	rm *~ *.eps
+
